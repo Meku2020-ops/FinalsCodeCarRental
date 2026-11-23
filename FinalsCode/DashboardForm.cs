@@ -20,7 +20,6 @@ namespace FinalsCode
 
             SetupGrids();
 
-            // Auto-verify/create tables on startup
             CarRentalService.EnsureDatabaseTables(out _);
 
             LoadAllData();
@@ -505,6 +504,11 @@ END;
 GO";
             txtDbLog.Text = script;
             MessageBox.Show("SQL script loaded into the console below! You can copy and execute it directly in SQL Server Management Studio (SSMS).", "SQL Script", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void costSummaryPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
