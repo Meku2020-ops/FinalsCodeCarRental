@@ -12,7 +12,7 @@ namespace FinalsCode
             InitializeComponent();
             ConfigurePreviewGrid();
 
-            // Auto-create Cars and Rentals tables in CarRentalDB if they do not exist yet
+            
             CarRentalService.EnsureDatabaseTables(out _);
 
             LoadFleetPreview();
