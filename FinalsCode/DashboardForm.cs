@@ -8,7 +8,7 @@ namespace FinalsCode
     public partial class DashboardForm : Form
     {
         private readonly System.Windows.Forms.Timer _clockTimer;
-
+        //ss
         public DashboardForm()
         {
             InitializeComponent();
