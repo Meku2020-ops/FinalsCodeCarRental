@@ -172,9 +172,7 @@ namespace FinalsCode
             btnNavDatabase.TextAlign = ContentAlignment.MiddleLeft;
             btnNavDatabase.UseVisualStyleBackColor = true;
             btnNavDatabase.Click += btnNavDatabase_Click;
-            // 
-            // btnNavRentals
-            // 
+            
             btnNavRentals.BackColor = Color.FromArgb(15, 23, 42);
             btnNavRentals.Cursor = Cursors.Hand;
             btnNavRentals.FlatAppearance.BorderSize = 0;
@@ -450,9 +448,9 @@ namespace FinalsCode
             lblTotalCalculated.ForeColor = Color.FromArgb(22, 163, 74);
             lblTotalCalculated.Location = new Point(8, 28);
             lblTotalCalculated.Name = "lblTotalCalculated";
-            lblTotalCalculated.Size = new Size(83, 25);
+            lblTotalCalculated.Size = new Size(84, 25);
             lblTotalCalculated.TabIndex = 1;
-            lblTotalCalculated.Text = "$135.00";
+            lblTotalCalculated.Text = "₱135.00";
             // 
             // lblDailyRateNote
             // 
@@ -757,9 +755,9 @@ namespace FinalsCode
             lblStatRevenueVal.ForeColor = Color.FromArgb(124, 58, 237);
             lblStatRevenueVal.Location = new Point(10, 36);
             lblStatRevenueVal.Name = "lblStatRevenueVal";
-            lblStatRevenueVal.Size = new Size(91, 32);
+            lblStatRevenueVal.Size = new Size(106, 32);
             lblStatRevenueVal.TabIndex = 1;
-            lblStatRevenueVal.Text = "940.00";
+            lblStatRevenueVal.Text = "₱940.00";
             lblStatRevenueVal.Click += lblStatRevenueVal_Click;
             // 
             // lblStatRevenueTitle

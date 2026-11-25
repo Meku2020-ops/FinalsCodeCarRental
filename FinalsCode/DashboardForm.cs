@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FinalsCode
@@ -8,11 +7,10 @@ namespace FinalsCode
     public partial class DashboardForm : Form
     {
         private readonly System.Windows.Forms.Timer _clockTimer;
-        //ss
+
         public DashboardForm()
         {
             InitializeComponent();
-
             _clockTimer = new System.Windows.Forms.Timer();
             this.Load += DashboardForm_Load;
         }
@@ -22,13 +20,11 @@ namespace FinalsCode
             if (DesignMode) return;
 
             _clockTimer.Interval = 1000;
-            _clockTimer.Tick += (s, e) => UpdateClock();
+            _clockTimer.Tick += (s, ev) => UpdateClock();
             _clockTimer.Start();
 
             SetupGrids();
-
             CarRentalService.EnsureDatabaseTables(out _);
-
             LoadAllData();
             UpdateClock();
 
@@ -44,7 +40,6 @@ namespace FinalsCode
 
         private void SetupGrids()
         {
-            StyleGrid(gridOverviewFleet);
             gridOverviewFleet.Columns.Clear();
             gridOverviewFleet.Columns.Add("Model", "Model");
             gridOverviewFleet.Columns.Add("Category", "Category");
@@ -52,7 +47,6 @@ namespace FinalsCode
             gridOverviewFleet.Columns.Add("Rate", "Daily Rate");
             gridOverviewFleet.Columns.Add("Status", "Status");
 
-            StyleGrid(gridFleet);
             gridFleet.Columns.Clear();
             gridFleet.Columns.Add("Id", "ID");
             gridFleet.Columns.Add("Brand", "Brand");
@@ -62,7 +56,6 @@ namespace FinalsCode
             gridFleet.Columns.Add("Rate", "Daily Rate");
             gridFleet.Columns.Add("Status", "Status");
 
-            StyleGrid(gridRentals);
             gridRentals.Columns.Clear();
             gridRentals.Columns.Add("RentalId", "Rental #");
             gridRentals.Columns.Add("Customer", "Customer Name");
@@ -73,23 +66,6 @@ namespace FinalsCode
             gridRentals.Columns.Add("Days", "Days");
             gridRentals.Columns.Add("Cost", "Total Cost");
             gridRentals.Columns.Add("Status", "Status");
-        }
-
-        private void StyleGrid(DataGridView grid)
-        {
-            grid.EnableHeadersVisualStyles = false;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(241, 245, 249);
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(51, 65, 85);
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            grid.DefaultCellStyle.BackColor = Color.White;
-            grid.DefaultCellStyle.ForeColor = Color.FromArgb(15, 23, 42);
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
-            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 64, 175);
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
-            grid.RowTemplate.Height = 32;
-            grid.GridColor = Color.FromArgb(226, 232, 240);
-            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         public void LoadAllData()
@@ -105,10 +81,10 @@ namespace FinalsCode
         private void UpdateStats()
         {
             var stats = CarRentalService.GetDashboardStats();
-            lblStatTotalVal.Text = $"{stats.TotalCars} Cars";
-            lblStatAvailVal.Text = $"{stats.AvailableCars} Cars";
-            lblStatRentedVal.Text = $"{stats.RentedCars} Cars";
-            lblStatRevenueVal.Text = $"PHP{stats.TotalRevenue:N2}";
+            lblStatTotalVal.Text = stats.TotalCars + " Cars";
+            lblStatAvailVal.Text = stats.AvailableCars + " Cars";
+            lblStatRentedVal.Text = stats.RentedCars + " Cars";
+            lblStatRevenueVal.Text = "₱" + stats.TotalRevenue.ToString("N2");
         }
 
         private void LoadOverviewFleet()
@@ -119,13 +95,13 @@ namespace FinalsCode
             foreach (var c in availCars)
             {
                 int idx = gridOverviewFleet.Rows.Add(
-                    $"{c.Brand} {c.Model}",
+                    c.Brand + " " + c.Model,
                     c.Category,
                     c.PlateNumber,
-                    $"${c.DailyRate:F2}",
+                    "₱" + c.DailyRate.ToString("F2"),
                     c.Status
                 );
-                gridOverviewFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(22, 163, 74);
+                gridOverviewFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.Green;
             }
         }
 
@@ -133,12 +109,12 @@ namespace FinalsCode
         {
             gridFleet.Rows.Clear();
             string search = txtFleetSearch.Text.Trim().ToLower();
-            string categoryFilter = cmbFleetFilter.SelectedItem?.ToString() ?? "All Categories";
+            string categoryFilter = cmbFleetFilter.SelectedItem != null ? cmbFleetFilter.SelectedItem.ToString()! : "All Categories";
 
             var cars = CarRentalService.GetCars();
             foreach (var c in cars)
             {
-                if (categoryFilter != "All Categories" && !string.Equals(c.Category, categoryFilter, StringComparison.OrdinalIgnoreCase))
+                if (categoryFilter != "All Categories" && c.Category != categoryFilter)
                 {
                     continue;
                 }
@@ -157,17 +133,17 @@ namespace FinalsCode
                     c.Model,
                     c.Category,
                     c.PlateNumber,
-                    $"${c.DailyRate:F2}",
+                    "₱" + c.DailyRate.ToString("F2"),
                     c.Status
                 );
 
                 if (c.Status == "Available")
                 {
-                    gridFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(22, 163, 74);
+                    gridFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.Green;
                 }
                 else
                 {
-                    gridFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(234, 88, 12);
+                    gridFleet.Rows[idx].Cells["Status"].Style.ForeColor = Color.OrangeRed;
                 }
             }
         }
@@ -180,24 +156,24 @@ namespace FinalsCode
             foreach (var r in rentals)
             {
                 int idx = gridRentals.Rows.Add(
-                    $"#{r.RentalId}",
+                    "#" + r.RentalId,
                     r.CustomerName,
                     r.CustomerPhone,
                     r.CarName,
                     r.RentDate.ToString("yyyy-MM-dd"),
                     r.ReturnDate.ToString("yyyy-MM-dd"),
-                    $"{r.TotalDays} days",
-                    $"${r.TotalCost:F2}",
+                    r.TotalDays + " days",
+                    "₱" + r.TotalCost.ToString("F2"),
                     r.Status
                 );
 
                 if (r.Status == "Active")
                 {
-                    gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(234, 88, 12);
+                    gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.OrangeRed;
                 }
                 else
                 {
-                    gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(22, 163, 74);
+                    gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.Green;
                 }
             }
         }
@@ -213,30 +189,31 @@ namespace FinalsCode
             if (availCars.Count == 0)
             {
                 btnConfirmBooking.Enabled = false;
-                lblBookingFeedback.ForeColor = Color.FromArgb(234, 88, 12);
+                lblBookingFeedback.ForeColor = Color.OrangeRed;
                 lblBookingFeedback.Text = "All cars are currently rented out or database has no available cars.";
             }
             else
             {
                 btnConfirmBooking.Enabled = true;
-                lblBookingFeedback.ForeColor = Color.FromArgb(100, 116, 139);
-                lblBookingFeedback.Text = $"{availCars.Count} vehicles currently available in database.";
+                lblBookingFeedback.ForeColor = Color.Gray;
+                lblBookingFeedback.Text = availCars.Count + " vehicles currently available in database.";
             }
         }
 
         private void RecalculateBookingCost()
         {
-            if (cmbCars.SelectedItem is Car selectedCar)
+            Car? selectedCar = cmbCars.SelectedItem as Car;
+            if (selectedCar != null)
             {
                 int days = (int)numDays.Value;
                 decimal total = selectedCar.DailyRate * days;
-                lblDailyRateNote.Text = $"${selectedCar.DailyRate:F2}/day x {days} day(s)";
-                lblTotalCalculated.Text = $"${total:F2}";
+                lblDailyRateNote.Text = "₱" + selectedCar.DailyRate.ToString("F2") + "/day x " + days + " day(s)";
+                lblTotalCalculated.Text = "₱" + total.ToString("F2");
             }
             else
             {
                 lblDailyRateNote.Text = "Estimated Total:";
-                lblTotalCalculated.Text = "$0.00";
+                lblTotalCalculated.Text = "₱0.00";
             }
         }
 
@@ -252,7 +229,8 @@ namespace FinalsCode
 
         private void btnConfirmBooking_Click(object sender, EventArgs e)
         {
-            if (cmbCars.SelectedItem is not Car selectedCar)
+            Car? selectedCar = cmbCars.SelectedItem as Car;
+            if (selectedCar == null)
             {
                 MessageBox.Show("Please select an available car first.", "Selection Required",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -279,21 +257,23 @@ namespace FinalsCode
                 return;
             }
 
-            bool success = CarRentalService.BookCar(name, phone, selectedCar.Id, days, out var rental, out var error);
+            Rental? rental;
+            string error;
+            bool success = CarRentalService.BookCar(name, phone, selectedCar.Id, days, out rental, out error);
 
             if (success && rental != null)
             {
-                lblBookingFeedback.ForeColor = Color.FromArgb(22, 163, 74);
-                lblBookingFeedback.Text = $"✔ Booking #{rental.RentalId} recorded in SQL Server for {rental.CustomerName}!";
+                lblBookingFeedback.ForeColor = Color.Green;
+                lblBookingFeedback.Text = "✔ Booking #" + rental.RentalId + " recorded in SQL Server for " + rental.CustomerName + "!";
 
                 MessageBox.Show(
-                    $"Booking Saved to SQL Database!\n\n" +
-                    $"Rental ID: #{rental.RentalId}\n" +
-                    $"Customer: {rental.CustomerName}\n" +
-                    $"Vehicle: {rental.CarName}\n" +
-                    $"Duration: {rental.TotalDays} days\n" +
-                    $"Total Amount: ${rental.TotalCost:F2}\n" +
-                    $"Due Date: {rental.ReturnDate:yyyy-MM-dd}",
+                    "Booking Saved to SQL Database!\n\n" +
+                    "Rental ID: #" + rental.RentalId + "\n" +
+                    "Customer: " + rental.CustomerName + "\n" +
+                    "Vehicle: " + rental.CarName + "\n" +
+                    "Duration: " + rental.TotalDays + " days\n" +
+                    "Total Amount: ₱" + rental.TotalCost.ToString("F2") + "\n" +
+                    "Due Date: " + rental.ReturnDate.ToString("yyyy-MM-dd"),
                     "Rental Recorded in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 txtCustName.Clear();
@@ -304,7 +284,7 @@ namespace FinalsCode
             }
             else
             {
-                MessageBox.Show($"Failed to book car in SQL database:\n{error}", "Database Error",
+                MessageBox.Show("Failed to book car in SQL database:\n" + error, "Database Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -313,13 +293,14 @@ namespace FinalsCode
         {
             string brand = txtAddBrand.Text.Trim();
             string model = txtAddModel.Text.Trim();
-            string cat = cmbAddCategory.SelectedItem?.ToString() ?? "Sedan";
+            string cat = cmbAddCategory.SelectedItem != null ? cmbAddCategory.SelectedItem.ToString()! : "Sedan";
             string plate = txtAddPlate.Text.Trim();
             decimal rate = numAddRate.Value;
 
-            if (CarRentalService.AddCar(brand, model, cat, plate, rate, out var err))
+            string err;
+            if (CarRentalService.AddCar(brand, model, cat, plate, rate, out err))
             {
-                MessageBox.Show($"Vehicle '{brand} {model}' successfully saved into SQL Server (Cars table)!",
+                MessageBox.Show("Vehicle '" + brand + " " + model + "' successfully saved into SQL Server (Cars table)!",
                     "Saved to Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 txtAddBrand.Clear();
@@ -331,7 +312,7 @@ namespace FinalsCode
             }
             else
             {
-                MessageBox.Show($"Could not save to database:\n{err}", "Validation/Database Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Could not save to database:\n" + err, "Validation/Database Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -347,9 +328,11 @@ namespace FinalsCode
             string rawId = gridRentals.SelectedRows[0].Cells["RentalId"].Value?.ToString() ?? "";
             string cleanId = rawId.Replace("#", "").Trim();
 
-            if (int.TryParse(cleanId, out int rentalId))
+            int rentalId;
+            if (int.TryParse(cleanId, out rentalId))
             {
-                if (CarRentalService.ReturnCar(rentalId, out string msg))
+                string msg;
+                if (CarRentalService.ReturnCar(rentalId, out msg))
                 {
                     MessageBox.Show(msg, "Return Processed in SQL Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadAllData();
@@ -361,7 +344,6 @@ namespace FinalsCode
             }
         }
 
-        // View Navigation
         private void ShowView(Panel targetPanel, string title, string subtitle, Button activeButton)
         {
             panelOverview.Visible = false;
@@ -375,25 +357,13 @@ namespace FinalsCode
             lblPageTitle.Text = title;
             lblPageSubtitle.Text = subtitle;
 
-            btnNavOverview.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavOverview.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavOverview.Font = new Font("Segoe UI", 9.5F);
-
-            btnNavBooking.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavBooking.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavBooking.Font = new Font("Segoe UI", 9.5F);
-
-            btnNavFleet.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavFleet.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavFleet.Font = new Font("Segoe UI", 9.5F);
-
-            btnNavRentals.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavRentals.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavRentals.Font = new Font("Segoe UI", 9.5F);
-
-            btnNavDatabase.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavDatabase.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavDatabase.Font = new Font("Segoe UI", 9.5F);
+            Button[] navButtons = { btnNavOverview, btnNavBooking, btnNavFleet, btnNavRentals, btnNavDatabase };
+            foreach (Button btn in navButtons)
+            {
+                btn.BackColor = Color.FromArgb(15, 23, 42);
+                btn.ForeColor = Color.FromArgb(203, 213, 225);
+                btn.Font = new Font("Segoe UI", 9.5F);
+            }
 
             activeButton.BackColor = Color.FromArgb(37, 99, 235);
             activeButton.ForeColor = Color.White;
@@ -447,20 +417,21 @@ namespace FinalsCode
         private void btnTestDbInDash_Click(object sender, EventArgs e)
         {
             CarRentalService.ConnectionString = txtConnString.Text.Trim();
-            txtDbLog.AppendText($"[{DateTime.Now:HH:mm:ss}] Connecting to SQL Server: {CarRentalService.ConnectionString}...\r\n");
+            txtDbLog.AppendText("[" + DateTime.Now.ToString("HH:mm:ss") + "] Connecting to SQL Server: " + CarRentalService.ConnectionString + "...\r\n");
 
-            bool ok = CarRentalService.EnsureDatabaseTables(out string msg);
+            string msg;
+            bool ok = CarRentalService.EnsureDatabaseTables(out msg);
             if (ok)
             {
-                txtDbLog.AppendText($"[{DateTime.Now:HH:mm:ss}] SUCCESS: {msg}\r\n\r\n");
+                txtDbLog.AppendText("[" + DateTime.Now.ToString("HH:mm:ss") + "] SUCCESS: " + msg + "\r\n\r\n");
                 MessageBox.Show("Connected to SQL Server and verified Cars & Rentals tables successfully!",
                     "Connection & Tables Verified", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadAllData();
             }
             else
             {
-                txtDbLog.AppendText($"[{DateTime.Now:HH:mm:ss}] ERROR: {msg}\r\n\r\n");
-                MessageBox.Show($"Failed to connect:\n{msg}", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDbLog.AppendText("[" + DateTime.Now.ToString("HH:mm:ss") + "] ERROR: " + msg + "\r\n\r\n");
+                MessageBox.Show("Failed to connect:\n" + msg, "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -469,8 +440,8 @@ namespace FinalsCode
             string script = @"USE CarRentalDB;
 GO
 
--- 1. Create Cars Table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name='Cars')
+-- 1. Create Cars table if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Cars')
 BEGIN
     CREATE TABLE Cars (
         CarId INT IDENTITY(1,1) PRIMARY KEY,
@@ -489,43 +460,39 @@ BEGIN
     ('Ford', 'Mustang GT', 'Sports', 'MST-4040', 95.00, 'Available'),
     ('BMW', '330i M Sport', 'Luxury', 'BMW-3301', 110.00, 'Available'),
     ('Hyundai', 'Tucson Ultimate', 'SUV', 'TUC-7721', 55.00, 'Available'),
-    ('Nissan', 'Altima SV', 'Sedan', 'NSN-3344', 42.00, 'Available');
-END;
+    ('Nissan', 'Altima SV', 'Sedan', 'NSN-3344', 42.00, 'Available'),
+    ('Mercedes-Benz', 'C300 Sedan', 'Luxury', 'MBZ-8899', 125.00, 'Available');
+END
 GO
 
--- 2. Create Rentals Table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name='Rentals')
+-- 2. Create Rentals table if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Rentals')
 BEGIN
     CREATE TABLE Rentals (
         RentalId INT IDENTITY(1001,1) PRIMARY KEY,
         CustomerName NVARCHAR(100) NOT NULL,
         CustomerPhone NVARCHAR(50) NOT NULL,
-        CarId INT NOT NULL FOREIGN KEY REFERENCES Cars(CarId),
+        CarId INT NOT NULL,
         RentDate DATETIME NOT NULL DEFAULT GETDATE(),
         ReturnDate DATETIME NOT NULL,
         TotalDays INT NOT NULL,
         TotalCost DECIMAL(18,2) NOT NULL,
-        Status NVARCHAR(20) NOT NULL DEFAULT 'Active'
+        Status NVARCHAR(20) NOT NULL DEFAULT 'Active',
+        CONSTRAINT FK_Rentals_Cars FOREIGN KEY (CarId) REFERENCES Cars(CarId)
     );
-END;
+END
+GO
+
+-- 3. Verification query
+SELECT * FROM Cars;
+SELECT * FROM Rentals;
 GO";
             txtDbLog.Text = script;
             MessageBox.Show("SQL script loaded into the console below! You can copy and execute it directly in SQL Server Management Studio (SSMS).", "SQL Script", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void costSummaryPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblStatRevenueVal_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void costSummaryPanel_Paint(object sender, PaintEventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void lblStatRevenueVal_Click(object sender, EventArgs e) { }
     }
 }
