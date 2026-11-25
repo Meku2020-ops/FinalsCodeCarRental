@@ -18,22 +18,42 @@ namespace FinalsCode
         private void InitializeComponent()
         {
             sidebarPanel = new Panel();
-            brandPanel = new Panel();
-            lblLogo = new Label();
-            lblBrandSub = new Label();
-            btnNavOverview = new Button();
-            btnNavBooking = new Button();
-            btnNavFleet = new Button();
-            btnNavRentals = new Button();
-            btnNavDatabase = new Button();
             btnBack = new Button();
+            btnNavDatabase = new Button();
+            btnNavRentals = new Button();
+            btnNavFleet = new Button();
+            btnNavBooking = new Button();
+            btnNavOverview = new Button();
+            brandPanel = new Panel();
+            lblBrandSub = new Label();
+            lblLogo = new Label();
             topBarPanel = new Panel();
-            lblPageTitle = new Label();
-            lblPageSubtitle = new Label();
-            lblLiveClock = new Label();
             lblStatusBadge = new Label();
+            lblLiveClock = new Label();
+            lblPageSubtitle = new Label();
+            lblPageTitle = new Label();
             mainContainerPanel = new Panel();
             panelOverview = new Panel();
+            overviewSplit = new TableLayoutPanel();
+            bookingBoxPanel = new Panel();
+            lblBookingFeedback = new Label();
+            btnConfirmBooking = new Button();
+            costSummaryPanel = new Panel();
+            lblTotalCalculated = new Label();
+            lblDailyRateNote = new Label();
+            numDays = new NumericUpDown();
+            lblDays = new Label();
+            cmbCars = new ComboBox();
+            lblSelectCar = new Label();
+            txtCustPhone = new TextBox();
+            lblCustPhone = new Label();
+            txtCustName = new TextBox();
+            lblCustName = new Label();
+            lblBookingSub = new Label();
+            lblBookingTitle = new Label();
+            overviewFleetCard = new Panel();
+            gridOverviewFleet = new DataGridView();
+            lblOverviewFleetTitle = new Label();
             overviewStatsLayout = new TableLayoutPanel();
             cardTotalCars = new Panel();
             lblStatTotalVal = new Label();
@@ -47,77 +67,57 @@ namespace FinalsCode
             cardRevenue = new Panel();
             lblStatRevenueVal = new Label();
             lblStatRevenueTitle = new Label();
-            overviewSplit = new TableLayoutPanel();
-            bookingBoxPanel = new Panel();
-            lblBookingTitle = new Label();
-            lblBookingSub = new Label();
-            lblCustName = new Label();
-            txtCustName = new TextBox();
-            lblCustPhone = new Label();
-            txtCustPhone = new TextBox();
-            lblSelectCar = new Label();
-            cmbCars = new ComboBox();
-            lblDays = new Label();
-            numDays = new NumericUpDown();
-            costSummaryPanel = new Panel();
-            lblDailyRateNote = new Label();
-            lblTotalCalculated = new Label();
-            btnConfirmBooking = new Button();
-            lblBookingFeedback = new Label();
-            overviewFleetCard = new Panel();
-            lblOverviewFleetTitle = new Label();
-            gridOverviewFleet = new DataGridView();
             panelFleet = new Panel();
-            fleetHeaderPanel = new Panel();
-            lblFleetTitle = new Label();
-            txtFleetSearch = new TextBox();
-            cmbFleetFilter = new ComboBox();
             gridFleet = new DataGridView();
             addCarBox = new Panel();
-            lblAddCarTitle = new Label();
-            txtAddBrand = new TextBox();
-            txtAddModel = new TextBox();
-            cmbAddCategory = new ComboBox();
-            txtAddPlate = new TextBox();
-            numAddRate = new NumericUpDown();
             btnAddCar = new Button();
+            numAddRate = new NumericUpDown();
+            txtAddPlate = new TextBox();
+            cmbAddCategory = new ComboBox();
+            txtAddModel = new TextBox();
+            txtAddBrand = new TextBox();
+            lblAddCarTitle = new Label();
+            fleetHeaderPanel = new Panel();
+            cmbFleetFilter = new ComboBox();
+            txtFleetSearch = new TextBox();
+            lblFleetTitle = new Label();
             panelRentals = new Panel();
-            rentalsHeaderPanel = new Panel();
-            lblRentalsTitle = new Label();
-            btnReturnCar = new Button();
             gridRentals = new DataGridView();
+            rentalsHeaderPanel = new Panel();
+            btnReturnCar = new Button();
+            lblRentalsTitle = new Label();
             panelDatabase = new Panel();
             dbCard = new Panel();
-            lblDbTitle = new Label();
-            lblDbSub = new Label();
-            txtConnString = new TextBox();
-            btnTestDbInDash = new Button();
-            btnGenerateSql = new Button();
             txtDbLog = new TextBox();
+            btnGenerateSql = new Button();
+            btnTestDbInDash = new Button();
+            txtConnString = new TextBox();
+            lblDbSub = new Label();
+            lblDbTitle = new Label();
             sidebarPanel.SuspendLayout();
             brandPanel.SuspendLayout();
             topBarPanel.SuspendLayout();
             mainContainerPanel.SuspendLayout();
             panelOverview.SuspendLayout();
+            overviewSplit.SuspendLayout();
+            bookingBoxPanel.SuspendLayout();
+            costSummaryPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numDays).BeginInit();
+            overviewFleetCard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).BeginInit();
             overviewStatsLayout.SuspendLayout();
             cardTotalCars.SuspendLayout();
             cardAvailCars.SuspendLayout();
             cardRentedCars.SuspendLayout();
             cardRevenue.SuspendLayout();
-            overviewSplit.SuspendLayout();
-            bookingBoxPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numDays).BeginInit();
-            costSummaryPanel.SuspendLayout();
-            overviewFleetCard.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).BeginInit();
             panelFleet.SuspendLayout();
-            fleetHeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridFleet).BeginInit();
             addCarBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).BeginInit();
+            fleetHeaderPanel.SuspendLayout();
             panelRentals.SuspendLayout();
-            rentalsHeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridRentals).BeginInit();
+            rentalsHeaderPanel.SuspendLayout();
             panelDatabase.SuspendLayout();
             dbCard.SuspendLayout();
             SuspendLayout();
@@ -138,75 +138,56 @@ namespace FinalsCode
             sidebarPanel.Size = new Size(230, 700);
             sidebarPanel.TabIndex = 0;
             // 
-            // brandPanel
+            // btnBack
             // 
-            brandPanel.BackColor = Color.FromArgb(10, 15, 30);
-            brandPanel.Controls.Add(lblBrandSub);
-            brandPanel.Controls.Add(lblLogo);
-            brandPanel.Dock = DockStyle.Top;
-            brandPanel.Location = new Point(0, 0);
-            brandPanel.Name = "brandPanel";
-            brandPanel.Padding = new Padding(18, 16, 18, 16);
-            brandPanel.Size = new Size(230, 75);
-            brandPanel.TabIndex = 0;
+            btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnBack.BackColor = Color.FromArgb(30, 41, 59);
+            btnBack.Cursor = Cursors.Hand;
+            btnBack.FlatAppearance.BorderSize = 0;
+            btnBack.FlatStyle = FlatStyle.Flat;
+            btnBack.Font = new Font("Segoe UI", 9F);
+            btnBack.ForeColor = Color.FromArgb(148, 163, 184);
+            btnBack.Location = new Point(12, 642);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(206, 42);
+            btnBack.TabIndex = 6;
+            btnBack.Text = "⬅️  Back to Welcome";
+            btnBack.UseVisualStyleBackColor = false;
+            btnBack.Click += btnBack_Click;
             // 
-            // lblLogo
+            // btnNavDatabase
             // 
-            lblLogo.AutoSize = true;
-            lblLogo.Font = new Font("Segoe UI", 13.5F, FontStyle.Bold);
-            lblLogo.ForeColor = Color.White;
-            lblLogo.Location = new Point(14, 14);
-            lblLogo.Name = "lblLogo";
-            lblLogo.Size = new Size(130, 25);
-            lblLogo.TabIndex = 0;
-            lblLogo.Text = "🚗 DriveHub";
-            // 
-            // lblBrandSub
-            // 
-            lblBrandSub.AutoSize = true;
-            lblBrandSub.Font = new Font("Segoe UI Semibold", 7.5F, FontStyle.Bold);
-            lblBrandSub.ForeColor = Color.FromArgb(96, 165, 250);
-            lblBrandSub.Location = new Point(18, 42);
-            lblBrandSub.Name = "lblBrandSub";
-            lblBrandSub.Size = new Size(135, 12);
-            lblBrandSub.TabIndex = 1;
-            lblBrandSub.Text = "CAR RENTAL MANAGEMENT";
-            // 
-            // btnNavOverview
-            // 
-            btnNavOverview.BackColor = Color.FromArgb(37, 99, 235);
-            btnNavOverview.Cursor = Cursors.Hand;
-            btnNavOverview.FlatAppearance.BorderSize = 0;
-            btnNavOverview.FlatStyle = FlatStyle.Flat;
-            btnNavOverview.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            btnNavOverview.ForeColor = Color.White;
-            btnNavOverview.Location = new Point(12, 95);
-            btnNavOverview.Name = "btnNavOverview";
-            btnNavOverview.Padding = new Padding(12, 0, 0, 0);
-            btnNavOverview.Size = new Size(206, 44);
-            btnNavOverview.TabIndex = 1;
-            btnNavOverview.Text = "📊  Overview";
-            btnNavOverview.TextAlign = ContentAlignment.MiddleLeft;
-            btnNavOverview.UseVisualStyleBackColor = false;
-            btnNavOverview.Click += btnNavOverview_Click;
-            // 
-            // btnNavBooking
-            // 
-            btnNavBooking.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavBooking.Cursor = Cursors.Hand;
-            btnNavBooking.FlatAppearance.BorderSize = 0;
-            btnNavBooking.FlatStyle = FlatStyle.Flat;
-            btnNavBooking.Font = new Font("Segoe UI", 9.5F);
-            btnNavBooking.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavBooking.Location = new Point(12, 145);
-            btnNavBooking.Name = "btnNavBooking";
-            btnNavBooking.Padding = new Padding(12, 0, 0, 0);
-            btnNavBooking.Size = new Size(206, 44);
-            btnNavBooking.TabIndex = 2;
-            btnNavBooking.Text = "📝  Quick Rent (Get Started)";
-            btnNavBooking.TextAlign = ContentAlignment.MiddleLeft;
-            btnNavBooking.UseVisualStyleBackColor = true;
-            btnNavBooking.Click += btnNavBooking_Click;
+            btnNavDatabase.BackColor = Color.FromArgb(15, 23, 42);
+            btnNavDatabase.Cursor = Cursors.Hand;
+            btnNavDatabase.FlatAppearance.BorderSize = 0;
+            btnNavDatabase.FlatStyle = FlatStyle.Flat;
+            btnNavDatabase.Font = new Font("Segoe UI", 9.5F);
+            btnNavDatabase.ForeColor = Color.FromArgb(203, 213, 225);
+            btnNavDatabase.Location = new Point(12, 295);
+            btnNavDatabase.Name = "btnNavDatabase";
+            btnNavDatabase.Padding = new Padding(12, 0, 0, 0);
+            btnNavDatabase.Size = new Size(206, 44);
+            btnNavDatabase.TabIndex = 5;
+            btnNavDatabase.Text = "⚙️  SQL Database";
+            btnNavDatabase.TextAlign = ContentAlignment.MiddleLeft;
+            btnNavDatabase.UseVisualStyleBackColor = true;
+            btnNavDatabase.Click += btnNavDatabase_Click;
+            
+            btnNavRentals.BackColor = Color.FromArgb(15, 23, 42);
+            btnNavRentals.Cursor = Cursors.Hand;
+            btnNavRentals.FlatAppearance.BorderSize = 0;
+            btnNavRentals.FlatStyle = FlatStyle.Flat;
+            btnNavRentals.Font = new Font("Segoe UI", 9.5F);
+            btnNavRentals.ForeColor = Color.FromArgb(203, 213, 225);
+            btnNavRentals.Location = new Point(12, 245);
+            btnNavRentals.Name = "btnNavRentals";
+            btnNavRentals.Padding = new Padding(12, 0, 0, 0);
+            btnNavRentals.Size = new Size(206, 44);
+            btnNavRentals.TabIndex = 4;
+            btnNavRentals.Text = "📋  Active Rentals";
+            btnNavRentals.TextAlign = ContentAlignment.MiddleLeft;
+            btnNavRentals.UseVisualStyleBackColor = true;
+            btnNavRentals.Click += btnNavRentals_Click;
             // 
             // btnNavFleet
             // 
@@ -226,58 +207,75 @@ namespace FinalsCode
             btnNavFleet.UseVisualStyleBackColor = true;
             btnNavFleet.Click += btnNavFleet_Click;
             // 
-            // btnNavRentals
+            // btnNavBooking
             // 
-            btnNavRentals.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavRentals.Cursor = Cursors.Hand;
-            btnNavRentals.FlatAppearance.BorderSize = 0;
-            btnNavRentals.FlatStyle = FlatStyle.Flat;
-            btnNavRentals.Font = new Font("Segoe UI", 9.5F);
-            btnNavRentals.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavRentals.Location = new Point(12, 245);
-            btnNavRentals.Name = "btnNavRentals";
-            btnNavRentals.Padding = new Padding(12, 0, 0, 0);
-            btnNavRentals.Size = new Size(206, 44);
-            btnNavRentals.TabIndex = 4;
-            btnNavRentals.Text = "📋  Active Rentals";
-            btnNavRentals.TextAlign = ContentAlignment.MiddleLeft;
-            btnNavRentals.UseVisualStyleBackColor = true;
-            btnNavRentals.Click += btnNavRentals_Click;
+            btnNavBooking.BackColor = Color.FromArgb(15, 23, 42);
+            btnNavBooking.Cursor = Cursors.Hand;
+            btnNavBooking.FlatAppearance.BorderSize = 0;
+            btnNavBooking.FlatStyle = FlatStyle.Flat;
+            btnNavBooking.Font = new Font("Segoe UI", 9.5F);
+            btnNavBooking.ForeColor = Color.FromArgb(203, 213, 225);
+            btnNavBooking.Location = new Point(12, 145);
+            btnNavBooking.Name = "btnNavBooking";
+            btnNavBooking.Padding = new Padding(12, 0, 0, 0);
+            btnNavBooking.Size = new Size(206, 44);
+            btnNavBooking.TabIndex = 2;
+            btnNavBooking.Text = "📝  Quick Rent (Get Started)";
+            btnNavBooking.TextAlign = ContentAlignment.MiddleLeft;
+            btnNavBooking.UseVisualStyleBackColor = true;
+            btnNavBooking.Click += btnNavBooking_Click;
             // 
-            // btnNavDatabase
+            // btnNavOverview
             // 
-            btnNavDatabase.BackColor = Color.FromArgb(15, 23, 42);
-            btnNavDatabase.Cursor = Cursors.Hand;
-            btnNavDatabase.FlatAppearance.BorderSize = 0;
-            btnNavDatabase.FlatStyle = FlatStyle.Flat;
-            btnNavDatabase.Font = new Font("Segoe UI", 9.5F);
-            btnNavDatabase.ForeColor = Color.FromArgb(203, 213, 225);
-            btnNavDatabase.Location = new Point(12, 295);
-            btnNavDatabase.Name = "btnNavDatabase";
-            btnNavDatabase.Padding = new Padding(12, 0, 0, 0);
-            btnNavDatabase.Size = new Size(206, 44);
-            btnNavDatabase.TabIndex = 5;
-            btnNavDatabase.Text = "⚙️  SQL Database";
-            btnNavDatabase.TextAlign = ContentAlignment.MiddleLeft;
-            btnNavDatabase.UseVisualStyleBackColor = true;
-            btnNavDatabase.Click += btnNavDatabase_Click;
+            btnNavOverview.BackColor = Color.FromArgb(37, 99, 235);
+            btnNavOverview.Cursor = Cursors.Hand;
+            btnNavOverview.FlatAppearance.BorderSize = 0;
+            btnNavOverview.FlatStyle = FlatStyle.Flat;
+            btnNavOverview.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnNavOverview.ForeColor = Color.White;
+            btnNavOverview.Location = new Point(12, 95);
+            btnNavOverview.Name = "btnNavOverview";
+            btnNavOverview.Padding = new Padding(12, 0, 0, 0);
+            btnNavOverview.Size = new Size(206, 44);
+            btnNavOverview.TabIndex = 1;
+            btnNavOverview.Text = "📊  Overview";
+            btnNavOverview.TextAlign = ContentAlignment.MiddleLeft;
+            btnNavOverview.UseVisualStyleBackColor = false;
+            btnNavOverview.Click += btnNavOverview_Click;
             // 
-            // btnBack
+            // brandPanel
             // 
-            btnBack.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnBack.BackColor = Color.FromArgb(30, 41, 59);
-            btnBack.Cursor = Cursors.Hand;
-            btnBack.FlatAppearance.BorderSize = 0;
-            btnBack.FlatStyle = FlatStyle.Flat;
-            btnBack.Font = new Font("Segoe UI", 9F);
-            btnBack.ForeColor = Color.FromArgb(148, 163, 184);
-            btnBack.Location = new Point(12, 642);
-            btnBack.Name = "btnBack";
-            btnBack.Size = new Size(206, 42);
-            btnBack.TabIndex = 6;
-            btnBack.Text = "⬅️  Back to Welcome";
-            btnBack.UseVisualStyleBackColor = false;
-            btnBack.Click += btnBack_Click;
+            brandPanel.BackColor = Color.FromArgb(10, 15, 30);
+            brandPanel.Controls.Add(lblBrandSub);
+            brandPanel.Controls.Add(lblLogo);
+            brandPanel.Dock = DockStyle.Top;
+            brandPanel.Location = new Point(0, 0);
+            brandPanel.Name = "brandPanel";
+            brandPanel.Padding = new Padding(18, 16, 18, 16);
+            brandPanel.Size = new Size(230, 75);
+            brandPanel.TabIndex = 0;
+            // 
+            // lblBrandSub
+            // 
+            lblBrandSub.AutoSize = true;
+            lblBrandSub.Font = new Font("Segoe UI Semibold", 7.5F, FontStyle.Bold);
+            lblBrandSub.ForeColor = Color.FromArgb(96, 165, 250);
+            lblBrandSub.Location = new Point(18, 42);
+            lblBrandSub.Name = "lblBrandSub";
+            lblBrandSub.Size = new Size(137, 12);
+            lblBrandSub.TabIndex = 1;
+            lblBrandSub.Text = "CAR RENTAL MANAGEMENT";
+            // 
+            // lblLogo
+            // 
+            lblLogo.AutoSize = true;
+            lblLogo.Font = new Font("Segoe UI", 13.5F, FontStyle.Bold);
+            lblLogo.ForeColor = Color.White;
+            lblLogo.Location = new Point(14, 14);
+            lblLogo.Name = "lblLogo";
+            lblLogo.Size = new Size(124, 25);
+            lblLogo.TabIndex = 0;
+            lblLogo.Text = "🚗 DriveHub";
             // 
             // topBarPanel
             // 
@@ -293,27 +291,19 @@ namespace FinalsCode
             topBarPanel.Size = new Size(890, 75);
             topBarPanel.TabIndex = 1;
             // 
-            // lblPageTitle
+            // lblStatusBadge
             // 
-            lblPageTitle.AutoSize = true;
-            lblPageTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblPageTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblPageTitle.Location = new Point(22, 14);
-            lblPageTitle.Name = "lblPageTitle";
-            lblPageTitle.Size = new Size(187, 25);
-            lblPageTitle.TabIndex = 0;
-            lblPageTitle.Text = "Dashboard Overview";
-            // 
-            // lblPageSubtitle
-            // 
-            lblPageSubtitle.AutoSize = true;
-            lblPageSubtitle.Font = new Font("Segoe UI", 9F);
-            lblPageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblPageSubtitle.Location = new Point(24, 42);
-            lblPageSubtitle.Name = "lblPageSubtitle";
-            lblPageSubtitle.Size = new Size(350, 15);
-            lblPageSubtitle.TabIndex = 1;
-            lblPageSubtitle.Text = "Real-time car fleet overview, instant reservations, and rental activity";
+            lblStatusBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblStatusBadge.AutoSize = true;
+            lblStatusBadge.BackColor = Color.FromArgb(240, 253, 244);
+            lblStatusBadge.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblStatusBadge.ForeColor = Color.FromArgb(22, 101, 52);
+            lblStatusBadge.Location = new Point(748, 42);
+            lblStatusBadge.Name = "lblStatusBadge";
+            lblStatusBadge.Padding = new Padding(6, 3, 6, 3);
+            lblStatusBadge.Size = new Size(112, 21);
+            lblStatusBadge.TabIndex = 3;
+            lblStatusBadge.Text = "\U0001f7e2 System Online";
             // 
             // lblLiveClock
             // 
@@ -327,19 +317,27 @@ namespace FinalsCode
             lblLiveClock.Text = "Live System";
             lblLiveClock.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // lblStatusBadge
+            // lblPageSubtitle
             // 
-            lblStatusBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblStatusBadge.AutoSize = true;
-            lblStatusBadge.BackColor = Color.FromArgb(240, 253, 244);
-            lblStatusBadge.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblStatusBadge.ForeColor = Color.FromArgb(22, 101, 52);
-            lblStatusBadge.Location = new Point(748, 42);
-            lblStatusBadge.Name = "lblStatusBadge";
-            lblStatusBadge.Padding = new Padding(6, 3, 6, 3);
-            lblStatusBadge.Size = new Size(118, 21);
-            lblStatusBadge.TabIndex = 3;
-            lblStatusBadge.Text = "🟢 System Online";
+            lblPageSubtitle.AutoSize = true;
+            lblPageSubtitle.Font = new Font("Segoe UI", 9F);
+            lblPageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblPageSubtitle.Location = new Point(24, 42);
+            lblPageSubtitle.Name = "lblPageSubtitle";
+            lblPageSubtitle.Size = new Size(361, 15);
+            lblPageSubtitle.TabIndex = 1;
+            lblPageSubtitle.Text = "Real-time car fleet overview, instant reservations, and rental activity";
+            // 
+            // lblPageTitle
+            // 
+            lblPageTitle.AutoSize = true;
+            lblPageTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblPageTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblPageTitle.Location = new Point(22, 14);
+            lblPageTitle.Name = "lblPageTitle";
+            lblPageTitle.Size = new Size(197, 25);
+            lblPageTitle.TabIndex = 0;
+            lblPageTitle.Text = "Dashboard Overview";
             // 
             // mainContainerPanel
             // 
@@ -364,165 +362,6 @@ namespace FinalsCode
             panelOverview.Name = "panelOverview";
             panelOverview.Size = new Size(850, 585);
             panelOverview.TabIndex = 0;
-            // 
-            // overviewStatsLayout
-            // 
-            overviewStatsLayout.ColumnCount = 4;
-            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            overviewStatsLayout.Controls.Add(cardTotalCars, 0, 0);
-            overviewStatsLayout.Controls.Add(cardAvailCars, 1, 0);
-            overviewStatsLayout.Controls.Add(cardRentedCars, 2, 0);
-            overviewStatsLayout.Controls.Add(cardRevenue, 3, 0);
-            overviewStatsLayout.Dock = DockStyle.Top;
-            overviewStatsLayout.Location = new Point(0, 0);
-            overviewStatsLayout.Name = "overviewStatsLayout";
-            overviewStatsLayout.RowCount = 1;
-            overviewStatsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            overviewStatsLayout.Size = new Size(850, 95);
-            overviewStatsLayout.TabIndex = 0;
-            // 
-            // cardTotalCars
-            // 
-            cardTotalCars.BackColor = Color.White;
-            cardTotalCars.Controls.Add(lblStatTotalVal);
-            cardTotalCars.Controls.Add(lblStatTotalTitle);
-            cardTotalCars.Dock = DockStyle.Fill;
-            cardTotalCars.Location = new Point(0, 0);
-            cardTotalCars.Margin = new Padding(0, 0, 10, 0);
-            cardTotalCars.Name = "cardTotalCars";
-            cardTotalCars.Padding = new Padding(14);
-            cardTotalCars.Size = new Size(202, 95);
-            cardTotalCars.TabIndex = 0;
-            // 
-            // lblStatTotalTitle
-            // 
-            lblStatTotalTitle.AutoSize = true;
-            lblStatTotalTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblStatTotalTitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblStatTotalTitle.Location = new Point(12, 14);
-            lblStatTotalTitle.Name = "lblStatTotalTitle";
-            lblStatTotalTitle.Size = new Size(76, 15);
-            lblStatTotalTitle.TabIndex = 0;
-            lblStatTotalTitle.Text = "TOTAL FLEET";
-            // 
-            // lblStatTotalVal
-            // 
-            lblStatTotalVal.AutoSize = true;
-            lblStatTotalVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblStatTotalVal.ForeColor = Color.FromArgb(37, 99, 235);
-            lblStatTotalVal.Location = new Point(10, 36);
-            lblStatTotalVal.Name = "lblStatTotalVal";
-            lblStatTotalVal.Size = new Size(95, 32);
-            lblStatTotalVal.TabIndex = 1;
-            lblStatTotalVal.Text = "8 Cars";
-            // 
-            // cardAvailCars
-            // 
-            cardAvailCars.BackColor = Color.White;
-            cardAvailCars.Controls.Add(lblStatAvailVal);
-            cardAvailCars.Controls.Add(lblStatAvailTitle);
-            cardAvailCars.Dock = DockStyle.Fill;
-            cardAvailCars.Location = new Point(212, 0);
-            cardAvailCars.Margin = new Padding(0, 0, 10, 0);
-            cardAvailCars.Name = "cardAvailCars";
-            cardAvailCars.Padding = new Padding(14);
-            cardAvailCars.Size = new Size(202, 95);
-            cardAvailCars.TabIndex = 1;
-            // 
-            // lblStatAvailTitle
-            // 
-            lblStatAvailTitle.AutoSize = true;
-            lblStatAvailTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblStatAvailTitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblStatAvailTitle.Location = new Point(12, 14);
-            lblStatAvailTitle.Name = "lblStatAvailTitle";
-            lblStatAvailTitle.Size = new Size(97, 15);
-            lblStatAvailTitle.TabIndex = 0;
-            lblStatAvailTitle.Text = "AVAILABLE NOW";
-            // 
-            // lblStatAvailVal
-            // 
-            lblStatAvailVal.AutoSize = true;
-            lblStatAvailVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblStatAvailVal.ForeColor = Color.FromArgb(22, 163, 74);
-            lblStatAvailVal.Location = new Point(10, 36);
-            lblStatAvailVal.Name = "lblStatAvailVal";
-            lblStatAvailVal.Size = new Size(95, 32);
-            lblStatAvailVal.TabIndex = 1;
-            lblStatAvailVal.Text = "6 Cars";
-            // 
-            // cardRentedCars
-            // 
-            cardRentedCars.BackColor = Color.White;
-            cardRentedCars.Controls.Add(lblStatRentedVal);
-            cardRentedCars.Controls.Add(lblStatRentedTitle);
-            cardRentedCars.Dock = DockStyle.Fill;
-            cardRentedCars.Location = new Point(424, 0);
-            cardRentedCars.Margin = new Padding(0, 0, 10, 0);
-            cardRentedCars.Name = "cardRentedCars";
-            cardRentedCars.Padding = new Padding(14);
-            cardRentedCars.Size = new Size(202, 95);
-            cardRentedCars.TabIndex = 2;
-            // 
-            // lblStatRentedTitle
-            // 
-            lblStatRentedTitle.AutoSize = true;
-            lblStatRentedTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblStatRentedTitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblStatRentedTitle.Location = new Point(12, 14);
-            lblStatRentedTitle.Name = "lblStatRentedTitle";
-            lblStatRentedTitle.Size = new Size(88, 15);
-            lblStatRentedTitle.TabIndex = 0;
-            lblStatRentedTitle.Text = "RENTED / OUT";
-            // 
-            // lblStatRentedVal
-            // 
-            lblStatRentedVal.AutoSize = true;
-            lblStatRentedVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblStatRentedVal.ForeColor = Color.FromArgb(234, 88, 12);
-            lblStatRentedVal.Location = new Point(10, 36);
-            lblStatRentedVal.Name = "lblStatRentedVal";
-            lblStatRentedVal.Size = new Size(95, 32);
-            lblStatRentedVal.TabIndex = 1;
-            lblStatRentedVal.Text = "2 Cars";
-            // 
-            // cardRevenue
-            // 
-            cardRevenue.BackColor = Color.White;
-            cardRevenue.Controls.Add(lblStatRevenueVal);
-            cardRevenue.Controls.Add(lblStatRevenueTitle);
-            cardRevenue.Dock = DockStyle.Fill;
-            cardRevenue.Location = new Point(636, 0);
-            cardRevenue.Margin = new Padding(0);
-            cardRevenue.Name = "cardRevenue";
-            cardRevenue.Padding = new Padding(14);
-            cardRevenue.Size = new Size(214, 95);
-            cardRevenue.TabIndex = 3;
-            // 
-            // lblStatRevenueTitle
-            // 
-            lblStatRevenueTitle.AutoSize = true;
-            lblStatRevenueTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblStatRevenueTitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblStatRevenueTitle.Location = new Point(12, 14);
-            lblStatRevenueTitle.Name = "lblStatRevenueTitle";
-            lblStatRevenueTitle.Size = new Size(96, 15);
-            lblStatRevenueTitle.TabIndex = 0;
-            lblStatRevenueTitle.Text = "TOTAL REVENUE";
-            // 
-            // lblStatRevenueVal
-            // 
-            lblStatRevenueVal.AutoSize = true;
-            lblStatRevenueVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblStatRevenueVal.ForeColor = Color.FromArgb(124, 58, 237);
-            lblStatRevenueVal.Location = new Point(10, 36);
-            lblStatRevenueVal.Name = "lblStatRevenueVal";
-            lblStatRevenueVal.Size = new Size(92, 32);
-            lblStatRevenueVal.TabIndex = 1;
-            lblStatRevenueVal.Text = "$940.00";
             // 
             // overviewSplit
             // 
@@ -563,146 +402,15 @@ namespace FinalsCode
             bookingBoxPanel.Size = new Size(346, 475);
             bookingBoxPanel.TabIndex = 0;
             // 
-            // lblBookingTitle
+            // lblBookingFeedback
             // 
-            lblBookingTitle.AutoSize = true;
-            lblBookingTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblBookingTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblBookingTitle.Location = new Point(14, 14);
-            lblBookingTitle.Name = "lblBookingTitle";
-            lblBookingTitle.Size = new Size(230, 21);
-            lblBookingTitle.TabIndex = 0;
-            lblBookingTitle.Text = "⚡ Quick Rent (Get Started)";
-            // 
-            // lblBookingSub
-            // 
-            lblBookingSub.AutoSize = true;
-            lblBookingSub.Font = new Font("Segoe UI", 8.5F);
-            lblBookingSub.ForeColor = Color.FromArgb(100, 116, 139);
-            lblBookingSub.Location = new Point(16, 38);
-            lblBookingSub.Name = "lblBookingSub";
-            lblBookingSub.Size = new Size(207, 15);
-            lblBookingSub.TabIndex = 1;
-            lblBookingSub.Text = "Complete a customer rental in seconds";
-            // 
-            // lblCustName
-            // 
-            lblCustName.AutoSize = true;
-            lblCustName.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblCustName.ForeColor = Color.FromArgb(51, 65, 85);
-            lblCustName.Location = new Point(16, 64);
-            lblCustName.Name = "lblCustName";
-            lblCustName.Size = new Size(96, 15);
-            lblCustName.TabIndex = 2;
-            lblCustName.Text = "Customer Name *";
-            // 
-            // txtCustName
-            // 
-            txtCustName.Font = new Font("Segoe UI", 9.5F);
-            txtCustName.Location = new Point(18, 83);
-            txtCustName.Name = "txtCustName";
-            txtCustName.PlaceholderText = "e.g. Alex Johnson";
-            txtCustName.Size = new Size(308, 24);
-            txtCustName.TabIndex = 3;
-            // 
-            // lblCustPhone
-            // 
-            lblCustPhone.AutoSize = true;
-            lblCustPhone.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblCustPhone.ForeColor = Color.FromArgb(51, 65, 85);
-            lblCustPhone.Location = new Point(16, 114);
-            lblCustPhone.Name = "lblCustPhone";
-            lblCustPhone.Size = new Size(95, 15);
-            lblCustPhone.TabIndex = 4;
-            lblCustPhone.Text = "Phone Number *";
-            // 
-            // txtCustPhone
-            // 
-            txtCustPhone.Font = new Font("Segoe UI", 9.5F);
-            txtCustPhone.Location = new Point(18, 133);
-            txtCustPhone.Name = "txtCustPhone";
-            txtCustPhone.PlaceholderText = "e.g. 0917-123-4567";
-            txtCustPhone.Size = new Size(308, 24);
-            txtCustPhone.TabIndex = 5;
-            // 
-            // lblSelectCar
-            // 
-            lblSelectCar.AutoSize = true;
-            lblSelectCar.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblSelectCar.ForeColor = Color.FromArgb(51, 65, 85);
-            lblSelectCar.Location = new Point(16, 166);
-            lblSelectCar.Name = "lblSelectCar";
-            lblSelectCar.Size = new Size(89, 15);
-            lblSelectCar.TabIndex = 6;
-            lblSelectCar.Text = "Select Vehicle *";
-            // 
-            // cmbCars
-            // 
-            cmbCars.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbCars.Font = new Font("Segoe UI", 9.5F);
-            cmbCars.FormattingEnabled = true;
-            cmbCars.Location = new Point(18, 185);
-            cmbCars.Name = "cmbCars";
-            cmbCars.Size = new Size(308, 25);
-            cmbCars.TabIndex = 7;
-            cmbCars.SelectedIndexChanged += cmbCars_SelectedIndexChanged;
-            // 
-            // lblDays
-            // 
-            lblDays.AutoSize = true;
-            lblDays.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblDays.ForeColor = Color.FromArgb(51, 65, 85);
-            lblDays.Location = new Point(16, 220);
-            lblDays.Name = "lblDays";
-            lblDays.Size = new Size(130, 15);
-            lblDays.TabIndex = 8;
-            lblDays.Text = "Rental Duration (Days) *";
-            // 
-            // numDays
-            // 
-            numDays.Font = new Font("Segoe UI", 9.5F);
-            numDays.Location = new Point(18, 239);
-            numDays.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
-            numDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numDays.Name = "numDays";
-            numDays.Size = new Size(140, 24);
-            numDays.TabIndex = 9;
-            numDays.Value = new decimal(new int[] { 3, 0, 0, 0 });
-            numDays.ValueChanged += numDays_ValueChanged;
-            // 
-            // costSummaryPanel
-            // 
-            costSummaryPanel.BackColor = Color.FromArgb(248, 250, 252);
-            costSummaryPanel.BorderStyle = BorderStyle.FixedSingle;
-            costSummaryPanel.Controls.Add(lblTotalCalculated);
-            costSummaryPanel.Controls.Add(lblDailyRateNote);
-            costSummaryPanel.Location = new Point(18, 275);
-            costSummaryPanel.Name = "costSummaryPanel";
-            costSummaryPanel.Padding = new Padding(10);
-            costSummaryPanel.Size = new Size(308, 64);
-            costSummaryPanel.TabIndex = 10;
-            // 
-            // lblDailyRateNote
-            // 
-            lblDailyRateNote.AutoSize = true;
-            lblDailyRateNote.Font = new Font("Segoe UI", 8.5F);
-            lblDailyRateNote.ForeColor = Color.FromArgb(100, 116, 139);
-            lblDailyRateNote.Location = new Point(8, 8);
-            lblDailyRateNote.Name = "lblDailyRateNote";
-            lblDailyRateNote.Size = new Size(116, 15);
-            lblDailyRateNote.TabIndex = 0;
-            lblDailyRateNote.Text = "Estimated Total (3d):";
-            // 
-            // lblTotalCalculated
-            // 
-            lblTotalCalculated.AutoSize = true;
-            lblTotalCalculated.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTotalCalculated.ForeColor = Color.FromArgb(22, 163, 74);
-            lblTotalCalculated.Location = new Point(8, 28);
-            lblTotalCalculated.Name = "lblTotalCalculated";
-            lblTotalCalculated.Size = new Size(81, 25);
-            lblTotalCalculated.TabIndex = 1;
-            lblTotalCalculated.Text = "$135.00";
+            lblBookingFeedback.Font = new Font("Segoe UI", 8.5F);
+            lblBookingFeedback.ForeColor = Color.FromArgb(100, 116, 139);
+            lblBookingFeedback.Location = new Point(18, 405);
+            lblBookingFeedback.Name = "lblBookingFeedback";
+            lblBookingFeedback.Size = new Size(308, 55);
+            lblBookingFeedback.TabIndex = 12;
+            lblBookingFeedback.Text = "Select a vehicle and click Confirm to record rental.";
             // 
             // btnConfirmBooking
             // 
@@ -720,15 +428,147 @@ namespace FinalsCode
             btnConfirmBooking.UseVisualStyleBackColor = false;
             btnConfirmBooking.Click += btnConfirmBooking_Click;
             // 
-            // lblBookingFeedback
+            // costSummaryPanel
             // 
-            lblBookingFeedback.Font = new Font("Segoe UI", 8.5F);
-            lblBookingFeedback.ForeColor = Color.FromArgb(100, 116, 139);
-            lblBookingFeedback.Location = new Point(18, 405);
-            lblBookingFeedback.Name = "lblBookingFeedback";
-            lblBookingFeedback.Size = new Size(308, 55);
-            lblBookingFeedback.TabIndex = 12;
-            lblBookingFeedback.Text = "Select a vehicle and click Confirm to record rental.";
+            costSummaryPanel.BackColor = Color.FromArgb(248, 250, 252);
+            costSummaryPanel.BorderStyle = BorderStyle.FixedSingle;
+            costSummaryPanel.Controls.Add(lblTotalCalculated);
+            costSummaryPanel.Controls.Add(lblDailyRateNote);
+            costSummaryPanel.Location = new Point(18, 275);
+            costSummaryPanel.Name = "costSummaryPanel";
+            costSummaryPanel.Padding = new Padding(10);
+            costSummaryPanel.Size = new Size(308, 64);
+            costSummaryPanel.TabIndex = 10;
+            costSummaryPanel.Paint += costSummaryPanel_Paint;
+            // 
+            // lblTotalCalculated
+            // 
+            lblTotalCalculated.AutoSize = true;
+            lblTotalCalculated.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTotalCalculated.ForeColor = Color.FromArgb(22, 163, 74);
+            lblTotalCalculated.Location = new Point(8, 28);
+            lblTotalCalculated.Name = "lblTotalCalculated";
+            lblTotalCalculated.Size = new Size(84, 25);
+            lblTotalCalculated.TabIndex = 1;
+            lblTotalCalculated.Text = "₱135.00";
+            // 
+            // lblDailyRateNote
+            // 
+            lblDailyRateNote.AutoSize = true;
+            lblDailyRateNote.Font = new Font("Segoe UI", 8.5F);
+            lblDailyRateNote.ForeColor = Color.FromArgb(100, 116, 139);
+            lblDailyRateNote.Location = new Point(8, 8);
+            lblDailyRateNote.Name = "lblDailyRateNote";
+            lblDailyRateNote.Size = new Size(115, 15);
+            lblDailyRateNote.TabIndex = 0;
+            lblDailyRateNote.Text = "Estimated Total (3d):";
+            // 
+            // numDays
+            // 
+            numDays.Font = new Font("Segoe UI", 9.5F);
+            numDays.Location = new Point(18, 239);
+            numDays.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
+            numDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numDays.Name = "numDays";
+            numDays.Size = new Size(140, 24);
+            numDays.TabIndex = 9;
+            numDays.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            numDays.ValueChanged += numDays_ValueChanged;
+            // 
+            // lblDays
+            // 
+            lblDays.AutoSize = true;
+            lblDays.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblDays.ForeColor = Color.FromArgb(51, 65, 85);
+            lblDays.Location = new Point(16, 220);
+            lblDays.Name = "lblDays";
+            lblDays.Size = new Size(135, 15);
+            lblDays.TabIndex = 8;
+            lblDays.Text = "Rental Duration (Days) *";
+            // 
+            // cmbCars
+            // 
+            cmbCars.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbCars.Font = new Font("Segoe UI", 9.5F);
+            cmbCars.FormattingEnabled = true;
+            cmbCars.Location = new Point(18, 185);
+            cmbCars.Name = "cmbCars";
+            cmbCars.Size = new Size(308, 25);
+            cmbCars.TabIndex = 7;
+            cmbCars.SelectedIndexChanged += cmbCars_SelectedIndexChanged;
+            // 
+            // lblSelectCar
+            // 
+            lblSelectCar.AutoSize = true;
+            lblSelectCar.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblSelectCar.ForeColor = Color.FromArgb(51, 65, 85);
+            lblSelectCar.Location = new Point(16, 166);
+            lblSelectCar.Name = "lblSelectCar";
+            lblSelectCar.Size = new Size(88, 15);
+            lblSelectCar.TabIndex = 6;
+            lblSelectCar.Text = "Select Vehicle *";
+            // 
+            // txtCustPhone
+            // 
+            txtCustPhone.Font = new Font("Segoe UI", 9.5F);
+            txtCustPhone.Location = new Point(18, 133);
+            txtCustPhone.Name = "txtCustPhone";
+            txtCustPhone.PlaceholderText = "e.g. 0917-123-4567";
+            txtCustPhone.Size = new Size(308, 24);
+            txtCustPhone.TabIndex = 5;
+            // 
+            // lblCustPhone
+            // 
+            lblCustPhone.AutoSize = true;
+            lblCustPhone.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblCustPhone.ForeColor = Color.FromArgb(51, 65, 85);
+            lblCustPhone.Location = new Point(16, 114);
+            lblCustPhone.Name = "lblCustPhone";
+            lblCustPhone.Size = new Size(96, 15);
+            lblCustPhone.TabIndex = 4;
+            lblCustPhone.Text = "Phone Number *";
+            // 
+            // txtCustName
+            // 
+            txtCustName.Font = new Font("Segoe UI", 9.5F);
+            txtCustName.Location = new Point(18, 83);
+            txtCustName.Name = "txtCustName";
+            txtCustName.PlaceholderText = "e.g. Alex Johnson";
+            txtCustName.Size = new Size(308, 24);
+            txtCustName.TabIndex = 3;
+            // 
+            // lblCustName
+            // 
+            lblCustName.AutoSize = true;
+            lblCustName.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblCustName.ForeColor = Color.FromArgb(51, 65, 85);
+            lblCustName.Location = new Point(16, 64);
+            lblCustName.Name = "lblCustName";
+            lblCustName.Size = new Size(101, 15);
+            lblCustName.TabIndex = 2;
+            lblCustName.Text = "Customer Name *";
+            // 
+            // lblBookingSub
+            // 
+            lblBookingSub.AutoSize = true;
+            lblBookingSub.Font = new Font("Segoe UI", 8.5F);
+            lblBookingSub.ForeColor = Color.FromArgb(100, 116, 139);
+            lblBookingSub.Location = new Point(16, 38);
+            lblBookingSub.Name = "lblBookingSub";
+            lblBookingSub.Size = new Size(213, 15);
+            lblBookingSub.TabIndex = 1;
+            lblBookingSub.Text = "Complete a customer rental in seconds";
+            // 
+            // lblBookingTitle
+            // 
+            lblBookingTitle.AutoSize = true;
+            lblBookingTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblBookingTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblBookingTitle.Location = new Point(14, 14);
+            lblBookingTitle.Name = "lblBookingTitle";
+            lblBookingTitle.Size = new Size(221, 21);
+            lblBookingTitle.TabIndex = 0;
+            lblBookingTitle.Text = "⚡ Quick Rent (Get Started)";
             // 
             // overviewFleetCard
             // 
@@ -742,17 +582,6 @@ namespace FinalsCode
             overviewFleetCard.Padding = new Padding(16);
             overviewFleetCard.Size = new Size(490, 475);
             overviewFleetCard.TabIndex = 1;
-            // 
-            // lblOverviewFleetTitle
-            // 
-            lblOverviewFleetTitle.AutoSize = true;
-            lblOverviewFleetTitle.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
-            lblOverviewFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblOverviewFleetTitle.Location = new Point(14, 14);
-            lblOverviewFleetTitle.Name = "lblOverviewFleetTitle";
-            lblOverviewFleetTitle.Size = new Size(205, 21);
-            lblOverviewFleetTitle.TabIndex = 0;
-            lblOverviewFleetTitle.Text = "🚘 Ready Available Fleet";
             // 
             // gridOverviewFleet
             // 
@@ -771,6 +600,177 @@ namespace FinalsCode
             gridOverviewFleet.Size = new Size(462, 413);
             gridOverviewFleet.TabIndex = 1;
             // 
+            // lblOverviewFleetTitle
+            // 
+            lblOverviewFleetTitle.AutoSize = true;
+            lblOverviewFleetTitle.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblOverviewFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblOverviewFleetTitle.Location = new Point(14, 14);
+            lblOverviewFleetTitle.Name = "lblOverviewFleetTitle";
+            lblOverviewFleetTitle.Size = new Size(201, 21);
+            lblOverviewFleetTitle.TabIndex = 0;
+            lblOverviewFleetTitle.Text = "🚘 Ready Available Fleet";
+            // 
+            // overviewStatsLayout
+            // 
+            overviewStatsLayout.ColumnCount = 4;
+            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            overviewStatsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            overviewStatsLayout.Controls.Add(cardTotalCars, 0, 0);
+            overviewStatsLayout.Controls.Add(cardAvailCars, 1, 0);
+            overviewStatsLayout.Controls.Add(cardRentedCars, 2, 0);
+            overviewStatsLayout.Controls.Add(cardRevenue, 3, 0);
+            overviewStatsLayout.Dock = DockStyle.Top;
+            overviewStatsLayout.Location = new Point(0, 0);
+            overviewStatsLayout.Name = "overviewStatsLayout";
+            overviewStatsLayout.RowCount = 1;
+            overviewStatsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            overviewStatsLayout.Size = new Size(850, 95);
+            overviewStatsLayout.TabIndex = 0;
+            // 
+            // cardTotalCars
+            // 
+            cardTotalCars.BackColor = Color.White;
+            cardTotalCars.Controls.Add(lblStatTotalVal);
+            cardTotalCars.Controls.Add(lblStatTotalTitle);
+            cardTotalCars.Dock = DockStyle.Fill;
+            cardTotalCars.Location = new Point(0, 0);
+            cardTotalCars.Margin = new Padding(0, 0, 10, 0);
+            cardTotalCars.Name = "cardTotalCars";
+            cardTotalCars.Padding = new Padding(14);
+            cardTotalCars.Size = new Size(202, 95);
+            cardTotalCars.TabIndex = 0;
+            // 
+            // lblStatTotalVal
+            // 
+            lblStatTotalVal.AutoSize = true;
+            lblStatTotalVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblStatTotalVal.ForeColor = Color.FromArgb(37, 99, 235);
+            lblStatTotalVal.Location = new Point(10, 36);
+            lblStatTotalVal.Name = "lblStatTotalVal";
+            lblStatTotalVal.Size = new Size(84, 32);
+            lblStatTotalVal.TabIndex = 1;
+            lblStatTotalVal.Text = "8 Cars";
+            // 
+            // lblStatTotalTitle
+            // 
+            lblStatTotalTitle.AutoSize = true;
+            lblStatTotalTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblStatTotalTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblStatTotalTitle.Location = new Point(12, 14);
+            lblStatTotalTitle.Name = "lblStatTotalTitle";
+            lblStatTotalTitle.Size = new Size(76, 15);
+            lblStatTotalTitle.TabIndex = 0;
+            lblStatTotalTitle.Text = "TOTAL FLEET";
+            // 
+            // cardAvailCars
+            // 
+            cardAvailCars.BackColor = Color.White;
+            cardAvailCars.Controls.Add(lblStatAvailVal);
+            cardAvailCars.Controls.Add(lblStatAvailTitle);
+            cardAvailCars.Dock = DockStyle.Fill;
+            cardAvailCars.Location = new Point(212, 0);
+            cardAvailCars.Margin = new Padding(0, 0, 10, 0);
+            cardAvailCars.Name = "cardAvailCars";
+            cardAvailCars.Padding = new Padding(14);
+            cardAvailCars.Size = new Size(202, 95);
+            cardAvailCars.TabIndex = 1;
+            // 
+            // lblStatAvailVal
+            // 
+            lblStatAvailVal.AutoSize = true;
+            lblStatAvailVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblStatAvailVal.ForeColor = Color.FromArgb(22, 163, 74);
+            lblStatAvailVal.Location = new Point(10, 36);
+            lblStatAvailVal.Name = "lblStatAvailVal";
+            lblStatAvailVal.Size = new Size(84, 32);
+            lblStatAvailVal.TabIndex = 1;
+            lblStatAvailVal.Text = "6 Cars";
+            // 
+            // lblStatAvailTitle
+            // 
+            lblStatAvailTitle.AutoSize = true;
+            lblStatAvailTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblStatAvailTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblStatAvailTitle.Location = new Point(12, 14);
+            lblStatAvailTitle.Name = "lblStatAvailTitle";
+            lblStatAvailTitle.Size = new Size(99, 15);
+            lblStatAvailTitle.TabIndex = 0;
+            lblStatAvailTitle.Text = "AVAILABLE NOW";
+            // 
+            // cardRentedCars
+            // 
+            cardRentedCars.BackColor = Color.White;
+            cardRentedCars.Controls.Add(lblStatRentedVal);
+            cardRentedCars.Controls.Add(lblStatRentedTitle);
+            cardRentedCars.Dock = DockStyle.Fill;
+            cardRentedCars.Location = new Point(424, 0);
+            cardRentedCars.Margin = new Padding(0, 0, 10, 0);
+            cardRentedCars.Name = "cardRentedCars";
+            cardRentedCars.Padding = new Padding(14);
+            cardRentedCars.Size = new Size(202, 95);
+            cardRentedCars.TabIndex = 2;
+            // 
+            // lblStatRentedVal
+            // 
+            lblStatRentedVal.AutoSize = true;
+            lblStatRentedVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblStatRentedVal.ForeColor = Color.FromArgb(234, 88, 12);
+            lblStatRentedVal.Location = new Point(10, 36);
+            lblStatRentedVal.Name = "lblStatRentedVal";
+            lblStatRentedVal.Size = new Size(84, 32);
+            lblStatRentedVal.TabIndex = 1;
+            lblStatRentedVal.Text = "2 Cars";
+            // 
+            // lblStatRentedTitle
+            // 
+            lblStatRentedTitle.AutoSize = true;
+            lblStatRentedTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblStatRentedTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblStatRentedTitle.Location = new Point(12, 14);
+            lblStatRentedTitle.Name = "lblStatRentedTitle";
+            lblStatRentedTitle.Size = new Size(86, 15);
+            lblStatRentedTitle.TabIndex = 0;
+            lblStatRentedTitle.Text = "RENTED / OUT";
+            // 
+            // cardRevenue
+            // 
+            cardRevenue.BackColor = Color.White;
+            cardRevenue.Controls.Add(lblStatRevenueVal);
+            cardRevenue.Controls.Add(lblStatRevenueTitle);
+            cardRevenue.Dock = DockStyle.Fill;
+            cardRevenue.Location = new Point(636, 0);
+            cardRevenue.Margin = new Padding(0);
+            cardRevenue.Name = "cardRevenue";
+            cardRevenue.Padding = new Padding(14);
+            cardRevenue.Size = new Size(214, 95);
+            cardRevenue.TabIndex = 3;
+            // 
+            // lblStatRevenueVal
+            // 
+            lblStatRevenueVal.AutoSize = true;
+            lblStatRevenueVal.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblStatRevenueVal.ForeColor = Color.FromArgb(124, 58, 237);
+            lblStatRevenueVal.Location = new Point(10, 36);
+            lblStatRevenueVal.Name = "lblStatRevenueVal";
+            lblStatRevenueVal.Size = new Size(106, 32);
+            lblStatRevenueVal.TabIndex = 1;
+            lblStatRevenueVal.Text = "₱940.00";
+            lblStatRevenueVal.Click += lblStatRevenueVal_Click;
+            // 
+            // lblStatRevenueTitle
+            // 
+            lblStatRevenueTitle.AutoSize = true;
+            lblStatRevenueTitle.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblStatRevenueTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblStatRevenueTitle.Location = new Point(12, 14);
+            lblStatRevenueTitle.Name = "lblStatRevenueTitle";
+            lblStatRevenueTitle.Size = new Size(95, 15);
+            lblStatRevenueTitle.TabIndex = 0;
+            lblStatRevenueTitle.Text = "TOTAL REVENUE";
+            // 
             // panelFleet
             // 
             panelFleet.Controls.Add(gridFleet);
@@ -782,54 +782,6 @@ namespace FinalsCode
             panelFleet.Size = new Size(850, 585);
             panelFleet.TabIndex = 1;
             panelFleet.Visible = false;
-            // 
-            // fleetHeaderPanel
-            // 
-            fleetHeaderPanel.BackColor = Color.White;
-            fleetHeaderPanel.Controls.Add(cmbFleetFilter);
-            fleetHeaderPanel.Controls.Add(txtFleetSearch);
-            fleetHeaderPanel.Controls.Add(lblFleetTitle);
-            fleetHeaderPanel.Dock = DockStyle.Top;
-            fleetHeaderPanel.Location = new Point(0, 0);
-            fleetHeaderPanel.Name = "fleetHeaderPanel";
-            fleetHeaderPanel.Padding = new Padding(14);
-            fleetHeaderPanel.Size = new Size(850, 60);
-            fleetHeaderPanel.TabIndex = 0;
-            // 
-            // lblFleetTitle
-            // 
-            lblFleetTitle.AutoSize = true;
-            lblFleetTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblFleetTitle.Location = new Point(14, 18);
-            lblFleetTitle.Name = "lblFleetTitle";
-            lblFleetTitle.Size = new Size(157, 21);
-            lblFleetTitle.TabIndex = 0;
-            lblFleetTitle.Text = "🚘 Fleet Inventory";
-            // 
-            // txtFleetSearch
-            // 
-            txtFleetSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtFleetSearch.Font = new Font("Segoe UI", 9.5F);
-            txtFleetSearch.Location = new Point(480, 16);
-            txtFleetSearch.Name = "txtFleetSearch";
-            txtFleetSearch.PlaceholderText = "🔍 Search brand or model...";
-            txtFleetSearch.Size = new Size(190, 24);
-            txtFleetSearch.TabIndex = 1;
-            txtFleetSearch.TextChanged += txtFleetSearch_TextChanged;
-            // 
-            // cmbFleetFilter
-            // 
-            cmbFleetFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            cmbFleetFilter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbFleetFilter.Font = new Font("Segoe UI", 9.5F);
-            cmbFleetFilter.FormattingEnabled = true;
-            cmbFleetFilter.Items.AddRange(new object[] { "All Categories", "Sedan", "SUV", "Luxury", "Sports", "Electric" });
-            cmbFleetFilter.Location = new Point(680, 16);
-            cmbFleetFilter.Name = "cmbFleetFilter";
-            cmbFleetFilter.Size = new Size(150, 25);
-            cmbFleetFilter.TabIndex = 2;
-            cmbFleetFilter.SelectedIndexChanged += cmbFleetFilter_SelectedIndexChanged;
             // 
             // gridFleet
             // 
@@ -865,66 +817,6 @@ namespace FinalsCode
             addCarBox.Size = new Size(850, 130);
             addCarBox.TabIndex = 2;
             // 
-            // lblAddCarTitle
-            // 
-            lblAddCarTitle.AutoSize = true;
-            lblAddCarTitle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
-            lblAddCarTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblAddCarTitle.Location = new Point(14, 12);
-            lblAddCarTitle.Name = "lblAddCarTitle";
-            lblAddCarTitle.Size = new Size(183, 19);
-            lblAddCarTitle.TabIndex = 0;
-            lblAddCarTitle.Text = "➕ Add New Vehicle to Fleet";
-            // 
-            // txtAddBrand
-            // 
-            txtAddBrand.Font = new Font("Segoe UI", 9.5F);
-            txtAddBrand.Location = new Point(16, 42);
-            txtAddBrand.Name = "txtAddBrand";
-            txtAddBrand.PlaceholderText = "Brand (e.g. Toyota)";
-            txtAddBrand.Size = new Size(150, 24);
-            txtAddBrand.TabIndex = 1;
-            // 
-            // txtAddModel
-            // 
-            txtAddModel.Font = new Font("Segoe UI", 9.5F);
-            txtAddModel.Location = new Point(176, 42);
-            txtAddModel.Name = "txtAddModel";
-            txtAddModel.PlaceholderText = "Model (e.g. RAV4)";
-            txtAddModel.Size = new Size(160, 24);
-            txtAddModel.TabIndex = 2;
-            // 
-            // cmbAddCategory
-            // 
-            cmbAddCategory.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbAddCategory.Font = new Font("Segoe UI", 9.5F);
-            cmbAddCategory.FormattingEnabled = true;
-            cmbAddCategory.Items.AddRange(new object[] { "Sedan", "SUV", "Luxury", "Sports", "Electric" });
-            cmbAddCategory.Location = new Point(346, 42);
-            cmbAddCategory.Name = "cmbAddCategory";
-            cmbAddCategory.Size = new Size(130, 25);
-            cmbAddCategory.TabIndex = 3;
-            // 
-            // txtAddPlate
-            // 
-            txtAddPlate.Font = new Font("Segoe UI", 9.5F);
-            txtAddPlate.Location = new Point(486, 42);
-            txtAddPlate.Name = "txtAddPlate";
-            txtAddPlate.PlaceholderText = "Plate (e.g. XYZ-9988)";
-            txtAddPlate.Size = new Size(140, 24);
-            txtAddPlate.TabIndex = 4;
-            // 
-            // numAddRate
-            // 
-            numAddRate.DecimalPlaces = 2;
-            numAddRate.Font = new Font("Segoe UI", 9.5F);
-            numAddRate.Location = new Point(636, 42);
-            numAddRate.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
-            numAddRate.Name = "numAddRate";
-            numAddRate.Size = new Size(95, 24);
-            numAddRate.TabIndex = 5;
-            numAddRate.Value = new decimal(new int[] { 60, 0, 0, 0 });
-            // 
             // btnAddCar
             // 
             btnAddCar.BackColor = Color.FromArgb(22, 163, 74);
@@ -941,6 +833,114 @@ namespace FinalsCode
             btnAddCar.UseVisualStyleBackColor = false;
             btnAddCar.Click += btnAddCar_Click;
             // 
+            // numAddRate
+            // 
+            numAddRate.DecimalPlaces = 2;
+            numAddRate.Font = new Font("Segoe UI", 9.5F);
+            numAddRate.Location = new Point(636, 42);
+            numAddRate.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
+            numAddRate.Name = "numAddRate";
+            numAddRate.Size = new Size(95, 24);
+            numAddRate.TabIndex = 5;
+            numAddRate.Value = new decimal(new int[] { 60, 0, 0, 0 });
+            // 
+            // txtAddPlate
+            // 
+            txtAddPlate.Font = new Font("Segoe UI", 9.5F);
+            txtAddPlate.Location = new Point(486, 42);
+            txtAddPlate.Name = "txtAddPlate";
+            txtAddPlate.PlaceholderText = "Plate (e.g. XYZ-9988)";
+            txtAddPlate.Size = new Size(140, 24);
+            txtAddPlate.TabIndex = 4;
+            // 
+            // cmbAddCategory
+            // 
+            cmbAddCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbAddCategory.Font = new Font("Segoe UI", 9.5F);
+            cmbAddCategory.FormattingEnabled = true;
+            cmbAddCategory.Items.AddRange(new object[] { "Sedan", "SUV", "Luxury", "Sports", "Electric" });
+            cmbAddCategory.Location = new Point(346, 42);
+            cmbAddCategory.Name = "cmbAddCategory";
+            cmbAddCategory.Size = new Size(130, 25);
+            cmbAddCategory.TabIndex = 3;
+            // 
+            // txtAddModel
+            // 
+            txtAddModel.Font = new Font("Segoe UI", 9.5F);
+            txtAddModel.Location = new Point(176, 42);
+            txtAddModel.Name = "txtAddModel";
+            txtAddModel.PlaceholderText = "Model (e.g. RAV4)";
+            txtAddModel.Size = new Size(160, 24);
+            txtAddModel.TabIndex = 2;
+            // 
+            // txtAddBrand
+            // 
+            txtAddBrand.Font = new Font("Segoe UI", 9.5F);
+            txtAddBrand.Location = new Point(16, 42);
+            txtAddBrand.Name = "txtAddBrand";
+            txtAddBrand.PlaceholderText = "Brand (e.g. Toyota)";
+            txtAddBrand.Size = new Size(150, 24);
+            txtAddBrand.TabIndex = 1;
+            // 
+            // lblAddCarTitle
+            // 
+            lblAddCarTitle.AutoSize = true;
+            lblAddCarTitle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
+            lblAddCarTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblAddCarTitle.Location = new Point(14, 12);
+            lblAddCarTitle.Name = "lblAddCarTitle";
+            lblAddCarTitle.Size = new Size(191, 19);
+            lblAddCarTitle.TabIndex = 0;
+            lblAddCarTitle.Text = "➕ Add New Vehicle to Fleet";
+            // 
+            // fleetHeaderPanel
+            // 
+            fleetHeaderPanel.BackColor = Color.White;
+            fleetHeaderPanel.Controls.Add(cmbFleetFilter);
+            fleetHeaderPanel.Controls.Add(txtFleetSearch);
+            fleetHeaderPanel.Controls.Add(lblFleetTitle);
+            fleetHeaderPanel.Dock = DockStyle.Top;
+            fleetHeaderPanel.Location = new Point(0, 0);
+            fleetHeaderPanel.Name = "fleetHeaderPanel";
+            fleetHeaderPanel.Padding = new Padding(14);
+            fleetHeaderPanel.Size = new Size(850, 60);
+            fleetHeaderPanel.TabIndex = 0;
+            // 
+            // cmbFleetFilter
+            // 
+            cmbFleetFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cmbFleetFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFleetFilter.Font = new Font("Segoe UI", 9.5F);
+            cmbFleetFilter.FormattingEnabled = true;
+            cmbFleetFilter.Items.AddRange(new object[] { "All Categories", "Sedan", "SUV", "Luxury", "Sports", "Electric" });
+            cmbFleetFilter.Location = new Point(680, 16);
+            cmbFleetFilter.Name = "cmbFleetFilter";
+            cmbFleetFilter.Size = new Size(150, 25);
+            cmbFleetFilter.TabIndex = 2;
+            cmbFleetFilter.SelectedIndexChanged += cmbFleetFilter_SelectedIndexChanged;
+            // 
+            // txtFleetSearch
+            // 
+            txtFleetSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtFleetSearch.Font = new Font("Segoe UI", 9.5F);
+            txtFleetSearch.Location = new Point(480, 16);
+            txtFleetSearch.Name = "txtFleetSearch";
+            txtFleetSearch.PlaceholderText = "🔍 Search brand or model...";
+            txtFleetSearch.Size = new Size(190, 24);
+            txtFleetSearch.TabIndex = 1;
+            txtFleetSearch.TextChanged += txtFleetSearch_TextChanged;
+            // 
+            // lblFleetTitle
+            // 
+            lblFleetTitle.AutoSize = true;
+            lblFleetTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblFleetTitle.Location = new Point(14, 18);
+            lblFleetTitle.Name = "lblFleetTitle";
+            lblFleetTitle.Size = new Size(153, 21);
+            lblFleetTitle.TabIndex = 0;
+            lblFleetTitle.Text = "🚘 Fleet Inventory";
+            // 
             // panelRentals
             // 
             panelRentals.Controls.Add(gridRentals);
@@ -951,6 +951,23 @@ namespace FinalsCode
             panelRentals.Size = new Size(850, 585);
             panelRentals.TabIndex = 2;
             panelRentals.Visible = false;
+            // 
+            // gridRentals
+            // 
+            gridRentals.AllowUserToAddRows = false;
+            gridRentals.AllowUserToDeleteRows = false;
+            gridRentals.AllowUserToResizeRows = false;
+            gridRentals.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gridRentals.BackgroundColor = Color.White;
+            gridRentals.BorderStyle = BorderStyle.None;
+            gridRentals.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridRentals.Location = new Point(0, 72);
+            gridRentals.Name = "gridRentals";
+            gridRentals.ReadOnly = true;
+            gridRentals.RowHeadersVisible = false;
+            gridRentals.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            gridRentals.Size = new Size(850, 513);
+            gridRentals.TabIndex = 1;
             // 
             // rentalsHeaderPanel
             // 
@@ -963,17 +980,6 @@ namespace FinalsCode
             rentalsHeaderPanel.Padding = new Padding(14);
             rentalsHeaderPanel.Size = new Size(850, 60);
             rentalsHeaderPanel.TabIndex = 0;
-            // 
-            // lblRentalsTitle
-            // 
-            lblRentalsTitle.AutoSize = true;
-            lblRentalsTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblRentalsTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblRentalsTitle.Location = new Point(14, 18);
-            lblRentalsTitle.Name = "lblRentalsTitle";
-            lblRentalsTitle.Size = new Size(207, 21);
-            lblRentalsTitle.TabIndex = 0;
-            lblRentalsTitle.Text = "📋 Active & Recent Rentals";
             // 
             // btnReturnCar
             // 
@@ -992,22 +998,16 @@ namespace FinalsCode
             btnReturnCar.UseVisualStyleBackColor = false;
             btnReturnCar.Click += btnReturnCar_Click;
             // 
-            // gridRentals
+            // lblRentalsTitle
             // 
-            gridRentals.AllowUserToAddRows = false;
-            gridRentals.AllowUserToDeleteRows = false;
-            gridRentals.AllowUserToResizeRows = false;
-            gridRentals.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            gridRentals.BackgroundColor = Color.White;
-            gridRentals.BorderStyle = BorderStyle.None;
-            gridRentals.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridRentals.Location = new Point(0, 72);
-            gridRentals.Name = "gridRentals";
-            gridRentals.ReadOnly = true;
-            gridRentals.RowHeadersVisible = false;
-            gridRentals.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridRentals.Size = new Size(850, 513);
-            gridRentals.TabIndex = 1;
+            lblRentalsTitle.AutoSize = true;
+            lblRentalsTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblRentalsTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblRentalsTitle.Location = new Point(14, 18);
+            lblRentalsTitle.Name = "lblRentalsTitle";
+            lblRentalsTitle.Size = new Size(205, 21);
+            lblRentalsTitle.TabIndex = 0;
+            lblRentalsTitle.Text = "📋 Active & Recent Rentals";
             // 
             // panelDatabase
             // 
@@ -1035,52 +1035,19 @@ namespace FinalsCode
             dbCard.Size = new Size(850, 585);
             dbCard.TabIndex = 0;
             // 
-            // lblDbTitle
+            // txtDbLog
             // 
-            lblDbTitle.AutoSize = true;
-            lblDbTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            lblDbTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblDbTitle.Location = new Point(20, 18);
-            lblDbTitle.Name = "lblDbTitle";
-            lblDbTitle.Size = new Size(295, 25);
-            lblDbTitle.TabIndex = 0;
-            lblDbTitle.Text = "⚙️ SQL Server Database Settings";
-            // 
-            // lblDbSub
-            // 
-            lblDbSub.AutoSize = true;
-            lblDbSub.Font = new Font("Segoe UI", 9F);
-            lblDbSub.ForeColor = Color.FromArgb(100, 116, 139);
-            lblDbSub.Location = new Point(22, 46);
-            lblDbSub.Name = "lblDbSub";
-            lblDbSub.Size = new Size(420, 15);
-            lblDbSub.TabIndex = 1;
-            lblDbSub.Text = "Configure connection to your SQL Server (e.g. RIAMU\\SQLEXPRESS - CarRentalDB)";
-            // 
-            // txtConnString
-            // 
-            txtConnString.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtConnString.Font = new Font("Consolas", 9.5F);
-            txtConnString.Location = new Point(24, 76);
-            txtConnString.Name = "txtConnString";
-            txtConnString.Size = new Size(800, 22);
-            txtConnString.TabIndex = 2;
-            // 
-            // btnTestDbInDash
-            // 
-            btnTestDbInDash.BackColor = Color.FromArgb(37, 99, 235);
-            btnTestDbInDash.Cursor = Cursors.Hand;
-            btnTestDbInDash.FlatAppearance.BorderSize = 0;
-            btnTestDbInDash.FlatStyle = FlatStyle.Flat;
-            btnTestDbInDash.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            btnTestDbInDash.ForeColor = Color.White;
-            btnTestDbInDash.Location = new Point(24, 112);
-            btnTestDbInDash.Name = "btnTestDbInDash";
-            btnTestDbInDash.Size = new Size(180, 36);
-            btnTestDbInDash.TabIndex = 3;
-            btnTestDbInDash.Text = "🔌 Test Connection";
-            btnTestDbInDash.UseVisualStyleBackColor = false;
-            btnTestDbInDash.Click += btnTestDbInDash_Click;
+            txtDbLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtDbLog.BackColor = Color.FromArgb(15, 23, 42);
+            txtDbLog.Font = new Font("Consolas", 9.5F);
+            txtDbLog.ForeColor = Color.FromArgb(226, 232, 240);
+            txtDbLog.Location = new Point(24, 160);
+            txtDbLog.Multiline = true;
+            txtDbLog.Name = "txtDbLog";
+            txtDbLog.ReadOnly = true;
+            txtDbLog.ScrollBars = ScrollBars.Vertical;
+            txtDbLog.Size = new Size(800, 390);
+            txtDbLog.TabIndex = 5;
             // 
             // btnGenerateSql
             // 
@@ -1098,19 +1065,52 @@ namespace FinalsCode
             btnGenerateSql.UseVisualStyleBackColor = false;
             btnGenerateSql.Click += btnGenerateSql_Click;
             // 
-            // txtDbLog
+            // btnTestDbInDash
             // 
-            txtDbLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtDbLog.BackColor = Color.FromArgb(15, 23, 42);
-            txtDbLog.Font = new Font("Consolas", 9.5F);
-            txtDbLog.ForeColor = Color.FromArgb(226, 232, 240);
-            txtDbLog.Location = new Point(24, 160);
-            txtDbLog.Multiline = true;
-            txtDbLog.Name = "txtDbLog";
-            txtDbLog.ReadOnly = true;
-            txtDbLog.ScrollBars = ScrollBars.Vertical;
-            txtDbLog.Size = new Size(800, 390);
-            txtDbLog.TabIndex = 5;
+            btnTestDbInDash.BackColor = Color.FromArgb(37, 99, 235);
+            btnTestDbInDash.Cursor = Cursors.Hand;
+            btnTestDbInDash.FlatAppearance.BorderSize = 0;
+            btnTestDbInDash.FlatStyle = FlatStyle.Flat;
+            btnTestDbInDash.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnTestDbInDash.ForeColor = Color.White;
+            btnTestDbInDash.Location = new Point(24, 112);
+            btnTestDbInDash.Name = "btnTestDbInDash";
+            btnTestDbInDash.Size = new Size(180, 36);
+            btnTestDbInDash.TabIndex = 3;
+            btnTestDbInDash.Text = "🔌 Test Connection";
+            btnTestDbInDash.UseVisualStyleBackColor = false;
+            btnTestDbInDash.Click += btnTestDbInDash_Click;
+            // 
+            // txtConnString
+            // 
+            txtConnString.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtConnString.Font = new Font("Consolas", 9.5F);
+            txtConnString.Location = new Point(24, 76);
+            txtConnString.Name = "txtConnString";
+            txtConnString.Size = new Size(800, 22);
+            txtConnString.TabIndex = 2;
+            // 
+            // lblDbSub
+            // 
+            lblDbSub.AutoSize = true;
+            lblDbSub.Font = new Font("Segoe UI", 9F);
+            lblDbSub.ForeColor = Color.FromArgb(100, 116, 139);
+            lblDbSub.Location = new Point(22, 46);
+            lblDbSub.Name = "lblDbSub";
+            lblDbSub.Size = new Size(441, 15);
+            lblDbSub.TabIndex = 1;
+            lblDbSub.Text = "Configure connection to your SQL Server (e.g. RIAMU\\SQLEXPRESS - CarRentalDB)";
+            // 
+            // lblDbTitle
+            // 
+            lblDbTitle.AutoSize = true;
+            lblDbTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lblDbTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblDbTitle.Location = new Point(20, 18);
+            lblDbTitle.Name = "lblDbTitle";
+            lblDbTitle.Size = new Size(294, 25);
+            lblDbTitle.TabIndex = 0;
+            lblDbTitle.Text = "⚙️ SQL Server Database Settings";
             // 
             // DashboardForm
             // 
@@ -1131,6 +1131,15 @@ namespace FinalsCode
             topBarPanel.PerformLayout();
             mainContainerPanel.ResumeLayout(false);
             panelOverview.ResumeLayout(false);
+            overviewSplit.ResumeLayout(false);
+            bookingBoxPanel.ResumeLayout(false);
+            bookingBoxPanel.PerformLayout();
+            costSummaryPanel.ResumeLayout(false);
+            costSummaryPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numDays).EndInit();
+            overviewFleetCard.ResumeLayout(false);
+            overviewFleetCard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).EndInit();
             overviewStatsLayout.ResumeLayout(false);
             cardTotalCars.ResumeLayout(false);
             cardTotalCars.PerformLayout();
@@ -1140,26 +1149,17 @@ namespace FinalsCode
             cardRentedCars.PerformLayout();
             cardRevenue.ResumeLayout(false);
             cardRevenue.PerformLayout();
-            overviewSplit.ResumeLayout(false);
-            bookingBoxPanel.ResumeLayout(false);
-            bookingBoxPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numDays).EndInit();
-            costSummaryPanel.ResumeLayout(false);
-            costSummaryPanel.PerformLayout();
-            overviewFleetCard.ResumeLayout(false);
-            overviewFleetCard.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).EndInit();
             panelFleet.ResumeLayout(false);
-            fleetHeaderPanel.ResumeLayout(false);
-            fleetHeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridFleet).EndInit();
             addCarBox.ResumeLayout(false);
             addCarBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).EndInit();
+            fleetHeaderPanel.ResumeLayout(false);
+            fleetHeaderPanel.PerformLayout();
             panelRentals.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)gridRentals).EndInit();
             rentalsHeaderPanel.ResumeLayout(false);
             rentalsHeaderPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)gridRentals).EndInit();
             panelDatabase.ResumeLayout(false);
             dbCard.ResumeLayout(false);
             dbCard.PerformLayout();

@@ -283,6 +283,7 @@ namespace FinalsCode
             fleetPreviewGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             fleetPreviewGrid.Size = new Size(354, 310);
             fleetPreviewGrid.TabIndex = 2;
+            fleetPreviewGrid.CellContentClick += fleetPreviewGrid_CellContentClick;
             // 
             // statsPillPanel
             // 
