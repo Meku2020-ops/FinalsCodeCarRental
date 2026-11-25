@@ -241,6 +241,9 @@ namespace FinalsCode
             string phone = txtCustPhone.Text.Trim();
             int days = (int)numDays.Value;
 
+            Terms_and_Conditons form = new Terms_and_Conditons();
+            form.ShowDialog();
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Please enter the customer's full name.", "Validation Error",

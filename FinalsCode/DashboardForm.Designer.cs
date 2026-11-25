@@ -36,6 +36,8 @@ namespace FinalsCode
             panelOverview = new Panel();
             overviewSplit = new TableLayoutPanel();
             bookingBoxPanel = new Panel();
+            label1 = new Label();
+            textBox1 = new TextBox();
             lblBookingFeedback = new Label();
             btnConfirmBooking = new Button();
             costSummaryPanel = new Panel();
@@ -135,7 +137,7 @@ namespace FinalsCode
             sidebarPanel.Dock = DockStyle.Left;
             sidebarPanel.Location = new Point(0, 0);
             sidebarPanel.Name = "sidebarPanel";
-            sidebarPanel.Size = new Size(230, 700);
+            sidebarPanel.Size = new Size(230, 749);
             sidebarPanel.TabIndex = 0;
             // 
             // btnBack
@@ -147,7 +149,7 @@ namespace FinalsCode
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Segoe UI", 9F);
             btnBack.ForeColor = Color.FromArgb(148, 163, 184);
-            btnBack.Location = new Point(12, 642);
+            btnBack.Location = new Point(12, 691);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(206, 42);
             btnBack.TabIndex = 6;
@@ -172,7 +174,9 @@ namespace FinalsCode
             btnNavDatabase.TextAlign = ContentAlignment.MiddleLeft;
             btnNavDatabase.UseVisualStyleBackColor = true;
             btnNavDatabase.Click += btnNavDatabase_Click;
-            
+            // 
+            // btnNavRentals
+            // 
             btnNavRentals.BackColor = Color.FromArgb(15, 23, 42);
             btnNavRentals.Cursor = Cursors.Hand;
             btnNavRentals.FlatAppearance.BorderSize = 0;
@@ -288,7 +292,7 @@ namespace FinalsCode
             topBarPanel.Location = new Point(230, 0);
             topBarPanel.Name = "topBarPanel";
             topBarPanel.Padding = new Padding(24, 12, 24, 12);
-            topBarPanel.Size = new Size(890, 75);
+            topBarPanel.Size = new Size(897, 75);
             topBarPanel.TabIndex = 1;
             // 
             // lblStatusBadge
@@ -298,7 +302,7 @@ namespace FinalsCode
             lblStatusBadge.BackColor = Color.FromArgb(240, 253, 244);
             lblStatusBadge.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
             lblStatusBadge.ForeColor = Color.FromArgb(22, 101, 52);
-            lblStatusBadge.Location = new Point(748, 42);
+            lblStatusBadge.Location = new Point(755, 42);
             lblStatusBadge.Name = "lblStatusBadge";
             lblStatusBadge.Padding = new Padding(6, 3, 6, 3);
             lblStatusBadge.Size = new Size(112, 21);
@@ -310,7 +314,7 @@ namespace FinalsCode
             lblLiveClock.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblLiveClock.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
             lblLiveClock.ForeColor = Color.FromArgb(71, 85, 105);
-            lblLiveClock.Location = new Point(620, 14);
+            lblLiveClock.Location = new Point(627, 14);
             lblLiveClock.Name = "lblLiveClock";
             lblLiveClock.Size = new Size(246, 22);
             lblLiveClock.TabIndex = 2;
@@ -341,6 +345,7 @@ namespace FinalsCode
             // 
             // mainContainerPanel
             // 
+            mainContainerPanel.AutoSize = true;
             mainContainerPanel.BackColor = Color.FromArgb(241, 245, 249);
             mainContainerPanel.Controls.Add(panelOverview);
             mainContainerPanel.Controls.Add(panelFleet);
@@ -350,7 +355,7 @@ namespace FinalsCode
             mainContainerPanel.Location = new Point(230, 75);
             mainContainerPanel.Name = "mainContainerPanel";
             mainContainerPanel.Padding = new Padding(20);
-            mainContainerPanel.Size = new Size(890, 625);
+            mainContainerPanel.Size = new Size(897, 674);
             mainContainerPanel.TabIndex = 2;
             // 
             // panelOverview
@@ -360,7 +365,7 @@ namespace FinalsCode
             panelOverview.Dock = DockStyle.Fill;
             panelOverview.Location = new Point(20, 20);
             panelOverview.Name = "panelOverview";
-            panelOverview.Size = new Size(850, 585);
+            panelOverview.Size = new Size(857, 634);
             panelOverview.TabIndex = 0;
             // 
             // overviewSplit
@@ -375,12 +380,15 @@ namespace FinalsCode
             overviewSplit.Name = "overviewSplit";
             overviewSplit.RowCount = 1;
             overviewSplit.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            overviewSplit.Size = new Size(850, 475);
+            overviewSplit.Size = new Size(857, 524);
             overviewSplit.TabIndex = 1;
             // 
             // bookingBoxPanel
             // 
+            bookingBoxPanel.AutoScroll = true;
             bookingBoxPanel.BackColor = Color.White;
+            bookingBoxPanel.Controls.Add(label1);
+            bookingBoxPanel.Controls.Add(textBox1);
             bookingBoxPanel.Controls.Add(lblBookingFeedback);
             bookingBoxPanel.Controls.Add(btnConfirmBooking);
             bookingBoxPanel.Controls.Add(costSummaryPanel);
@@ -399,16 +407,36 @@ namespace FinalsCode
             bookingBoxPanel.Margin = new Padding(0, 0, 14, 0);
             bookingBoxPanel.Name = "bookingBoxPanel";
             bookingBoxPanel.Padding = new Padding(18);
-            bookingBoxPanel.Size = new Size(346, 475);
+            bookingBoxPanel.Size = new Size(346, 524);
             bookingBoxPanel.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(51, 65, 85);
+            label1.Location = new Point(20, 219);
+            label1.Name = "label1";
+            label1.Size = new Size(103, 15);
+            label1.TabIndex = 14;
+            label1.Text = "Request(Optional)";
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 9.5F);
+            textBox1.Location = new Point(18, 237);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Special Request";
+            textBox1.Size = new Size(308, 24);
+            textBox1.TabIndex = 13;
             // 
             // lblBookingFeedback
             // 
             lblBookingFeedback.Font = new Font("Segoe UI", 8.5F);
             lblBookingFeedback.ForeColor = Color.FromArgb(100, 116, 139);
-            lblBookingFeedback.Location = new Point(18, 405);
+            lblBookingFeedback.Location = new Point(37, 463);
             lblBookingFeedback.Name = "lblBookingFeedback";
-            lblBookingFeedback.Size = new Size(308, 55);
+            lblBookingFeedback.Size = new Size(277, 26);
             lblBookingFeedback.TabIndex = 12;
             lblBookingFeedback.Text = "Select a vehicle and click Confirm to record rental.";
             // 
@@ -420,9 +448,9 @@ namespace FinalsCode
             btnConfirmBooking.FlatStyle = FlatStyle.Flat;
             btnConfirmBooking.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
             btnConfirmBooking.ForeColor = Color.White;
-            btnConfirmBooking.Location = new Point(18, 350);
+            btnConfirmBooking.Location = new Point(37, 406);
             btnConfirmBooking.Name = "btnConfirmBooking";
-            btnConfirmBooking.Size = new Size(308, 44);
+            btnConfirmBooking.Size = new Size(258, 43);
             btnConfirmBooking.TabIndex = 11;
             btnConfirmBooking.Text = "🚀 Confirm Rental Booking";
             btnConfirmBooking.UseVisualStyleBackColor = false;
@@ -434,7 +462,7 @@ namespace FinalsCode
             costSummaryPanel.BorderStyle = BorderStyle.FixedSingle;
             costSummaryPanel.Controls.Add(lblTotalCalculated);
             costSummaryPanel.Controls.Add(lblDailyRateNote);
-            costSummaryPanel.Location = new Point(18, 275);
+            costSummaryPanel.Location = new Point(18, 328);
             costSummaryPanel.Name = "costSummaryPanel";
             costSummaryPanel.Padding = new Padding(10);
             costSummaryPanel.Size = new Size(308, 64);
@@ -459,14 +487,14 @@ namespace FinalsCode
             lblDailyRateNote.ForeColor = Color.FromArgb(100, 116, 139);
             lblDailyRateNote.Location = new Point(8, 8);
             lblDailyRateNote.Name = "lblDailyRateNote";
-            lblDailyRateNote.Size = new Size(115, 15);
+            lblDailyRateNote.Size = new Size(91, 15);
             lblDailyRateNote.TabIndex = 0;
-            lblDailyRateNote.Text = "Estimated Total (3d):";
+            lblDailyRateNote.Text = "Estimated Total:";
             // 
             // numDays
             // 
             numDays.Font = new Font("Segoe UI", 9.5F);
-            numDays.Location = new Point(18, 239);
+            numDays.Location = new Point(16, 289);
             numDays.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
             numDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numDays.Name = "numDays";
@@ -480,7 +508,7 @@ namespace FinalsCode
             lblDays.AutoSize = true;
             lblDays.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
             lblDays.ForeColor = Color.FromArgb(51, 65, 85);
-            lblDays.Location = new Point(16, 220);
+            lblDays.Location = new Point(15, 271);
             lblDays.Name = "lblDays";
             lblDays.Size = new Size(135, 15);
             lblDays.TabIndex = 8;
@@ -580,7 +608,7 @@ namespace FinalsCode
             overviewFleetCard.Margin = new Padding(0);
             overviewFleetCard.Name = "overviewFleetCard";
             overviewFleetCard.Padding = new Padding(16);
-            overviewFleetCard.Size = new Size(490, 475);
+            overviewFleetCard.Size = new Size(497, 524);
             overviewFleetCard.TabIndex = 1;
             // 
             // gridOverviewFleet
@@ -597,7 +625,7 @@ namespace FinalsCode
             gridOverviewFleet.ReadOnly = true;
             gridOverviewFleet.RowHeadersVisible = false;
             gridOverviewFleet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridOverviewFleet.Size = new Size(462, 413);
+            gridOverviewFleet.Size = new Size(469, 462);
             gridOverviewFleet.TabIndex = 1;
             // 
             // lblOverviewFleetTitle
@@ -627,7 +655,7 @@ namespace FinalsCode
             overviewStatsLayout.Name = "overviewStatsLayout";
             overviewStatsLayout.RowCount = 1;
             overviewStatsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            overviewStatsLayout.Size = new Size(850, 95);
+            overviewStatsLayout.Size = new Size(857, 95);
             overviewStatsLayout.TabIndex = 0;
             // 
             // cardTotalCars
@@ -640,7 +668,7 @@ namespace FinalsCode
             cardTotalCars.Margin = new Padding(0, 0, 10, 0);
             cardTotalCars.Name = "cardTotalCars";
             cardTotalCars.Padding = new Padding(14);
-            cardTotalCars.Size = new Size(202, 95);
+            cardTotalCars.Size = new Size(204, 95);
             cardTotalCars.TabIndex = 0;
             // 
             // lblStatTotalVal
@@ -671,11 +699,11 @@ namespace FinalsCode
             cardAvailCars.Controls.Add(lblStatAvailVal);
             cardAvailCars.Controls.Add(lblStatAvailTitle);
             cardAvailCars.Dock = DockStyle.Fill;
-            cardAvailCars.Location = new Point(212, 0);
+            cardAvailCars.Location = new Point(214, 0);
             cardAvailCars.Margin = new Padding(0, 0, 10, 0);
             cardAvailCars.Name = "cardAvailCars";
             cardAvailCars.Padding = new Padding(14);
-            cardAvailCars.Size = new Size(202, 95);
+            cardAvailCars.Size = new Size(204, 95);
             cardAvailCars.TabIndex = 1;
             // 
             // lblStatAvailVal
@@ -706,11 +734,11 @@ namespace FinalsCode
             cardRentedCars.Controls.Add(lblStatRentedVal);
             cardRentedCars.Controls.Add(lblStatRentedTitle);
             cardRentedCars.Dock = DockStyle.Fill;
-            cardRentedCars.Location = new Point(424, 0);
+            cardRentedCars.Location = new Point(428, 0);
             cardRentedCars.Margin = new Padding(0, 0, 10, 0);
             cardRentedCars.Name = "cardRentedCars";
             cardRentedCars.Padding = new Padding(14);
-            cardRentedCars.Size = new Size(202, 95);
+            cardRentedCars.Size = new Size(204, 95);
             cardRentedCars.TabIndex = 2;
             // 
             // lblStatRentedVal
@@ -741,11 +769,11 @@ namespace FinalsCode
             cardRevenue.Controls.Add(lblStatRevenueVal);
             cardRevenue.Controls.Add(lblStatRevenueTitle);
             cardRevenue.Dock = DockStyle.Fill;
-            cardRevenue.Location = new Point(636, 0);
+            cardRevenue.Location = new Point(642, 0);
             cardRevenue.Margin = new Padding(0);
             cardRevenue.Name = "cardRevenue";
             cardRevenue.Padding = new Padding(14);
-            cardRevenue.Size = new Size(214, 95);
+            cardRevenue.Size = new Size(215, 95);
             cardRevenue.TabIndex = 3;
             // 
             // lblStatRevenueVal
@@ -779,7 +807,7 @@ namespace FinalsCode
             panelFleet.Dock = DockStyle.Fill;
             panelFleet.Location = new Point(20, 20);
             panelFleet.Name = "panelFleet";
-            panelFleet.Size = new Size(850, 585);
+            panelFleet.Size = new Size(857, 634);
             panelFleet.TabIndex = 1;
             panelFleet.Visible = false;
             // 
@@ -797,7 +825,7 @@ namespace FinalsCode
             gridFleet.ReadOnly = true;
             gridFleet.RowHeadersVisible = false;
             gridFleet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridFleet.Size = new Size(850, 370);
+            gridFleet.Size = new Size(857, 419);
             gridFleet.TabIndex = 1;
             // 
             // addCarBox
@@ -811,10 +839,10 @@ namespace FinalsCode
             addCarBox.Controls.Add(txtAddBrand);
             addCarBox.Controls.Add(lblAddCarTitle);
             addCarBox.Dock = DockStyle.Bottom;
-            addCarBox.Location = new Point(0, 455);
+            addCarBox.Location = new Point(0, 504);
             addCarBox.Name = "addCarBox";
             addCarBox.Padding = new Padding(16);
-            addCarBox.Size = new Size(850, 130);
+            addCarBox.Size = new Size(857, 130);
             addCarBox.TabIndex = 2;
             // 
             // btnAddCar
@@ -903,7 +931,7 @@ namespace FinalsCode
             fleetHeaderPanel.Location = new Point(0, 0);
             fleetHeaderPanel.Name = "fleetHeaderPanel";
             fleetHeaderPanel.Padding = new Padding(14);
-            fleetHeaderPanel.Size = new Size(850, 60);
+            fleetHeaderPanel.Size = new Size(857, 60);
             fleetHeaderPanel.TabIndex = 0;
             // 
             // cmbFleetFilter
@@ -913,7 +941,7 @@ namespace FinalsCode
             cmbFleetFilter.Font = new Font("Segoe UI", 9.5F);
             cmbFleetFilter.FormattingEnabled = true;
             cmbFleetFilter.Items.AddRange(new object[] { "All Categories", "Sedan", "SUV", "Luxury", "Sports", "Electric" });
-            cmbFleetFilter.Location = new Point(680, 16);
+            cmbFleetFilter.Location = new Point(687, 16);
             cmbFleetFilter.Name = "cmbFleetFilter";
             cmbFleetFilter.Size = new Size(150, 25);
             cmbFleetFilter.TabIndex = 2;
@@ -923,7 +951,7 @@ namespace FinalsCode
             // 
             txtFleetSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtFleetSearch.Font = new Font("Segoe UI", 9.5F);
-            txtFleetSearch.Location = new Point(480, 16);
+            txtFleetSearch.Location = new Point(487, 16);
             txtFleetSearch.Name = "txtFleetSearch";
             txtFleetSearch.PlaceholderText = "🔍 Search brand or model...";
             txtFleetSearch.Size = new Size(190, 24);
@@ -948,7 +976,7 @@ namespace FinalsCode
             panelRentals.Dock = DockStyle.Fill;
             panelRentals.Location = new Point(20, 20);
             panelRentals.Name = "panelRentals";
-            panelRentals.Size = new Size(850, 585);
+            panelRentals.Size = new Size(857, 634);
             panelRentals.TabIndex = 2;
             panelRentals.Visible = false;
             // 
@@ -966,7 +994,7 @@ namespace FinalsCode
             gridRentals.ReadOnly = true;
             gridRentals.RowHeadersVisible = false;
             gridRentals.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridRentals.Size = new Size(850, 513);
+            gridRentals.Size = new Size(857, 562);
             gridRentals.TabIndex = 1;
             // 
             // rentalsHeaderPanel
@@ -978,7 +1006,7 @@ namespace FinalsCode
             rentalsHeaderPanel.Location = new Point(0, 0);
             rentalsHeaderPanel.Name = "rentalsHeaderPanel";
             rentalsHeaderPanel.Padding = new Padding(14);
-            rentalsHeaderPanel.Size = new Size(850, 60);
+            rentalsHeaderPanel.Size = new Size(857, 60);
             rentalsHeaderPanel.TabIndex = 0;
             // 
             // btnReturnCar
@@ -990,7 +1018,7 @@ namespace FinalsCode
             btnReturnCar.FlatStyle = FlatStyle.Flat;
             btnReturnCar.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
             btnReturnCar.ForeColor = Color.White;
-            btnReturnCar.Location = new Point(660, 12);
+            btnReturnCar.Location = new Point(667, 12);
             btnReturnCar.Name = "btnReturnCar";
             btnReturnCar.Size = new Size(170, 36);
             btnReturnCar.TabIndex = 1;
@@ -1015,7 +1043,7 @@ namespace FinalsCode
             panelDatabase.Dock = DockStyle.Fill;
             panelDatabase.Location = new Point(20, 20);
             panelDatabase.Name = "panelDatabase";
-            panelDatabase.Size = new Size(850, 585);
+            panelDatabase.Size = new Size(857, 634);
             panelDatabase.TabIndex = 3;
             panelDatabase.Visible = false;
             // 
@@ -1032,7 +1060,7 @@ namespace FinalsCode
             dbCard.Location = new Point(0, 0);
             dbCard.Name = "dbCard";
             dbCard.Padding = new Padding(24);
-            dbCard.Size = new Size(850, 585);
+            dbCard.Size = new Size(857, 634);
             dbCard.TabIndex = 0;
             // 
             // txtDbLog
@@ -1046,7 +1074,7 @@ namespace FinalsCode
             txtDbLog.Name = "txtDbLog";
             txtDbLog.ReadOnly = true;
             txtDbLog.ScrollBars = ScrollBars.Vertical;
-            txtDbLog.Size = new Size(800, 390);
+            txtDbLog.Size = new Size(807, 439);
             txtDbLog.TabIndex = 5;
             // 
             // btnGenerateSql
@@ -1087,7 +1115,7 @@ namespace FinalsCode
             txtConnString.Font = new Font("Consolas", 9.5F);
             txtConnString.Location = new Point(24, 76);
             txtConnString.Name = "txtConnString";
-            txtConnString.Size = new Size(800, 22);
+            txtConnString.Size = new Size(807, 22);
             txtConnString.TabIndex = 2;
             // 
             // lblDbSub
@@ -1116,7 +1144,7 @@ namespace FinalsCode
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1120, 700);
+            ClientSize = new Size(1127, 749);
             Controls.Add(mainContainerPanel);
             Controls.Add(topBarPanel);
             Controls.Add(sidebarPanel);
@@ -1164,6 +1192,7 @@ namespace FinalsCode
             dbCard.ResumeLayout(false);
             dbCard.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -1245,5 +1274,7 @@ namespace FinalsCode
         private Button btnTestDbInDash;
         private Button btnGenerateSql;
         private TextBox txtDbLog;
+        private TextBox textBox1;
+        private Label label1;
     }
 }
