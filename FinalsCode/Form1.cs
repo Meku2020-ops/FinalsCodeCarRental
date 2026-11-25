@@ -10,11 +10,15 @@ namespace FinalsCode
         public Form1()
         {
             InitializeComponent();
+            this.Load += Form1_Load;
+        }
+
+        private void Form1_Load(object? sender, EventArgs e)
+        {
+            if (DesignMode) return;
+
             ConfigurePreviewGrid();
-
-            
             CarRentalService.EnsureDatabaseTables(out _);
-
             LoadFleetPreview();
         }
 

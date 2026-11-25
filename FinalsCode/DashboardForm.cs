@@ -14,6 +14,13 @@ namespace FinalsCode
             InitializeComponent();
 
             _clockTimer = new System.Windows.Forms.Timer();
+            this.Load += DashboardForm_Load;
+        }
+
+        private void DashboardForm_Load(object? sender, EventArgs e)
+        {
+            if (DesignMode) return;
+
             _clockTimer.Interval = 1000;
             _clockTimer.Tick += (s, e) => UpdateClock();
             _clockTimer.Start();
@@ -26,7 +33,7 @@ namespace FinalsCode
             UpdateClock();
 
             txtConnString.Text = CarRentalService.ConnectionString;
-            cmbAddCategory.SelectedIndex = 0;
+            if (cmbAddCategory.Items.Count > 0) cmbAddCategory.SelectedIndex = 0;
             if (cmbFleetFilter.Items.Count > 0) cmbFleetFilter.SelectedIndex = 0;
         }
 

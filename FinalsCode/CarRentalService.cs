@@ -43,7 +43,7 @@ namespace FinalsCode
     public static class CarRentalService
     {
         public static string ConnectionString { get; set; } =
-            "Server=RIAMU\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;";
+            "Server=RIAMU\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;Connection Timeout=5;";
 
         private static SqlConnection GetOpenConnection()
         {
