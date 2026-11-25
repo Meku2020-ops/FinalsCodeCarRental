@@ -461,7 +461,7 @@ namespace FinalsCode
             lblDailyRateNote.ForeColor = Color.FromArgb(100, 116, 139);
             lblDailyRateNote.Location = new Point(8, 8);
             lblDailyRateNote.Name = "lblDailyRateNote";
-            lblDailyRateNote.Size = new Size(114, 15);
+            lblDailyRateNote.Size = new Size(115, 15);
             lblDailyRateNote.TabIndex = 0;
             lblDailyRateNote.Text = "Estimated Total (3d):";
             // 
@@ -568,7 +568,7 @@ namespace FinalsCode
             lblBookingTitle.ForeColor = Color.FromArgb(15, 23, 42);
             lblBookingTitle.Location = new Point(14, 14);
             lblBookingTitle.Name = "lblBookingTitle";
-            lblBookingTitle.Size = new Size(220, 21);
+            lblBookingTitle.Size = new Size(221, 21);
             lblBookingTitle.TabIndex = 0;
             lblBookingTitle.Text = "⚡ Quick Rent (Get Started)";
             // 
@@ -757,9 +757,10 @@ namespace FinalsCode
             lblStatRevenueVal.ForeColor = Color.FromArgb(124, 58, 237);
             lblStatRevenueVal.Location = new Point(10, 36);
             lblStatRevenueVal.Name = "lblStatRevenueVal";
-            lblStatRevenueVal.Size = new Size(105, 32);
+            lblStatRevenueVal.Size = new Size(91, 32);
             lblStatRevenueVal.TabIndex = 1;
-            lblStatRevenueVal.Text = "$940.00";
+            lblStatRevenueVal.Text = "940.00";
+            lblStatRevenueVal.Click += lblStatRevenueVal_Click;
             // 
             // lblStatRevenueTitle
             // 
@@ -1006,7 +1007,7 @@ namespace FinalsCode
             lblRentalsTitle.ForeColor = Color.FromArgb(15, 23, 42);
             lblRentalsTitle.Location = new Point(14, 18);
             lblRentalsTitle.Name = "lblRentalsTitle";
-            lblRentalsTitle.Size = new Size(202, 21);
+            lblRentalsTitle.Size = new Size(205, 21);
             lblRentalsTitle.TabIndex = 0;
             lblRentalsTitle.Text = "📋 Active & Recent Rentals";
             // 

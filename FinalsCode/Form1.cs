@@ -13,6 +13,8 @@ namespace FinalsCode
             this.Load += Form1_Load;
         }
 
+        //j
+
         private void Form1_Load(object? sender, EventArgs e)
         {
             if (DesignMode) return;

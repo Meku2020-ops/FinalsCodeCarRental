@@ -108,7 +108,7 @@ namespace FinalsCode
             lblStatTotalVal.Text = $"{stats.TotalCars} Cars";
             lblStatAvailVal.Text = $"{stats.AvailableCars} Cars";
             lblStatRentedVal.Text = $"{stats.RentedCars} Cars";
-            lblStatRevenueVal.Text = $"${stats.TotalRevenue:N2}";
+            lblStatRevenueVal.Text = $"PHP{stats.TotalRevenue:N2}";
         }
 
         private void LoadOverviewFleet()
@@ -514,6 +514,16 @@ GO";
         }
 
         private void costSummaryPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblStatRevenueVal_Click(object sender, EventArgs e)
         {
 
         }
