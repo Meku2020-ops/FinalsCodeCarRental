@@ -254,6 +254,10 @@ namespace FinalsCode
                 {
                     gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.OrangeRed;
                 }
+                else if (r.Status == "Reserved")
+                {
+                    gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.FromArgb(37, 99, 235); // blue for advance booking
+                }
                 else
                 {
                     gridRentals.Rows[idx].Cells["Status"].Style.ForeColor = Color.Green;
@@ -263,24 +267,32 @@ namespace FinalsCode
 
         private void PopulateCarComboBox()
         {
-            var availCars = CarRentalService.GetAvailableCars();
+            var allCars = CarRentalService.GetAllCarsForBooking();
 
             cmbResCar.DataSource = null;
             cmbResCar.DisplayMember = "DisplayName";
             cmbResCar.ValueMember = "Id";
-            cmbResCar.DataSource = availCars;
+            cmbResCar.DataSource = allCars;
 
-            if (availCars.Count == 0)
+            int availCount = 0;
+            int rentedCount = 0;
+            foreach (var c in allCars)
+            {
+                if (c.Status == "Available") availCount++;
+                else if (c.Status == "Rented") rentedCount++;
+            }
+
+            if (allCars.Count == 0)
             {
                 btnResSubmit.Enabled = false;
                 lblResFeedback.ForeColor = Color.OrangeRed;
-                lblResFeedback.Text = "All cars are currently rented out or database has no available cars.";
+                lblResFeedback.Text = "No vehicles found in database.";
             }
             else
             {
                 btnResSubmit.Enabled = true;
                 lblResFeedback.ForeColor = Color.Gray;
-                lblResFeedback.Text = availCars.Count + " vehicles currently available in database.";
+                lblResFeedback.Text = availCount + " available now · " + rentedCount + " currently rented (advance booking allowed for non-conflicting dates)";
             }
         }
 
@@ -291,7 +303,17 @@ namespace FinalsCode
             {
                 int days = (int)numResDays.Value;
                 decimal total = selectedCar.DailyRate * days;
-                lblResVehicleSummary.Text = selectedCar.Brand + " " + selectedCar.Model + " (" + selectedCar.Seaters + "-Seater)";
+
+                // Show advance booking warning if car is currently rented
+                if (selectedCar.Status == "Rented")
+                {
+                    lblResVehicleSummary.Text = "⚠️ ADVANCE BOOKING — " + selectedCar.Brand + " " + selectedCar.Model + " (currently rented, pick non-conflicting dates)";
+                }
+                else
+                {
+                    lblResVehicleSummary.Text = selectedCar.Brand + " " + selectedCar.Model + " (" + selectedCar.Seaters + "-Seater)";
+                }
+
                 lblResScheduleSummary.Text = dtpResPickupDate.Value.ToString("MMM dd, yyyy") + " → " +
                     dtpResReturnDate.Value.ToString("MMM dd, yyyy") + " (" + days + " day/s @ ₱" + selectedCar.DailyRate.ToString("F2") + "/day)";
                 lblResTotalAmount.Text = "₱" + total.ToString("F2");
@@ -489,8 +511,12 @@ namespace FinalsCode
                 lblResFeedback.ForeColor = Color.Green;
                 lblResFeedback.Text = "✔ Reservation #" + rental.RentalId + " saved in SQL Server for " + rental.CustomerName + "!";
 
+                // Show different message for advance (future) vs immediate (today) booking
+                string bookingType = rental.Status == "Reserved" ? "ADVANCE RESERVATION (Future Date)" : "ACTIVE BOOKING (Starts Today)";
+
                 MessageBox.Show(
                     "Reservation Saved to SQL Database!\n\n" +
+                    "Booking Type: " + bookingType + "\n" +
                     "Reservation ID: #" + rental.RentalId + "\n" +
                     "Customer: " + rental.CustomerName + "\n" +
                     "Valid ID: " + rental.IdType + "\n" +

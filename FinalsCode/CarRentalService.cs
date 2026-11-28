@@ -15,7 +15,7 @@ namespace FinalsCode
         public decimal DailyRate { get; set; }
         public string Status { get; set; } = "Available";
 
-        public string DisplayName => Brand + " " + Model + " (" + Category + ", " + Seaters + "-Seater) - ₱" + DailyRate.ToString("F2") + "/day";
+        public string DisplayName => Brand + " " + Model + " (" + Category + ", " + Seaters + "-Seater) - ₱" + DailyRate.ToString("F2") + "/day [" + Status + "]";
     }
 
     public class Rental
@@ -163,6 +163,35 @@ IF COL_LENGTH('Rentals', 'SpecialRequest') IS NULL ALTER TABLE Rentals ADD Speci
         public static List<Car> GetAvailableCars()
         {
             return ReadCars("SELECT CarId, Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status FROM Cars WHERE Status = 'Available' ORDER BY Brand ASC");
+        }
+
+        // Returns ALL cars (available + rented) so users can make advance reservations on non-conflicting dates
+        public static List<Car> GetAllCarsForBooking()
+        {
+            return ReadCars("SELECT CarId, Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status FROM Cars ORDER BY Brand ASC");
+        }
+
+        // Checks if a car already has an active/advance booking that overlaps with the requested dates.
+        // Returns true if there IS a conflict (car is NOT free for those dates).
+        public static bool HasDateConflict(SqlConnection con, int carId, DateTime pickupDate, DateTime returnDate, int excludeRentalId = 0)
+        {
+            string sql = @"
+SELECT COUNT(*) FROM Rentals
+WHERE CarId = @CarId
+  AND Status IN ('Active', 'Reserved')
+  AND RentalId <> @ExcludeId
+  AND RentDate < @ReturnDate
+  AND ReturnDate > @PickupDate";
+
+            using (SqlCommand cmd = new SqlCommand(sql, con))
+            {
+                cmd.Parameters.AddWithValue("@CarId", carId);
+                cmd.Parameters.AddWithValue("@ExcludeId", excludeRentalId);
+                cmd.Parameters.AddWithValue("@PickupDate", pickupDate.Date);
+                cmd.Parameters.AddWithValue("@ReturnDate", returnDate.Date);
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
         }
 
         private static List<Car> ReadCars(string query)
@@ -405,9 +434,8 @@ ORDER BY r.RentalId DESC";
 
                     decimal dailyRate = 0;
                     string carName = "";
-                    string status = "";
 
-                    using (SqlCommand selectCmd = new SqlCommand("SELECT Brand + ' ' + Model AS CarName, DailyRate, Status FROM Cars WHERE CarId = @CarId", con))
+                    using (SqlCommand selectCmd = new SqlCommand("SELECT Brand + ' ' + Model AS CarName, DailyRate FROM Cars WHERE CarId = @CarId", con))
                     {
                         selectCmd.Parameters.AddWithValue("@CarId", carId);
                         using (SqlDataReader reader = selectCmd.ExecuteReader())
@@ -419,21 +447,24 @@ ORDER BY r.RentalId DESC";
                             }
                             carName = reader["CarName"].ToString()!;
                             dailyRate = Convert.ToDecimal(reader["DailyRate"]);
-                            status = reader["Status"].ToString()!;
                         }
                     }
 
-                    if (status != "Available")
+                    // Check for date conflicts — allows advance booking if dates don't overlap
+                    if (HasDateConflict(con, carId, rentDate, dueDate))
                     {
-                        error = "Vehicle '" + carName + "' is already rented or not available.";
+                        error = "'" + carName + "' is already booked or rented for the selected dates.\n\nPlease choose different dates or select another vehicle.";
                         return false;
                     }
 
                     decimal totalCost = dailyRate * days;
 
+                    // If the pickup date is today, reserve as 'Active'; if it's future, mark as 'Reserved'
+                    string reservationStatus = (rentDate == DateTime.Today) ? "Active" : "Reserved";
+
                     string insertSql = @"
 INSERT INTO Rentals (CustomerName, CustomerPhone, CustomerEmail, IdType, CustomerAddress, CarId, RentDate, ReturnDate, TotalDays, TotalCost, PickupLocation, PaymentMethod, SpecialRequest, Status)
-VALUES (@Name, @Phone, @Email, @IdType, @Address, @CarId, @RentDate, @ReturnDate, @Days, @Cost, @PickupLocation, @PaymentMethod, @SpecialRequest, 'Active');
+VALUES (@Name, @Phone, @Email, @IdType, @Address, @CarId, @RentDate, @ReturnDate, @Days, @Cost, @PickupLocation, @PaymentMethod, @SpecialRequest, @Status);
 SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                     int newRentalId;
@@ -452,13 +483,19 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                         insertCmd.Parameters.AddWithValue("@PickupLocation", pickupLocation.Trim());
                         insertCmd.Parameters.AddWithValue("@PaymentMethod", paymentMethod.Trim());
                         insertCmd.Parameters.AddWithValue("@SpecialRequest", specialRequest.Trim());
+                        insertCmd.Parameters.AddWithValue("@Status", reservationStatus);
                         newRentalId = Convert.ToInt32(insertCmd.ExecuteScalar());
                     }
 
-                    using (SqlCommand updateCmd = new SqlCommand("UPDATE Cars SET Status = 'Rented' WHERE CarId = @CarId", con))
+                    // Only mark car as 'Rented' in Cars table if this is an immediate booking (today)
+                    // For advance/future reservations, the car's Cars.Status stays as-is
+                    if (reservationStatus == "Active")
                     {
-                        updateCmd.Parameters.AddWithValue("@CarId", carId);
-                        updateCmd.ExecuteNonQuery();
+                        using (SqlCommand updateCmd = new SqlCommand("UPDATE Cars SET Status = 'Rented' WHERE CarId = @CarId", con))
+                        {
+                            updateCmd.Parameters.AddWithValue("@CarId", carId);
+                            updateCmd.ExecuteNonQuery();
+                        }
                     }
 
                     rental = new Rental();
@@ -477,7 +514,7 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                     rental.PickupLocation = pickupLocation.Trim();
                     rental.PaymentMethod = paymentMethod.Trim();
                     rental.SpecialRequest = specialRequest.Trim();
-                    rental.Status = "Active";
+                    rental.Status = reservationStatus;
 
                     return true;
                 }
@@ -521,19 +558,66 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                         return false;
                     }
 
+                    // Mark this rental as returned
                     using (SqlCommand updateRentCmd = new SqlCommand("UPDATE Rentals SET Status = 'Returned' WHERE RentalId = @RentalId", con))
                     {
                         updateRentCmd.Parameters.AddWithValue("@RentalId", rentalId);
                         updateRentCmd.ExecuteNonQuery();
                     }
 
-                    using (SqlCommand updateCarCmd = new SqlCommand("UPDATE Cars SET Status = 'Available' WHERE CarId = @CarId", con))
+                    // Check if there's a future 'Reserved' booking for the same car that starts today or later
+                    bool hasFutureReservation = false;
+                    using (SqlCommand futureCmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM Rentals WHERE CarId = @CarId AND Status = 'Reserved' AND RentDate >= @Today", con))
                     {
-                        updateCarCmd.Parameters.AddWithValue("@CarId", carId);
-                        updateCarCmd.ExecuteNonQuery();
+                        futureCmd.Parameters.AddWithValue("@CarId", carId);
+                        futureCmd.Parameters.AddWithValue("@Today", DateTime.Today);
+                        hasFutureReservation = Convert.ToInt32(futureCmd.ExecuteScalar()) > 0;
                     }
 
-                    message = "Rental #" + rentalId + " returned successfully! Vehicle is now Available.";
+                    // If the returned car's pickup date is today, activate the next reserved booking
+                    int nextReservedId = 0;
+                    using (SqlCommand nextCmd = new SqlCommand(
+                        "SELECT TOP 1 RentalId FROM Rentals WHERE CarId = @CarId AND Status = 'Reserved' AND RentDate = @Today ORDER BY RentalId ASC", con))
+                    {
+                        nextCmd.Parameters.AddWithValue("@CarId", carId);
+                        nextCmd.Parameters.AddWithValue("@Today", DateTime.Today);
+                        object? result = nextCmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                            nextReservedId = Convert.ToInt32(result);
+                    }
+
+                    if (nextReservedId > 0)
+                    {
+                        // Activate the next booking that starts today
+                        using (SqlCommand activateCmd = new SqlCommand(
+                            "UPDATE Rentals SET Status = 'Active' WHERE RentalId = @Id", con))
+                        {
+                            activateCmd.Parameters.AddWithValue("@Id", nextReservedId);
+                            activateCmd.ExecuteNonQuery();
+                        }
+                        // Keep car as Rented
+                        using (SqlCommand updateCarCmd = new SqlCommand("UPDATE Cars SET Status = 'Rented' WHERE CarId = @CarId", con))
+                        {
+                            updateCarCmd.Parameters.AddWithValue("@CarId", carId);
+                            updateCarCmd.ExecuteNonQuery();
+                        }
+                        message = "Rental #" + rentalId + " returned. Next reservation #" + nextReservedId + " has been automatically activated!";
+                    }
+                    else
+                    {
+                        // No booking today — set car to Available
+                        using (SqlCommand updateCarCmd = new SqlCommand("UPDATE Cars SET Status = 'Available' WHERE CarId = @CarId", con))
+                        {
+                            updateCarCmd.Parameters.AddWithValue("@CarId", carId);
+                            updateCarCmd.ExecuteNonQuery();
+                        }
+                        if (hasFutureReservation)
+                            message = "Rental #" + rentalId + " returned. Vehicle is now Available (advance reservation pending for a future date).";
+                        else
+                            message = "Rental #" + rentalId + " returned successfully! Vehicle is now Available.";
+                    }
+
                     return true;
                 }
             }
