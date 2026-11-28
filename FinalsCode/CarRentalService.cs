@@ -628,6 +628,88 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
             }
         }
 
+        // Manually activate a 'Reserved' rental — staff confirms car is ready for pickup
+        public static bool ActivateReservation(int rentalId, out string message)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    con.Open();
+
+                    // Get the rental and check its status
+                    string status = "";
+                    int carId = 0;
+                    using (SqlCommand getCmd = new SqlCommand(
+                        "SELECT Status, CarId FROM Rentals WHERE RentalId = @RentalId", con))
+                    {
+                        getCmd.Parameters.AddWithValue("@RentalId", rentalId);
+                        using (SqlDataReader reader = getCmd.ExecuteReader())
+                        {
+                            if (!reader.Read())
+                            {
+                                message = "Rental #" + rentalId + " not found.";
+                                return false;
+                            }
+                            status = reader["Status"].ToString()!;
+                            carId = Convert.ToInt32(reader["CarId"]);
+                        }
+                    }
+
+                    // Only allow activating a Reserved rental
+                    if (status != "Reserved")
+                    {
+                        if (status == "Active")
+                            message = "This booking is already Active.";
+                        else if (status == "Returned")
+                            message = "This rental has already been returned and cannot be activated.";
+                        else
+                            message = "Only Reserved bookings can be activated. Current status: " + status;
+                        return false;
+                    }
+
+                    // Check if the car is currently free (no Active rental on it)
+                    bool carBusy = false;
+                    using (SqlCommand checkCmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM Rentals WHERE CarId = @CarId AND Status = 'Active'", con))
+                    {
+                        checkCmd.Parameters.AddWithValue("@CarId", carId);
+                        carBusy = Convert.ToInt32(checkCmd.ExecuteScalar()) > 0;
+                    }
+
+                    if (carBusy)
+                    {
+                        message = "The vehicle still has an active rental in progress. Please process the current return first before activating this reservation.";
+                        return false;
+                    }
+
+                    // Activate the reservation
+                    using (SqlCommand activateCmd = new SqlCommand(
+                        "UPDATE Rentals SET Status = 'Active' WHERE RentalId = @RentalId", con))
+                    {
+                        activateCmd.Parameters.AddWithValue("@RentalId", rentalId);
+                        activateCmd.ExecuteNonQuery();
+                    }
+
+                    // Mark the car as Rented
+                    using (SqlCommand updateCarCmd = new SqlCommand(
+                        "UPDATE Cars SET Status = 'Rented' WHERE CarId = @CarId", con))
+                    {
+                        updateCarCmd.Parameters.AddWithValue("@CarId", carId);
+                        updateCarCmd.ExecuteNonQuery();
+                    }
+
+                    message = "Reservation #" + rentalId + " is now ACTIVE! Vehicle has been marked as Rented and is ready for pickup.";
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return false;
+            }
+        }
+
         public static bool TestConnection(out string message)
         {
             try
