@@ -7,6 +7,7 @@ namespace FinalsCode
     public partial class DashboardForm : Form
     {
         private readonly System.Windows.Forms.Timer _clockTimer;
+        private bool _isUpdatingDates;
 
         public DashboardForm()
         {
@@ -23,6 +24,7 @@ namespace FinalsCode
             _clockTimer.Tick += (s, ev) => UpdateClock();
             _clockTimer.Start();
 
+            InitializeReservationForm();
             SetupGrids();
             CarRentalService.EnsureDatabaseTables(out _);
             LoadAllData();
@@ -31,6 +33,32 @@ namespace FinalsCode
             txtConnString.Text = CarRentalService.ConnectionString;
             if (cmbAddCategory.Items.Count > 0) cmbAddCategory.SelectedIndex = 0;
             if (cmbFleetFilter.Items.Count > 0) cmbFleetFilter.SelectedIndex = 0;
+        }
+
+        private void InitializeReservationForm()
+        {
+            ResetDates(dtpResPickupDate, dtpResReturnDate, numResDays);
+            if (cmbResIdType.Items.Count > 0) cmbResIdType.SelectedIndex = 0;
+            if (cmbResPickupLocation.Items.Count > 0) cmbResPickupLocation.SelectedIndex = 0;
+            if (cmbResPaymentMethod.Items.Count > 0) cmbResPaymentMethod.SelectedIndex = 0;
+        }
+
+        private void ResetDates(DateTimePicker pickupPicker, DateTimePicker returnPicker, NumericUpDown daysInput)
+        {
+            _isUpdatingDates = true;
+            try
+            {
+                DateTime today = DateTime.Today;
+                pickupPicker.MinDate = today;
+                pickupPicker.Value = today;
+                daysInput.Value = 1;
+                returnPicker.MinDate = today.AddDays(1);
+                returnPicker.Value = today.AddDays((int)daysInput.Value);
+            }
+            finally
+            {
+                _isUpdatingDates = false;
+            }
         }
 
         private void UpdateClock()
@@ -43,6 +71,7 @@ namespace FinalsCode
             gridOverviewFleet.Columns.Clear();
             gridOverviewFleet.Columns.Add("Model", "Model");
             gridOverviewFleet.Columns.Add("Category", "Category");
+            gridOverviewFleet.Columns.Add("Seaters", "Seaters");
             gridOverviewFleet.Columns.Add("Plate", "Plate Number");
             gridOverviewFleet.Columns.Add("Rate", "Daily Rate");
             gridOverviewFleet.Columns.Add("Status", "Status");
@@ -52,6 +81,7 @@ namespace FinalsCode
             gridFleet.Columns.Add("Brand", "Brand");
             gridFleet.Columns.Add("Model", "Model");
             gridFleet.Columns.Add("Category", "Category");
+            gridFleet.Columns.Add("Seaters", "Seaters");
             gridFleet.Columns.Add("Plate", "Plate No.");
             gridFleet.Columns.Add("Rate", "Daily Rate");
             gridFleet.Columns.Add("Status", "Status");
@@ -60,11 +90,14 @@ namespace FinalsCode
             gridRentals.Columns.Add("RentalId", "Rental #");
             gridRentals.Columns.Add("Customer", "Customer Name");
             gridRentals.Columns.Add("Phone", "Phone");
+            gridRentals.Columns.Add("IdType", "Valid ID");
             gridRentals.Columns.Add("Car", "Rented Vehicle");
-            gridRentals.Columns.Add("RentDate", "Start Date");
-            gridRentals.Columns.Add("ReturnDate", "Due Date");
+            gridRentals.Columns.Add("RentDate", "Pick-up Date");
+            gridRentals.Columns.Add("ReturnDate", "Return Date");
             gridRentals.Columns.Add("Days", "Days");
             gridRentals.Columns.Add("Cost", "Total Cost");
+            gridRentals.Columns.Add("PickupLocation", "Pick-up Location");
+            gridRentals.Columns.Add("PaymentMethod", "Payment");
             gridRentals.Columns.Add("Status", "Status");
         }
 
@@ -75,7 +108,7 @@ namespace FinalsCode
             LoadFleetGrid();
             LoadRentalsGrid();
             PopulateCarComboBox();
-            RecalculateBookingCost();
+            RecalculateReservationCost();
         }
 
         private void UpdateStats()
@@ -97,6 +130,7 @@ namespace FinalsCode
                 int idx = gridOverviewFleet.Rows.Add(
                     c.Brand + " " + c.Model,
                     c.Category,
+                    c.Seaters + " Seaters",
                     c.PlateNumber,
                     "₱" + c.DailyRate.ToString("F2"),
                     c.Status
@@ -132,6 +166,7 @@ namespace FinalsCode
                     c.Brand,
                     c.Model,
                     c.Category,
+                    c.Seaters + " Seaters",
                     c.PlateNumber,
                     "₱" + c.DailyRate.ToString("F2"),
                     c.Status
@@ -159,11 +194,14 @@ namespace FinalsCode
                     "#" + r.RentalId,
                     r.CustomerName,
                     r.CustomerPhone,
+                    r.IdType,
                     r.CarName,
                     r.RentDate.ToString("yyyy-MM-dd"),
                     r.ReturnDate.ToString("yyyy-MM-dd"),
                     r.TotalDays + " days",
                     "₱" + r.TotalCost.ToString("F2"),
+                    r.PickupLocation,
+                    r.PaymentMethod,
                     r.Status
                 );
 
@@ -181,113 +219,251 @@ namespace FinalsCode
         private void PopulateCarComboBox()
         {
             var availCars = CarRentalService.GetAvailableCars();
-            cmbCars.DataSource = null;
-            cmbCars.DisplayMember = "DisplayName";
-            cmbCars.ValueMember = "Id";
-            cmbCars.DataSource = availCars;
+
+            cmbResCar.DataSource = null;
+            cmbResCar.DisplayMember = "DisplayName";
+            cmbResCar.ValueMember = "Id";
+            cmbResCar.DataSource = availCars;
 
             if (availCars.Count == 0)
             {
-                btnConfirmBooking.Enabled = false;
-                lblBookingFeedback.ForeColor = Color.OrangeRed;
-                lblBookingFeedback.Text = "All cars are currently rented out or database has no available cars.";
+                btnResSubmit.Enabled = false;
+                lblResFeedback.ForeColor = Color.OrangeRed;
+                lblResFeedback.Text = "All cars are currently rented out or database has no available cars.";
             }
             else
             {
-                btnConfirmBooking.Enabled = true;
-                lblBookingFeedback.ForeColor = Color.Gray;
-                lblBookingFeedback.Text = availCars.Count + " vehicles currently available in database.";
+                btnResSubmit.Enabled = true;
+                lblResFeedback.ForeColor = Color.Gray;
+                lblResFeedback.Text = availCars.Count + " vehicles currently available in database.";
             }
         }
 
-        private void RecalculateBookingCost()
+        private void RecalculateReservationCost()
         {
-            Car? selectedCar = cmbCars.SelectedItem as Car;
+            Car? selectedCar = cmbResCar.SelectedItem as Car;
             if (selectedCar != null)
             {
-                int days = (int)numDays.Value;
+                int days = (int)numResDays.Value;
                 decimal total = selectedCar.DailyRate * days;
-                lblDailyRateNote.Text = "₱" + selectedCar.DailyRate.ToString("F2") + "/day x " + days + " day(s)";
-                lblTotalCalculated.Text = "₱" + total.ToString("F2");
+                lblResVehicleSummary.Text = selectedCar.Brand + " " + selectedCar.Model + " (" + selectedCar.Seaters + "-Seater)";
+                lblResScheduleSummary.Text = dtpResPickupDate.Value.ToString("MMM dd, yyyy") + " → " +
+                    dtpResReturnDate.Value.ToString("MMM dd, yyyy") + " (" + days + " day/s @ ₱" + selectedCar.DailyRate.ToString("F2") + "/day)";
+                lblResTotalAmount.Text = "₱" + total.ToString("F2");
             }
             else
             {
-                lblDailyRateNote.Text = "Estimated Total:";
-                lblTotalCalculated.Text = "₱0.00";
+                lblResVehicleSummary.Text = "No available vehicle selected";
+                lblResScheduleSummary.Text = "Select dates to calculate total";
+                lblResTotalAmount.Text = "₱0.00";
             }
         }
 
-        private void cmbCars_SelectedIndexChanged(object sender, EventArgs e)
+        private void SyncDatesFromPickup(DateTimePicker pickupPicker, DateTimePicker returnPicker, NumericUpDown daysInput)
         {
-            RecalculateBookingCost();
+            if (_isUpdatingDates) return;
+
+            _isUpdatingDates = true;
+            try
+            {
+                DateTime pickup = pickupPicker.Value.Date;
+                returnPicker.MinDate = pickup.AddDays(1);
+
+                int days = (returnPicker.Value.Date - pickup).Days;
+                if (days < 1)
+                {
+                    days = (int)daysInput.Value;
+                    returnPicker.Value = pickup.AddDays(days);
+                }
+                else if (days > (int)daysInput.Maximum)
+                {
+                    days = (int)daysInput.Maximum;
+                    returnPicker.Value = pickup.AddDays(days);
+                }
+
+                daysInput.Value = days;
+            }
+            finally
+            {
+                _isUpdatingDates = false;
+            }
         }
 
-        private void numDays_ValueChanged(object sender, EventArgs e)
+        private void SyncDatesFromReturn(DateTimePicker pickupPicker, DateTimePicker returnPicker, NumericUpDown daysInput)
         {
-            RecalculateBookingCost();
+            if (_isUpdatingDates) return;
+
+            _isUpdatingDates = true;
+            try
+            {
+                DateTime pickup = pickupPicker.Value.Date;
+                int days = (returnPicker.Value.Date - pickup).Days;
+
+                if (days < 1)
+                {
+                    days = 1;
+                    returnPicker.Value = pickup.AddDays(1);
+                }
+                else if (days > (int)daysInput.Maximum)
+                {
+                    days = (int)daysInput.Maximum;
+                    returnPicker.Value = pickup.AddDays(days);
+                }
+
+                daysInput.Value = days;
+            }
+            finally
+            {
+                _isUpdatingDates = false;
+            }
         }
 
-        private void btnConfirmBooking_Click(object sender, EventArgs e)
+        private void SyncDatesFromDays(DateTimePicker pickupPicker, DateTimePicker returnPicker, NumericUpDown daysInput)
         {
-            Car? selectedCar = cmbCars.SelectedItem as Car;
+            if (_isUpdatingDates) return;
+
+            _isUpdatingDates = true;
+            try
+            {
+                DateTime pickup = pickupPicker.Value.Date;
+                returnPicker.MinDate = pickup.AddDays(1);
+                returnPicker.Value = pickup.AddDays((int)daysInput.Value);
+            }
+            finally
+            {
+                _isUpdatingDates = false;
+            }
+        }
+
+        private void cmbResCar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RecalculateReservationCost();
+        }
+
+        private void dtpResPickupDate_ValueChanged(object sender, EventArgs e)
+        {
+            SyncDatesFromPickup(dtpResPickupDate, dtpResReturnDate, numResDays);
+            RecalculateReservationCost();
+        }
+
+        private void dtpResReturnDate_ValueChanged(object sender, EventArgs e)
+        {
+            SyncDatesFromReturn(dtpResPickupDate, dtpResReturnDate, numResDays);
+            RecalculateReservationCost();
+        }
+
+        private void numResDays_ValueChanged(object sender, EventArgs e)
+        {
+            SyncDatesFromDays(dtpResPickupDate, dtpResReturnDate, numResDays);
+            RecalculateReservationCost();
+        }
+
+        private void ClearReservationForm()
+        {
+            txtResCustName.Clear();
+            txtResPhone.Clear();
+            txtResEmail.Clear();
+            if (cmbResIdType.Items.Count > 0) cmbResIdType.SelectedIndex = 0;
+            txtResAddress.Clear();
+            txtResNotes.Clear();
+            if (cmbResPickupLocation.Items.Count > 0) cmbResPickupLocation.SelectedIndex = 0;
+            if (cmbResPaymentMethod.Items.Count > 0) cmbResPaymentMethod.SelectedIndex = 0;
+            ResetDates(dtpResPickupDate, dtpResReturnDate, numResDays);
+            RecalculateReservationCost();
+        }
+
+        private void btnResClear_Click(object sender, EventArgs e)
+        {
+            ClearReservationForm();
+            lblResFeedback.ForeColor = Color.Gray;
+            lblResFeedback.Text = "Form cleared. Ready for a new reservation.";
+            txtResCustName.Focus();
+        }
+
+        private void btnResSubmit_Click(object sender, EventArgs e)
+        {
+            Car? selectedCar = cmbResCar.SelectedItem as Car;
             if (selectedCar == null)
             {
-                MessageBox.Show("Please select an available car first.", "Selection Required",
+                MessageBox.Show("Please select an available vehicle first.", "Selection Required",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string name = txtCustName.Text.Trim();
-            string phone = txtCustPhone.Text.Trim();
-            int days = (int)numDays.Value;
-
-            Terms_and_Conditons form = new Terms_and_Conditons();
-            form.ShowDialog();
+            string name = txtResCustName.Text.Trim();
+            string phone = txtResPhone.Text.Trim();
+            string email = txtResEmail.Text.Trim();
+            string idType = cmbResIdType.SelectedItem?.ToString() ?? "";
+            string address = txtResAddress.Text.Trim();
+            string pickupLocation = cmbResPickupLocation.SelectedItem?.ToString() ?? "Main Office (Showroom)";
+            string paymentMethod = cmbResPaymentMethod.SelectedItem?.ToString() ?? "Cash";
+            string notes = txtResNotes.Text.Trim();
+            DateTime pickupDate = dtpResPickupDate.Value.Date;
+            DateTime returnDate = dtpResReturnDate.Value.Date;
 
             if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Please enter the customer's full name.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCustName.Focus();
+                txtResCustName.Focus();
                 return;
             }
-
             if (string.IsNullOrWhiteSpace(phone))
             {
                 MessageBox.Show("Please enter the customer's contact number.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCustPhone.Focus();
+                txtResPhone.Focus();
                 return;
+            }
+            if (string.IsNullOrWhiteSpace(idType))
+            {
+                MessageBox.Show("Please select a valid ID type.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbResIdType.Focus();
+                return;
+            }
+
+            using (Terms_and_Conditons termsForm = new Terms_and_Conditons())
+            {
+                if (termsForm.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
             }
 
             Rental? rental;
             string error;
-            bool success = CarRentalService.BookCar(name, phone, selectedCar.Id, days, out rental, out error);
+            bool success = CarRentalService.BookCar(
+                name, phone, email, idType, address,
+                selectedCar.Id, pickupDate, returnDate,
+                pickupLocation, paymentMethod, notes,
+                out rental, out error);
 
             if (success && rental != null)
             {
-                lblBookingFeedback.ForeColor = Color.Green;
-                lblBookingFeedback.Text = "✔ Booking #" + rental.RentalId + " recorded in SQL Server for " + rental.CustomerName + "!";
+                lblResFeedback.ForeColor = Color.Green;
+                lblResFeedback.Text = "✔ Reservation #" + rental.RentalId + " saved in SQL Server for " + rental.CustomerName + "!";
 
                 MessageBox.Show(
-                    "Booking Saved to SQL Database!\n\n" +
-                    "Rental ID: #" + rental.RentalId + "\n" +
+                    "Reservation Saved to SQL Database!\n\n" +
+                    "Reservation ID: #" + rental.RentalId + "\n" +
                     "Customer: " + rental.CustomerName + "\n" +
+                    "Valid ID: " + rental.IdType + "\n" +
                     "Vehicle: " + rental.CarName + "\n" +
-                    "Duration: " + rental.TotalDays + " days\n" +
-                    "Total Amount: ₱" + rental.TotalCost.ToString("F2") + "\n" +
-                    "Due Date: " + rental.ReturnDate.ToString("yyyy-MM-dd"),
-                    "Rental Recorded in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "Pick-up: " + rental.RentDate.ToString("yyyy-MM-dd") + " (" + rental.PickupLocation + ")\n" +
+                    "Return: " + rental.ReturnDate.ToString("yyyy-MM-dd") + " (" + rental.TotalDays + " days)\n" +
+                    "Payment Method: " + rental.PaymentMethod + "\n" +
+                    "Total Amount: ₱" + rental.TotalCost.ToString("F2"),
+                    "Reservation Recorded", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                txtCustName.Clear();
-                txtCustPhone.Clear();
-                numDays.Value = 3;
-
+                ClearReservationForm();
                 LoadAllData();
             }
             else
             {
-                MessageBox.Show("Failed to book car in SQL database:\n" + error, "Database Error",
+                lblResFeedback.ForeColor = Color.Red;
+                lblResFeedback.Text = "⚠️ Failed to save reservation: " + error;
+                MessageBox.Show("Failed to save reservation in SQL database:\n" + error, "Database Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -298,10 +474,11 @@ namespace FinalsCode
             string model = txtAddModel.Text.Trim();
             string cat = cmbAddCategory.SelectedItem != null ? cmbAddCategory.SelectedItem.ToString()! : "Sedan";
             string plate = txtAddPlate.Text.Trim();
+            int seaters = (int)numAddSeaters.Value;
             decimal rate = numAddRate.Value;
 
             string err;
-            if (CarRentalService.AddCar(brand, model, cat, plate, rate, out err))
+            if (CarRentalService.AddCar(brand, model, cat, plate, seaters, rate, out err))
             {
                 MessageBox.Show("Vehicle '" + brand + " " + model + "' successfully saved into SQL Server (Cars table)!",
                     "Saved to Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -309,6 +486,7 @@ namespace FinalsCode
                 txtAddBrand.Clear();
                 txtAddModel.Clear();
                 txtAddPlate.Clear();
+                numAddSeaters.Value = 5;
                 numAddRate.Value = 60;
 
                 LoadAllData();
@@ -350,6 +528,7 @@ namespace FinalsCode
         private void ShowView(Panel targetPanel, string title, string subtitle, Button activeButton)
         {
             panelOverview.Visible = false;
+            panelReservation.Visible = false;
             panelFleet.Visible = false;
             panelRentals.Visible = false;
             panelDatabase.Visible = false;
@@ -375,14 +554,15 @@ namespace FinalsCode
 
         private void btnNavOverview_Click(object sender, EventArgs e)
         {
-            ShowView(panelOverview, "Dashboard Overview", "Real-time car fleet overview, instant reservations, and rental activity", btnNavOverview);
+            ShowView(panelOverview, "Dashboard Overview", "Real-time fleet statistics and currently available vehicles", btnNavOverview);
             LoadAllData();
         }
 
         private void btnNavBooking_Click(object sender, EventArgs e)
         {
-            ShowView(panelOverview, "Quick Rent (Get Started)", "Make a new car rental reservation for a customer", btnNavBooking);
-            txtCustName.Focus();
+            ShowView(panelReservation, "Reservation Fill-Up Form", "Complete customer details, rental schedule, and terms to create a reservation", btnNavBooking);
+            LoadAllData();
+            txtResCustName.Focus();
         }
 
         private void btnNavFleet_Click(object sender, EventArgs e)
@@ -452,19 +632,27 @@ BEGIN
         Model NVARCHAR(50) NOT NULL,
         Category NVARCHAR(50) NOT NULL,
         PlateNumber NVARCHAR(20) UNIQUE NOT NULL,
+        Seaters INT NOT NULL DEFAULT 5,
         DailyRate DECIMAL(18,2) NOT NULL,
         Status NVARCHAR(20) NOT NULL DEFAULT 'Available'
     );
 
-    INSERT INTO Cars (Brand, Model, Category, PlateNumber, DailyRate, Status) VALUES
-    ('Toyota', 'Camry SE', 'Sedan', 'ABC-1234', 45.00, 'Available'),
-    ('Honda', 'CR-V Hybrid', 'SUV', 'CRV-5678', 65.00, 'Available'),
-    ('Tesla', 'Model 3 Long Range', 'Electric', 'TSL-9988', 85.00, 'Available'),
-    ('Ford', 'Mustang GT', 'Sports', 'MST-4040', 95.00, 'Available'),
-    ('BMW', '330i M Sport', 'Luxury', 'BMW-3301', 110.00, 'Available'),
-    ('Hyundai', 'Tucson Ultimate', 'SUV', 'TUC-7721', 55.00, 'Available'),
-    ('Nissan', 'Altima SV', 'Sedan', 'NSN-3344', 42.00, 'Available'),
-    ('Mercedes-Benz', 'C300 Sedan', 'Luxury', 'MBZ-8899', 125.00, 'Available');
+    EXEC(N'
+        INSERT INTO Cars (Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status) VALUES
+        (''Toyota'', ''Camry SE'', ''Sedan'', ''ABC-1234'', 5, 45.00, ''Available''),
+        (''Honda'', ''CR-V Hybrid'', ''SUV'', ''CRV-5678'', 5, 65.00, ''Available''),
+        (''Tesla'', ''Model 3 Long Range'', ''Electric'', ''TSL-9988'', 5, 85.00, ''Available''),
+        (''Ford'', ''Mustang GT'', ''Sports'', ''MST-4040'', 4, 95.00, ''Available''),
+        (''BMW'', ''330i M Sport'', ''Luxury'', ''BMW-3301'', 5, 110.00, ''Available''),
+        (''Hyundai'', ''Tucson Ultimate'', ''SUV'', ''TUC-7721'', 5, 55.00, ''Available''),
+        (''Nissan'', ''Altima SV'', ''Sedan'', ''NSN-3344'', 5, 42.00, ''Available''),
+        (''Mercedes-Benz'', ''C300 Sedan'', ''Luxury'', ''MBZ-8899'', 5, 125.00, ''Available'');
+    ');
+END
+ELSE IF COL_LENGTH('Cars', 'Seaters') IS NULL
+BEGIN
+    ALTER TABLE Cars ADD Seaters INT NOT NULL DEFAULT 5;
+    EXEC(N'UPDATE Cars SET Seaters = 4 WHERE PlateNumber = ''MST-4040'';');
 END
 GO
 
@@ -475,14 +663,29 @@ BEGIN
         RentalId INT IDENTITY(1001,1) PRIMARY KEY,
         CustomerName NVARCHAR(100) NOT NULL,
         CustomerPhone NVARCHAR(50) NOT NULL,
+        CustomerEmail NVARCHAR(100) NULL,
+        IdType NVARCHAR(50) NULL,
+        CustomerAddress NVARCHAR(200) NULL,
         CarId INT NOT NULL,
         RentDate DATETIME NOT NULL DEFAULT GETDATE(),
         ReturnDate DATETIME NOT NULL,
         TotalDays INT NOT NULL,
         TotalCost DECIMAL(18,2) NOT NULL,
+        PickupLocation NVARCHAR(100) NULL,
+        PaymentMethod NVARCHAR(50) NULL,
+        SpecialRequest NVARCHAR(300) NULL,
         Status NVARCHAR(20) NOT NULL DEFAULT 'Active',
         CONSTRAINT FK_Rentals_Cars FOREIGN KEY (CarId) REFERENCES Cars(CarId)
     );
+END
+ELSE
+BEGIN
+    IF COL_LENGTH('Rentals', 'CustomerEmail') IS NULL ALTER TABLE Rentals ADD CustomerEmail NVARCHAR(100) NULL;
+    IF COL_LENGTH('Rentals', 'IdType') IS NULL ALTER TABLE Rentals ADD IdType NVARCHAR(50) NULL;
+    IF COL_LENGTH('Rentals', 'CustomerAddress') IS NULL ALTER TABLE Rentals ADD CustomerAddress NVARCHAR(200) NULL;
+    IF COL_LENGTH('Rentals', 'PickupLocation') IS NULL ALTER TABLE Rentals ADD PickupLocation NVARCHAR(100) NULL;
+    IF COL_LENGTH('Rentals', 'PaymentMethod') IS NULL ALTER TABLE Rentals ADD PaymentMethod NVARCHAR(50) NULL;
+    IF COL_LENGTH('Rentals', 'SpecialRequest') IS NULL ALTER TABLE Rentals ADD SpecialRequest NVARCHAR(300) NULL;
 END
 GO
 
@@ -494,8 +697,6 @@ GO";
             MessageBox.Show("SQL script loaded into the console below! You can copy and execute it directly in SQL Server Management Studio (SSMS).", "SQL Script", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void costSummaryPanel_Paint(object sender, PaintEventArgs e) { }
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
         private void lblStatRevenueVal_Click(object sender, EventArgs e) { }
     }
 }

@@ -14,5 +14,32 @@ namespace FinalsCode
         {
             InitializeComponent();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+        }
+
+
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e){
+        }
     }
 }

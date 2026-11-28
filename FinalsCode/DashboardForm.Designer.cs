@@ -34,25 +34,6 @@ namespace FinalsCode
             lblPageTitle = new Label();
             mainContainerPanel = new Panel();
             panelOverview = new Panel();
-            overviewSplit = new TableLayoutPanel();
-            bookingBoxPanel = new Panel();
-            label1 = new Label();
-            textBox1 = new TextBox();
-            lblBookingFeedback = new Label();
-            btnConfirmBooking = new Button();
-            costSummaryPanel = new Panel();
-            lblTotalCalculated = new Label();
-            lblDailyRateNote = new Label();
-            numDays = new NumericUpDown();
-            lblDays = new Label();
-            cmbCars = new ComboBox();
-            lblSelectCar = new Label();
-            txtCustPhone = new TextBox();
-            lblCustPhone = new Label();
-            txtCustName = new TextBox();
-            lblCustName = new Label();
-            lblBookingSub = new Label();
-            lblBookingTitle = new Label();
             overviewFleetCard = new Panel();
             gridOverviewFleet = new DataGridView();
             lblOverviewFleetTitle = new Label();
@@ -69,11 +50,52 @@ namespace FinalsCode
             cardRevenue = new Panel();
             lblStatRevenueVal = new Label();
             lblStatRevenueTitle = new Label();
+            panelReservation = new Panel();
+            resSplitLayout = new TableLayoutPanel();
+            resFormCard = new Panel();
+            lblResFeedback = new Label();
+            btnResClear = new Button();
+            btnResSubmit = new Button();
+            txtResNotes = new TextBox();
+            lblResNotes = new Label();
+            cmbResPaymentMethod = new ComboBox();
+            lblResPaymentMethod = new Label();
+            cmbResPickupLocation = new ComboBox();
+            lblResPickupLocation = new Label();
+            numResDays = new NumericUpDown();
+            lblResDays = new Label();
+            dtpResReturnDate = new DateTimePicker();
+            lblResReturnDate = new Label();
+            dtpResPickupDate = new DateTimePicker();
+            lblResPickupDate = new Label();
+            cmbResCar = new ComboBox();
+            lblResCar = new Label();
+            txtResAddress = new TextBox();
+            lblResAddress = new Label();
+            cmbResIdType = new ComboBox();
+            lblResIdType = new Label();
+            txtResEmail = new TextBox();
+            lblResEmail = new Label();
+            txtResPhone = new TextBox();
+            lblResPhone = new Label();
+            txtResCustName = new TextBox();
+            lblResCustName = new Label();
+            lblResFormSub = new Label();
+            lblResFormTitle = new Label();
+            resSummaryCard = new Panel();
+            resCostBox = new Panel();
+            lblResTotalAmount = new Label();
+            lblResScheduleSummary = new Label();
+            lblResVehicleSummary = new Label();
+            lblResSummaryTitle = new Label();
             panelFleet = new Panel();
             gridFleet = new DataGridView();
             addCarBox = new Panel();
             btnAddCar = new Button();
+            lblAddRate = new Label();
             numAddRate = new NumericUpDown();
+            lblAddSeaters = new Label();
+            numAddSeaters = new NumericUpDown();
             txtAddPlate = new TextBox();
             cmbAddCategory = new ComboBox();
             txtAddModel = new TextBox();
@@ -101,10 +123,6 @@ namespace FinalsCode
             topBarPanel.SuspendLayout();
             mainContainerPanel.SuspendLayout();
             panelOverview.SuspendLayout();
-            overviewSplit.SuspendLayout();
-            bookingBoxPanel.SuspendLayout();
-            costSummaryPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numDays).BeginInit();
             overviewFleetCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).BeginInit();
             overviewStatsLayout.SuspendLayout();
@@ -112,10 +130,17 @@ namespace FinalsCode
             cardAvailCars.SuspendLayout();
             cardRentedCars.SuspendLayout();
             cardRevenue.SuspendLayout();
+            panelReservation.SuspendLayout();
+            resSplitLayout.SuspendLayout();
+            resFormCard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numResDays).BeginInit();
+            resSummaryCard.SuspendLayout();
+            resCostBox.SuspendLayout();
             panelFleet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridFleet).BeginInit();
             addCarBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numAddSeaters).BeginInit();
             fleetHeaderPanel.SuspendLayout();
             panelRentals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridRentals).BeginInit();
@@ -224,7 +249,7 @@ namespace FinalsCode
             btnNavBooking.Padding = new Padding(12, 0, 0, 0);
             btnNavBooking.Size = new Size(206, 44);
             btnNavBooking.TabIndex = 2;
-            btnNavBooking.Text = "📝  Quick Rent (Get Started)";
+            btnNavBooking.Text = "📝  Reservation Form";
             btnNavBooking.TextAlign = ContentAlignment.MiddleLeft;
             btnNavBooking.UseVisualStyleBackColor = true;
             btnNavBooking.Click += btnNavBooking_Click;
@@ -328,9 +353,9 @@ namespace FinalsCode
             lblPageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
             lblPageSubtitle.Location = new Point(24, 42);
             lblPageSubtitle.Name = "lblPageSubtitle";
-            lblPageSubtitle.Size = new Size(361, 15);
+            lblPageSubtitle.Size = new Size(299, 15);
             lblPageSubtitle.TabIndex = 1;
-            lblPageSubtitle.Text = "Real-time car fleet overview, instant reservations, and rental activity";
+            lblPageSubtitle.Text = "Real-time fleet statistics and currently available vehicles";
             // 
             // lblPageTitle
             // 
@@ -348,6 +373,7 @@ namespace FinalsCode
             mainContainerPanel.AutoSize = true;
             mainContainerPanel.BackColor = Color.FromArgb(241, 245, 249);
             mainContainerPanel.Controls.Add(panelOverview);
+            mainContainerPanel.Controls.Add(panelReservation);
             mainContainerPanel.Controls.Add(panelFleet);
             mainContainerPanel.Controls.Add(panelRentals);
             mainContainerPanel.Controls.Add(panelDatabase);
@@ -360,7 +386,7 @@ namespace FinalsCode
             // 
             // panelOverview
             // 
-            panelOverview.Controls.Add(overviewSplit);
+            panelOverview.Controls.Add(overviewFleetCard);
             panelOverview.Controls.Add(overviewStatsLayout);
             panelOverview.Dock = DockStyle.Fill;
             panelOverview.Location = new Point(20, 20);
@@ -368,247 +394,17 @@ namespace FinalsCode
             panelOverview.Size = new Size(857, 634);
             panelOverview.TabIndex = 0;
             // 
-            // overviewSplit
-            // 
-            overviewSplit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            overviewSplit.ColumnCount = 2;
-            overviewSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 360F));
-            overviewSplit.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            overviewSplit.Controls.Add(bookingBoxPanel, 0, 0);
-            overviewSplit.Controls.Add(overviewFleetCard, 1, 0);
-            overviewSplit.Location = new Point(0, 110);
-            overviewSplit.Name = "overviewSplit";
-            overviewSplit.RowCount = 1;
-            overviewSplit.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            overviewSplit.Size = new Size(857, 524);
-            overviewSplit.TabIndex = 1;
-            // 
-            // bookingBoxPanel
-            // 
-            bookingBoxPanel.AutoScroll = true;
-            bookingBoxPanel.BackColor = Color.White;
-            bookingBoxPanel.Controls.Add(label1);
-            bookingBoxPanel.Controls.Add(textBox1);
-            bookingBoxPanel.Controls.Add(lblBookingFeedback);
-            bookingBoxPanel.Controls.Add(btnConfirmBooking);
-            bookingBoxPanel.Controls.Add(costSummaryPanel);
-            bookingBoxPanel.Controls.Add(numDays);
-            bookingBoxPanel.Controls.Add(lblDays);
-            bookingBoxPanel.Controls.Add(cmbCars);
-            bookingBoxPanel.Controls.Add(lblSelectCar);
-            bookingBoxPanel.Controls.Add(txtCustPhone);
-            bookingBoxPanel.Controls.Add(lblCustPhone);
-            bookingBoxPanel.Controls.Add(txtCustName);
-            bookingBoxPanel.Controls.Add(lblCustName);
-            bookingBoxPanel.Controls.Add(lblBookingSub);
-            bookingBoxPanel.Controls.Add(lblBookingTitle);
-            bookingBoxPanel.Dock = DockStyle.Fill;
-            bookingBoxPanel.Location = new Point(0, 0);
-            bookingBoxPanel.Margin = new Padding(0, 0, 14, 0);
-            bookingBoxPanel.Name = "bookingBoxPanel";
-            bookingBoxPanel.Padding = new Padding(18);
-            bookingBoxPanel.Size = new Size(346, 524);
-            bookingBoxPanel.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            label1.ForeColor = Color.FromArgb(51, 65, 85);
-            label1.Location = new Point(20, 219);
-            label1.Name = "label1";
-            label1.Size = new Size(103, 15);
-            label1.TabIndex = 14;
-            label1.Text = "Request(Optional)";
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI", 9.5F);
-            textBox1.Location = new Point(18, 237);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Special Request";
-            textBox1.Size = new Size(308, 24);
-            textBox1.TabIndex = 13;
-            // 
-            // lblBookingFeedback
-            // 
-            lblBookingFeedback.Font = new Font("Segoe UI", 8.5F);
-            lblBookingFeedback.ForeColor = Color.FromArgb(100, 116, 139);
-            lblBookingFeedback.Location = new Point(37, 463);
-            lblBookingFeedback.Name = "lblBookingFeedback";
-            lblBookingFeedback.Size = new Size(277, 26);
-            lblBookingFeedback.TabIndex = 12;
-            lblBookingFeedback.Text = "Select a vehicle and click Confirm to record rental.";
-            // 
-            // btnConfirmBooking
-            // 
-            btnConfirmBooking.BackColor = Color.FromArgb(37, 99, 235);
-            btnConfirmBooking.Cursor = Cursors.Hand;
-            btnConfirmBooking.FlatAppearance.BorderSize = 0;
-            btnConfirmBooking.FlatStyle = FlatStyle.Flat;
-            btnConfirmBooking.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
-            btnConfirmBooking.ForeColor = Color.White;
-            btnConfirmBooking.Location = new Point(37, 406);
-            btnConfirmBooking.Name = "btnConfirmBooking";
-            btnConfirmBooking.Size = new Size(258, 43);
-            btnConfirmBooking.TabIndex = 11;
-            btnConfirmBooking.Text = "🚀 Confirm Rental Booking";
-            btnConfirmBooking.UseVisualStyleBackColor = false;
-            btnConfirmBooking.Click += btnConfirmBooking_Click;
-            // 
-            // costSummaryPanel
-            // 
-            costSummaryPanel.BackColor = Color.FromArgb(248, 250, 252);
-            costSummaryPanel.BorderStyle = BorderStyle.FixedSingle;
-            costSummaryPanel.Controls.Add(lblTotalCalculated);
-            costSummaryPanel.Controls.Add(lblDailyRateNote);
-            costSummaryPanel.Location = new Point(18, 328);
-            costSummaryPanel.Name = "costSummaryPanel";
-            costSummaryPanel.Padding = new Padding(10);
-            costSummaryPanel.Size = new Size(308, 64);
-            costSummaryPanel.TabIndex = 10;
-            costSummaryPanel.Paint += costSummaryPanel_Paint;
-            // 
-            // lblTotalCalculated
-            // 
-            lblTotalCalculated.AutoSize = true;
-            lblTotalCalculated.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblTotalCalculated.ForeColor = Color.FromArgb(22, 163, 74);
-            lblTotalCalculated.Location = new Point(8, 28);
-            lblTotalCalculated.Name = "lblTotalCalculated";
-            lblTotalCalculated.Size = new Size(84, 25);
-            lblTotalCalculated.TabIndex = 1;
-            lblTotalCalculated.Text = "₱135.00";
-            // 
-            // lblDailyRateNote
-            // 
-            lblDailyRateNote.AutoSize = true;
-            lblDailyRateNote.Font = new Font("Segoe UI", 8.5F);
-            lblDailyRateNote.ForeColor = Color.FromArgb(100, 116, 139);
-            lblDailyRateNote.Location = new Point(8, 8);
-            lblDailyRateNote.Name = "lblDailyRateNote";
-            lblDailyRateNote.Size = new Size(91, 15);
-            lblDailyRateNote.TabIndex = 0;
-            lblDailyRateNote.Text = "Estimated Total:";
-            // 
-            // numDays
-            // 
-            numDays.Font = new Font("Segoe UI", 9.5F);
-            numDays.Location = new Point(16, 289);
-            numDays.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
-            numDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numDays.Name = "numDays";
-            numDays.Size = new Size(140, 24);
-            numDays.TabIndex = 9;
-            numDays.Value = new decimal(new int[] { 3, 0, 0, 0 });
-            numDays.ValueChanged += numDays_ValueChanged;
-            // 
-            // lblDays
-            // 
-            lblDays.AutoSize = true;
-            lblDays.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblDays.ForeColor = Color.FromArgb(51, 65, 85);
-            lblDays.Location = new Point(15, 271);
-            lblDays.Name = "lblDays";
-            lblDays.Size = new Size(135, 15);
-            lblDays.TabIndex = 8;
-            lblDays.Text = "Rental Duration (Days) *";
-            // 
-            // cmbCars
-            // 
-            cmbCars.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbCars.Font = new Font("Segoe UI", 9.5F);
-            cmbCars.FormattingEnabled = true;
-            cmbCars.Location = new Point(18, 185);
-            cmbCars.Name = "cmbCars";
-            cmbCars.Size = new Size(308, 25);
-            cmbCars.TabIndex = 7;
-            cmbCars.SelectedIndexChanged += cmbCars_SelectedIndexChanged;
-            // 
-            // lblSelectCar
-            // 
-            lblSelectCar.AutoSize = true;
-            lblSelectCar.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblSelectCar.ForeColor = Color.FromArgb(51, 65, 85);
-            lblSelectCar.Location = new Point(16, 166);
-            lblSelectCar.Name = "lblSelectCar";
-            lblSelectCar.Size = new Size(88, 15);
-            lblSelectCar.TabIndex = 6;
-            lblSelectCar.Text = "Select Vehicle *";
-            // 
-            // txtCustPhone
-            // 
-            txtCustPhone.Font = new Font("Segoe UI", 9.5F);
-            txtCustPhone.Location = new Point(18, 133);
-            txtCustPhone.Name = "txtCustPhone";
-            txtCustPhone.PlaceholderText = "e.g. 0917-123-4567";
-            txtCustPhone.Size = new Size(308, 24);
-            txtCustPhone.TabIndex = 5;
-            // 
-            // lblCustPhone
-            // 
-            lblCustPhone.AutoSize = true;
-            lblCustPhone.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblCustPhone.ForeColor = Color.FromArgb(51, 65, 85);
-            lblCustPhone.Location = new Point(16, 114);
-            lblCustPhone.Name = "lblCustPhone";
-            lblCustPhone.Size = new Size(96, 15);
-            lblCustPhone.TabIndex = 4;
-            lblCustPhone.Text = "Phone Number *";
-            // 
-            // txtCustName
-            // 
-            txtCustName.Font = new Font("Segoe UI", 9.5F);
-            txtCustName.Location = new Point(18, 83);
-            txtCustName.Name = "txtCustName";
-            txtCustName.PlaceholderText = "e.g. Alex Johnson";
-            txtCustName.Size = new Size(308, 24);
-            txtCustName.TabIndex = 3;
-            // 
-            // lblCustName
-            // 
-            lblCustName.AutoSize = true;
-            lblCustName.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            lblCustName.ForeColor = Color.FromArgb(51, 65, 85);
-            lblCustName.Location = new Point(16, 64);
-            lblCustName.Name = "lblCustName";
-            lblCustName.Size = new Size(101, 15);
-            lblCustName.TabIndex = 2;
-            lblCustName.Text = "Customer Name *";
-            // 
-            // lblBookingSub
-            // 
-            lblBookingSub.AutoSize = true;
-            lblBookingSub.Font = new Font("Segoe UI", 8.5F);
-            lblBookingSub.ForeColor = Color.FromArgb(100, 116, 139);
-            lblBookingSub.Location = new Point(16, 38);
-            lblBookingSub.Name = "lblBookingSub";
-            lblBookingSub.Size = new Size(213, 15);
-            lblBookingSub.TabIndex = 1;
-            lblBookingSub.Text = "Complete a customer rental in seconds";
-            // 
-            // lblBookingTitle
-            // 
-            lblBookingTitle.AutoSize = true;
-            lblBookingTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblBookingTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblBookingTitle.Location = new Point(14, 14);
-            lblBookingTitle.Name = "lblBookingTitle";
-            lblBookingTitle.Size = new Size(221, 21);
-            lblBookingTitle.TabIndex = 0;
-            lblBookingTitle.Text = "⚡ Quick Rent (Get Started)";
-            // 
             // overviewFleetCard
             // 
+            overviewFleetCard.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             overviewFleetCard.BackColor = Color.White;
             overviewFleetCard.Controls.Add(gridOverviewFleet);
             overviewFleetCard.Controls.Add(lblOverviewFleetTitle);
-            overviewFleetCard.Dock = DockStyle.Fill;
-            overviewFleetCard.Location = new Point(360, 0);
+            overviewFleetCard.Location = new Point(0, 110);
             overviewFleetCard.Margin = new Padding(0);
             overviewFleetCard.Name = "overviewFleetCard";
             overviewFleetCard.Padding = new Padding(16);
-            overviewFleetCard.Size = new Size(497, 524);
+            overviewFleetCard.Size = new Size(857, 524);
             overviewFleetCard.TabIndex = 1;
             // 
             // gridOverviewFleet
@@ -625,7 +421,7 @@ namespace FinalsCode
             gridOverviewFleet.ReadOnly = true;
             gridOverviewFleet.RowHeadersVisible = false;
             gridOverviewFleet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridOverviewFleet.Size = new Size(469, 462);
+            gridOverviewFleet.Size = new Size(825, 443);
             gridOverviewFleet.TabIndex = 1;
             // 
             // lblOverviewFleetTitle
@@ -799,6 +595,461 @@ namespace FinalsCode
             lblStatRevenueTitle.TabIndex = 0;
             lblStatRevenueTitle.Text = "TOTAL REVENUE";
             // 
+            // panelReservation
+            // 
+            panelReservation.Controls.Add(resSplitLayout);
+            panelReservation.Dock = DockStyle.Fill;
+            panelReservation.Location = new Point(20, 20);
+            panelReservation.Name = "panelReservation";
+            panelReservation.Size = new Size(857, 634);
+            panelReservation.TabIndex = 4;
+            panelReservation.Visible = false;
+            // 
+            // resSplitLayout
+            // 
+            resSplitLayout.ColumnCount = 2;
+            resSplitLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62F));
+            resSplitLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38F));
+            resSplitLayout.Controls.Add(resFormCard, 0, 0);
+            resSplitLayout.Controls.Add(resSummaryCard, 1, 0);
+            resSplitLayout.Dock = DockStyle.Fill;
+            resSplitLayout.Location = new Point(0, 0);
+            resSplitLayout.Name = "resSplitLayout";
+            resSplitLayout.RowCount = 1;
+            resSplitLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            resSplitLayout.Size = new Size(857, 634);
+            resSplitLayout.TabIndex = 0;
+            // 
+            // resFormCard
+            // 
+            resFormCard.AutoScroll = true;
+            resFormCard.BackColor = Color.White;
+            resFormCard.Controls.Add(lblResFeedback);
+            resFormCard.Controls.Add(btnResClear);
+            resFormCard.Controls.Add(btnResSubmit);
+            resFormCard.Controls.Add(txtResNotes);
+            resFormCard.Controls.Add(lblResNotes);
+            resFormCard.Controls.Add(cmbResPaymentMethod);
+            resFormCard.Controls.Add(lblResPaymentMethod);
+            resFormCard.Controls.Add(cmbResPickupLocation);
+            resFormCard.Controls.Add(lblResPickupLocation);
+            resFormCard.Controls.Add(numResDays);
+            resFormCard.Controls.Add(lblResDays);
+            resFormCard.Controls.Add(dtpResReturnDate);
+            resFormCard.Controls.Add(lblResReturnDate);
+            resFormCard.Controls.Add(dtpResPickupDate);
+            resFormCard.Controls.Add(lblResPickupDate);
+            resFormCard.Controls.Add(cmbResCar);
+            resFormCard.Controls.Add(lblResCar);
+            resFormCard.Controls.Add(txtResAddress);
+            resFormCard.Controls.Add(lblResAddress);
+            resFormCard.Controls.Add(cmbResIdType);
+            resFormCard.Controls.Add(lblResIdType);
+            resFormCard.Controls.Add(txtResEmail);
+            resFormCard.Controls.Add(lblResEmail);
+            resFormCard.Controls.Add(txtResPhone);
+            resFormCard.Controls.Add(lblResPhone);
+            resFormCard.Controls.Add(txtResCustName);
+            resFormCard.Controls.Add(lblResCustName);
+            resFormCard.Controls.Add(lblResFormSub);
+            resFormCard.Controls.Add(lblResFormTitle);
+            resFormCard.Dock = DockStyle.Fill;
+            resFormCard.Location = new Point(0, 0);
+            resFormCard.Margin = new Padding(0, 0, 14, 0);
+            resFormCard.Name = "resFormCard";
+            resFormCard.Padding = new Padding(18);
+            resFormCard.Size = new Size(517, 634);
+            resFormCard.TabIndex = 0;
+            // 
+            // lblResFeedback
+            // 
+            lblResFeedback.Font = new Font("Segoe UI", 8.5F);
+            lblResFeedback.ForeColor = Color.FromArgb(100, 116, 139);
+            lblResFeedback.Location = new Point(18, 514);
+            lblResFeedback.Name = "lblResFeedback";
+            lblResFeedback.Size = new Size(478, 36);
+            lblResFeedback.TabIndex = 29;
+            lblResFeedback.Text = "Complete the fill-up form and click Confirm & Save Reservation.";
+            // 
+            // btnResClear
+            // 
+            btnResClear.BackColor = Color.FromArgb(226, 232, 240);
+            btnResClear.Cursor = Cursors.Hand;
+            btnResClear.FlatAppearance.BorderSize = 0;
+            btnResClear.FlatStyle = FlatStyle.Flat;
+            btnResClear.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnResClear.ForeColor = Color.FromArgb(51, 65, 85);
+            btnResClear.Location = new Point(350, 462);
+            btnResClear.Name = "btnResClear";
+            btnResClear.Size = new Size(146, 42);
+            btnResClear.TabIndex = 28;
+            btnResClear.Text = "Clear Form";
+            btnResClear.UseVisualStyleBackColor = false;
+            btnResClear.Click += btnResClear_Click;
+            // 
+            // btnResSubmit
+            // 
+            btnResSubmit.BackColor = Color.FromArgb(37, 99, 235);
+            btnResSubmit.Cursor = Cursors.Hand;
+            btnResSubmit.FlatAppearance.BorderSize = 0;
+            btnResSubmit.FlatStyle = FlatStyle.Flat;
+            btnResSubmit.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
+            btnResSubmit.ForeColor = Color.White;
+            btnResSubmit.Location = new Point(18, 462);
+            btnResSubmit.Name = "btnResSubmit";
+            btnResSubmit.Size = new Size(320, 42);
+            btnResSubmit.TabIndex = 27;
+            btnResSubmit.Text = "✔ Confirm & Save Reservation";
+            btnResSubmit.UseVisualStyleBackColor = false;
+            btnResSubmit.Click += btnResSubmit_Click;
+            // 
+            // txtResNotes
+            // 
+            txtResNotes.Font = new Font("Segoe UI", 9.5F);
+            txtResNotes.Location = new Point(18, 398);
+            txtResNotes.Multiline = true;
+            txtResNotes.Name = "txtResNotes";
+            txtResNotes.PlaceholderText = "Optional: child seat, delivery instructions, preferred pick-up time...";
+            txtResNotes.Size = new Size(478, 48);
+            txtResNotes.TabIndex = 25;
+            // 
+            // lblResNotes
+            // 
+            lblResNotes.AutoSize = true;
+            lblResNotes.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResNotes.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResNotes.Location = new Point(18, 380);
+            lblResNotes.Name = "lblResNotes";
+            lblResNotes.Size = new Size(189, 15);
+            lblResNotes.TabIndex = 24;
+            lblResNotes.Text = "Special Request / Notes (Optional)";
+            // 
+            // cmbResPaymentMethod
+            // 
+            cmbResPaymentMethod.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResPaymentMethod.Font = new Font("Segoe UI", 9.5F);
+            cmbResPaymentMethod.FormattingEnabled = true;
+            cmbResPaymentMethod.Items.AddRange(new object[] { "Cash", "GCash", "Credit / Debit Card", "Bank Transfer" });
+            cmbResPaymentMethod.Location = new Point(264, 345);
+            cmbResPaymentMethod.Name = "cmbResPaymentMethod";
+            cmbResPaymentMethod.Size = new Size(232, 25);
+            cmbResPaymentMethod.TabIndex = 23;
+            // 
+            // lblResPaymentMethod
+            // 
+            lblResPaymentMethod.AutoSize = true;
+            lblResPaymentMethod.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResPaymentMethod.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResPaymentMethod.Location = new Point(264, 327);
+            lblResPaymentMethod.Name = "lblResPaymentMethod";
+            lblResPaymentMethod.Size = new Size(107, 15);
+            lblResPaymentMethod.TabIndex = 22;
+            lblResPaymentMethod.Text = "Payment Method *";
+            // 
+            // cmbResPickupLocation
+            // 
+            cmbResPickupLocation.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResPickupLocation.Font = new Font("Segoe UI", 9.5F);
+            cmbResPickupLocation.FormattingEnabled = true;
+            cmbResPickupLocation.Items.AddRange(new object[] { "Main Office (Showroom)", "Airport Terminal", "Downtown Branch", "Hotel / Home Delivery" });
+            cmbResPickupLocation.Location = new Point(18, 345);
+            cmbResPickupLocation.Name = "cmbResPickupLocation";
+            cmbResPickupLocation.Size = new Size(232, 25);
+            cmbResPickupLocation.TabIndex = 21;
+            // 
+            // lblResPickupLocation
+            // 
+            lblResPickupLocation.AutoSize = true;
+            lblResPickupLocation.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResPickupLocation.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResPickupLocation.Location = new Point(18, 327);
+            lblResPickupLocation.Name = "lblResPickupLocation";
+            lblResPickupLocation.Size = new Size(104, 15);
+            lblResPickupLocation.TabIndex = 20;
+            lblResPickupLocation.Text = "Pick-up Location *";
+            // 
+            // numResDays
+            // 
+            numResDays.Font = new Font("Segoe UI", 9.5F);
+            numResDays.Location = new Point(390, 293);
+            numResDays.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
+            numResDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numResDays.Name = "numResDays";
+            numResDays.Size = new Size(106, 24);
+            numResDays.TabIndex = 19;
+            numResDays.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numResDays.ValueChanged += numResDays_ValueChanged;
+            // 
+            // lblResDays
+            // 
+            lblResDays.AutoSize = true;
+            lblResDays.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResDays.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResDays.Location = new Point(390, 275);
+            lblResDays.Name = "lblResDays";
+            lblResDays.Size = new Size(41, 15);
+            lblResDays.TabIndex = 18;
+            lblResDays.Text = "Days *";
+            // 
+            // dtpResReturnDate
+            // 
+            dtpResReturnDate.Font = new Font("Segoe UI", 9.5F);
+            dtpResReturnDate.Format = DateTimePickerFormat.Short;
+            dtpResReturnDate.Location = new Point(204, 293);
+            dtpResReturnDate.Name = "dtpResReturnDate";
+            dtpResReturnDate.Size = new Size(172, 24);
+            dtpResReturnDate.TabIndex = 17;
+            dtpResReturnDate.ValueChanged += dtpResReturnDate_ValueChanged;
+            // 
+            // lblResReturnDate
+            // 
+            lblResReturnDate.AutoSize = true;
+            lblResReturnDate.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResReturnDate.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResReturnDate.Location = new Point(204, 275);
+            lblResReturnDate.Name = "lblResReturnDate";
+            lblResReturnDate.Size = new Size(78, 15);
+            lblResReturnDate.TabIndex = 16;
+            lblResReturnDate.Text = "Return Date *";
+            // 
+            // dtpResPickupDate
+            // 
+            dtpResPickupDate.Font = new Font("Segoe UI", 9.5F);
+            dtpResPickupDate.Format = DateTimePickerFormat.Short;
+            dtpResPickupDate.Location = new Point(18, 293);
+            dtpResPickupDate.Name = "dtpResPickupDate";
+            dtpResPickupDate.Size = new Size(172, 24);
+            dtpResPickupDate.TabIndex = 15;
+            dtpResPickupDate.ValueChanged += dtpResPickupDate_ValueChanged;
+            // 
+            // lblResPickupDate
+            // 
+            lblResPickupDate.AutoSize = true;
+            lblResPickupDate.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResPickupDate.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResPickupDate.Location = new Point(18, 275);
+            lblResPickupDate.Name = "lblResPickupDate";
+            lblResPickupDate.Size = new Size(83, 15);
+            lblResPickupDate.TabIndex = 14;
+            lblResPickupDate.Text = "Pick-up Date *";
+            // 
+            // cmbResCar
+            // 
+            cmbResCar.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResCar.Font = new Font("Segoe UI", 9.5F);
+            cmbResCar.FormattingEnabled = true;
+            cmbResCar.Location = new Point(18, 240);
+            cmbResCar.Name = "cmbResCar";
+            cmbResCar.Size = new Size(478, 25);
+            cmbResCar.TabIndex = 13;
+            cmbResCar.SelectedIndexChanged += cmbResCar_SelectedIndexChanged;
+            // 
+            // lblResCar
+            // 
+            lblResCar.AutoSize = true;
+            lblResCar.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResCar.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResCar.Location = new Point(18, 222);
+            lblResCar.Name = "lblResCar";
+            lblResCar.Size = new Size(139, 15);
+            lblResCar.TabIndex = 12;
+            lblResCar.Text = "Select Available Vehicle *";
+            // 
+            // txtResAddress
+            // 
+            txtResAddress.Font = new Font("Segoe UI", 9.5F);
+            txtResAddress.Location = new Point(18, 188);
+            txtResAddress.Name = "txtResAddress";
+            txtResAddress.PlaceholderText = "Street, Barangay, City / Province";
+            txtResAddress.Size = new Size(478, 24);
+            txtResAddress.TabIndex = 11;
+            // 
+            // lblResAddress
+            // 
+            lblResAddress.AutoSize = true;
+            lblResAddress.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResAddress.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResAddress.Location = new Point(18, 170);
+            lblResAddress.Name = "lblResAddress";
+            lblResAddress.Size = new Size(103, 15);
+            lblResAddress.TabIndex = 10;
+            lblResAddress.Text = "Complete Address";
+            // 
+            // cmbResIdType
+            // 
+            cmbResIdType.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbResIdType.Font = new Font("Segoe UI", 9.5F);
+            cmbResIdType.FormattingEnabled = true;
+            cmbResIdType.Items.AddRange(new object[] { "Driver's License", "Passport", "National ID (PhilSys)", "UMID / SSS ID", "Postal ID", "Voter's ID", "PRC ID", "Senior Citizen / PWD ID" });
+            cmbResIdType.Location = new Point(264, 136);
+            cmbResIdType.Name = "cmbResIdType";
+            cmbResIdType.Size = new Size(232, 25);
+            cmbResIdType.TabIndex = 9;
+            // 
+            // lblResIdType
+            // 
+            lblResIdType.AutoSize = true;
+            lblResIdType.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResIdType.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResIdType.Location = new Point(264, 118);
+            lblResIdType.Name = "lblResIdType";
+            lblResIdType.Size = new Size(85, 15);
+            lblResIdType.TabIndex = 8;
+            lblResIdType.Text = "Valid ID Type *";
+            // 
+            // txtResEmail
+            // 
+            txtResEmail.Font = new Font("Segoe UI", 9.5F);
+            txtResEmail.Location = new Point(18, 136);
+            txtResEmail.Name = "txtResEmail";
+            txtResEmail.PlaceholderText = "e.g. juan@email.com";
+            txtResEmail.Size = new Size(232, 24);
+            txtResEmail.TabIndex = 7;
+            // 
+            // lblResEmail
+            // 
+            lblResEmail.AutoSize = true;
+            lblResEmail.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResEmail.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResEmail.Location = new Point(18, 118);
+            lblResEmail.Name = "lblResEmail";
+            lblResEmail.Size = new Size(81, 15);
+            lblResEmail.TabIndex = 6;
+            lblResEmail.Text = "Email Address";
+            // 
+            // txtResPhone
+            // 
+            txtResPhone.Font = new Font("Segoe UI", 9.5F);
+            txtResPhone.Location = new Point(264, 84);
+            txtResPhone.Name = "txtResPhone";
+            txtResPhone.PlaceholderText = "e.g. 0917-123-4567";
+            txtResPhone.Size = new Size(232, 24);
+            txtResPhone.TabIndex = 5;
+            // 
+            // lblResPhone
+            // 
+            lblResPhone.AutoSize = true;
+            lblResPhone.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResPhone.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResPhone.Location = new Point(264, 66);
+            lblResPhone.Name = "lblResPhone";
+            lblResPhone.Size = new Size(103, 15);
+            lblResPhone.TabIndex = 4;
+            lblResPhone.Text = "Contact Number *";
+            // 
+            // txtResCustName
+            // 
+            txtResCustName.Font = new Font("Segoe UI", 9.5F);
+            txtResCustName.Location = new Point(18, 84);
+            txtResCustName.Name = "txtResCustName";
+            txtResCustName.PlaceholderText = "e.g. Juan Dela Cruz";
+            txtResCustName.Size = new Size(232, 24);
+            txtResCustName.TabIndex = 3;
+            // 
+            // lblResCustName
+            // 
+            lblResCustName.AutoSize = true;
+            lblResCustName.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblResCustName.ForeColor = Color.FromArgb(51, 65, 85);
+            lblResCustName.Location = new Point(18, 66);
+            lblResCustName.Name = "lblResCustName";
+            lblResCustName.Size = new Size(69, 15);
+            lblResCustName.TabIndex = 2;
+            lblResCustName.Text = "Full Name *";
+            // 
+            // lblResFormSub
+            // 
+            lblResFormSub.AutoSize = true;
+            lblResFormSub.Font = new Font("Segoe UI", 8.5F);
+            lblResFormSub.ForeColor = Color.FromArgb(100, 116, 139);
+            lblResFormSub.Location = new Point(18, 39);
+            lblResFormSub.Name = "lblResFormSub";
+            lblResFormSub.Size = new Size(282, 15);
+            lblResFormSub.TabIndex = 1;
+            lblResFormSub.Text = "Fill in all required (*) fields to create a car reservation";
+            // 
+            // lblResFormTitle
+            // 
+            lblResFormTitle.AutoSize = true;
+            lblResFormTitle.Font = new Font("Segoe UI", 12.5F, FontStyle.Bold);
+            lblResFormTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblResFormTitle.Location = new Point(16, 14);
+            lblResFormTitle.Name = "lblResFormTitle";
+            lblResFormTitle.Size = new Size(321, 23);
+            lblResFormTitle.TabIndex = 0;
+            lblResFormTitle.Text = "📝 Customer Reservation Fill-Up Form";
+            // 
+            // resSummaryCard
+            // 
+            resSummaryCard.BackColor = Color.White;
+            resSummaryCard.Controls.Add(resCostBox);
+            resSummaryCard.Controls.Add(lblResSummaryTitle);
+            resSummaryCard.Dock = DockStyle.Fill;
+            resSummaryCard.Location = new Point(531, 0);
+            resSummaryCard.Margin = new Padding(0);
+            resSummaryCard.Name = "resSummaryCard";
+            resSummaryCard.Padding = new Padding(18);
+            resSummaryCard.Size = new Size(326, 634);
+            resSummaryCard.TabIndex = 1;
+            // 
+            // resCostBox
+            // 
+            resCostBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            resCostBox.BackColor = Color.FromArgb(248, 250, 252);
+            resCostBox.BorderStyle = BorderStyle.FixedSingle;
+            resCostBox.Controls.Add(lblResTotalAmount);
+            resCostBox.Controls.Add(lblResScheduleSummary);
+            resCostBox.Controls.Add(lblResVehicleSummary);
+            resCostBox.Location = new Point(18, 48);
+            resCostBox.Name = "resCostBox";
+            resCostBox.Padding = new Padding(12);
+            resCostBox.Size = new Size(290, 128);
+            resCostBox.TabIndex = 1;
+            // 
+            // lblResTotalAmount
+            // 
+            lblResTotalAmount.AutoSize = true;
+            lblResTotalAmount.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblResTotalAmount.ForeColor = Color.FromArgb(22, 163, 74);
+            lblResTotalAmount.Location = new Point(8, 76);
+            lblResTotalAmount.Name = "lblResTotalAmount";
+            lblResTotalAmount.Size = new Size(78, 32);
+            lblResTotalAmount.TabIndex = 2;
+            lblResTotalAmount.Text = "₱0.00";
+            // 
+            // lblResScheduleSummary
+            // 
+            lblResScheduleSummary.AutoSize = true;
+            lblResScheduleSummary.Font = new Font("Segoe UI", 8.5F);
+            lblResScheduleSummary.ForeColor = Color.FromArgb(100, 116, 139);
+            lblResScheduleSummary.Location = new Point(10, 40);
+            lblResScheduleSummary.Name = "lblResScheduleSummary";
+            lblResScheduleSummary.Size = new Size(160, 15);
+            lblResScheduleSummary.TabIndex = 1;
+            lblResScheduleSummary.Text = "Select dates to calculate total";
+            // 
+            // lblResVehicleSummary
+            // 
+            lblResVehicleSummary.AutoSize = true;
+            lblResVehicleSummary.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            lblResVehicleSummary.ForeColor = Color.FromArgb(30, 41, 59);
+            lblResVehicleSummary.Location = new Point(10, 12);
+            lblResVehicleSummary.Name = "lblResVehicleSummary";
+            lblResVehicleSummary.Size = new Size(128, 15);
+            lblResVehicleSummary.TabIndex = 0;
+            lblResVehicleSummary.Text = "No vehicle selected yet";
+            // 
+            // lblResSummaryTitle
+            // 
+            lblResSummaryTitle.AutoSize = true;
+            lblResSummaryTitle.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblResSummaryTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblResSummaryTitle.Location = new Point(16, 14);
+            lblResSummaryTitle.Name = "lblResSummaryTitle";
+            lblResSummaryTitle.Size = new Size(206, 21);
+            lblResSummaryTitle.TabIndex = 0;
+            lblResSummaryTitle.Text = "📋 Reservation Summary";
+            // 
             // panelFleet
             // 
             panelFleet.Controls.Add(gridFleet);
@@ -832,7 +1083,10 @@ namespace FinalsCode
             // 
             addCarBox.BackColor = Color.White;
             addCarBox.Controls.Add(btnAddCar);
+            addCarBox.Controls.Add(lblAddRate);
             addCarBox.Controls.Add(numAddRate);
+            addCarBox.Controls.Add(lblAddSeaters);
+            addCarBox.Controls.Add(numAddSeaters);
             addCarBox.Controls.Add(txtAddPlate);
             addCarBox.Controls.Add(cmbAddCategory);
             addCarBox.Controls.Add(txtAddModel);
@@ -856,29 +1110,62 @@ namespace FinalsCode
             btnAddCar.Location = new Point(16, 80);
             btnAddCar.Name = "btnAddCar";
             btnAddCar.Size = new Size(160, 34);
-            btnAddCar.TabIndex = 6;
+            btnAddCar.TabIndex = 7;
             btnAddCar.Text = "Save Vehicle";
             btnAddCar.UseVisualStyleBackColor = false;
             btnAddCar.Click += btnAddCar_Click;
+            // 
+            // lblAddRate
+            // 
+            lblAddRate.AutoSize = true;
+            lblAddRate.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblAddRate.ForeColor = Color.FromArgb(51, 65, 85);
+            lblAddRate.Location = new Point(671, 23);
+            lblAddRate.Name = "lblAddRate";
+            lblAddRate.Size = new Size(62, 15);
+            lblAddRate.TabIndex = 8;
+            lblAddRate.Text = "Rate / Day";
             // 
             // numAddRate
             // 
             numAddRate.DecimalPlaces = 2;
             numAddRate.Font = new Font("Segoe UI", 9.5F);
-            numAddRate.Location = new Point(636, 42);
+            numAddRate.Location = new Point(671, 42);
             numAddRate.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
             numAddRate.Name = "numAddRate";
             numAddRate.Size = new Size(95, 24);
-            numAddRate.TabIndex = 5;
+            numAddRate.TabIndex = 6;
             numAddRate.Value = new decimal(new int[] { 60, 0, 0, 0 });
+            // 
+            // lblAddSeaters
+            // 
+            lblAddSeaters.AutoSize = true;
+            lblAddSeaters.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
+            lblAddSeaters.ForeColor = Color.FromArgb(51, 65, 85);
+            lblAddSeaters.Location = new Point(586, 23);
+            lblAddSeaters.Name = "lblAddSeaters";
+            lblAddSeaters.Size = new Size(45, 15);
+            lblAddSeaters.TabIndex = 9;
+            lblAddSeaters.Text = "Seaters";
+            // 
+            // numAddSeaters
+            // 
+            numAddSeaters.Font = new Font("Segoe UI", 9.5F);
+            numAddSeaters.Location = new Point(586, 42);
+            numAddSeaters.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            numAddSeaters.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numAddSeaters.Name = "numAddSeaters";
+            numAddSeaters.Size = new Size(75, 24);
+            numAddSeaters.TabIndex = 5;
+            numAddSeaters.Value = new decimal(new int[] { 5, 0, 0, 0 });
             // 
             // txtAddPlate
             // 
             txtAddPlate.Font = new Font("Segoe UI", 9.5F);
-            txtAddPlate.Location = new Point(486, 42);
+            txtAddPlate.Location = new Point(446, 42);
             txtAddPlate.Name = "txtAddPlate";
             txtAddPlate.PlaceholderText = "Plate (e.g. XYZ-9988)";
-            txtAddPlate.Size = new Size(140, 24);
+            txtAddPlate.Size = new Size(130, 24);
             txtAddPlate.TabIndex = 4;
             // 
             // cmbAddCategory
@@ -887,18 +1174,18 @@ namespace FinalsCode
             cmbAddCategory.Font = new Font("Segoe UI", 9.5F);
             cmbAddCategory.FormattingEnabled = true;
             cmbAddCategory.Items.AddRange(new object[] { "Sedan", "SUV", "Luxury", "Sports", "Electric" });
-            cmbAddCategory.Location = new Point(346, 42);
+            cmbAddCategory.Location = new Point(321, 42);
             cmbAddCategory.Name = "cmbAddCategory";
-            cmbAddCategory.Size = new Size(130, 25);
+            cmbAddCategory.Size = new Size(115, 25);
             cmbAddCategory.TabIndex = 3;
             // 
             // txtAddModel
             // 
             txtAddModel.Font = new Font("Segoe UI", 9.5F);
-            txtAddModel.Location = new Point(176, 42);
+            txtAddModel.Location = new Point(166, 42);
             txtAddModel.Name = "txtAddModel";
             txtAddModel.PlaceholderText = "Model (e.g. RAV4)";
-            txtAddModel.Size = new Size(160, 24);
+            txtAddModel.Size = new Size(145, 24);
             txtAddModel.TabIndex = 2;
             // 
             // txtAddBrand
@@ -907,7 +1194,7 @@ namespace FinalsCode
             txtAddBrand.Location = new Point(16, 42);
             txtAddBrand.Name = "txtAddBrand";
             txtAddBrand.PlaceholderText = "Brand (e.g. Toyota)";
-            txtAddBrand.Size = new Size(150, 24);
+            txtAddBrand.Size = new Size(140, 24);
             txtAddBrand.TabIndex = 1;
             // 
             // lblAddCarTitle
@@ -1159,12 +1446,6 @@ namespace FinalsCode
             topBarPanel.PerformLayout();
             mainContainerPanel.ResumeLayout(false);
             panelOverview.ResumeLayout(false);
-            overviewSplit.ResumeLayout(false);
-            bookingBoxPanel.ResumeLayout(false);
-            bookingBoxPanel.PerformLayout();
-            costSummaryPanel.ResumeLayout(false);
-            costSummaryPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numDays).EndInit();
             overviewFleetCard.ResumeLayout(false);
             overviewFleetCard.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).EndInit();
@@ -1177,11 +1458,21 @@ namespace FinalsCode
             cardRentedCars.PerformLayout();
             cardRevenue.ResumeLayout(false);
             cardRevenue.PerformLayout();
+            panelReservation.ResumeLayout(false);
+            resSplitLayout.ResumeLayout(false);
+            resFormCard.ResumeLayout(false);
+            resFormCard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numResDays).EndInit();
+            resSummaryCard.ResumeLayout(false);
+            resSummaryCard.PerformLayout();
+            resCostBox.ResumeLayout(false);
+            resCostBox.PerformLayout();
             panelFleet.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gridFleet).EndInit();
             addCarBox.ResumeLayout(false);
             addCarBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numAddSeaters).EndInit();
             fleetHeaderPanel.ResumeLayout(false);
             fleetHeaderPanel.PerformLayout();
             panelRentals.ResumeLayout(false);
@@ -1227,23 +1518,6 @@ namespace FinalsCode
         private Panel cardRevenue;
         private Label lblStatRevenueTitle;
         private Label lblStatRevenueVal;
-        private TableLayoutPanel overviewSplit;
-        private Panel bookingBoxPanel;
-        private Label lblBookingTitle;
-        private Label lblBookingSub;
-        private Label lblCustName;
-        private TextBox txtCustName;
-        private Label lblCustPhone;
-        private TextBox txtCustPhone;
-        private Label lblSelectCar;
-        private ComboBox cmbCars;
-        private Label lblDays;
-        private NumericUpDown numDays;
-        private Panel costSummaryPanel;
-        private Label lblDailyRateNote;
-        private Label lblTotalCalculated;
-        private Button btnConfirmBooking;
-        private Label lblBookingFeedback;
         private Panel overviewFleetCard;
         private Label lblOverviewFleetTitle;
         private DataGridView gridOverviewFleet;
@@ -1260,6 +1534,9 @@ namespace FinalsCode
         private ComboBox cmbAddCategory;
         private TextBox txtAddPlate;
         private NumericUpDown numAddRate;
+        private Label lblAddRate;
+        private NumericUpDown numAddSeaters;
+        private Label lblAddSeaters;
         private Button btnAddCar;
         private Panel panelRentals;
         private Panel rentalsHeaderPanel;
@@ -1274,7 +1551,43 @@ namespace FinalsCode
         private Button btnTestDbInDash;
         private Button btnGenerateSql;
         private TextBox txtDbLog;
-        private TextBox textBox1;
-        private Label label1;
+        private Panel panelReservation;
+        private TableLayoutPanel resSplitLayout;
+        private Panel resFormCard;
+        private Label lblResFormTitle;
+        private Label lblResFormSub;
+        private Label lblResCustName;
+        private TextBox txtResCustName;
+        private Label lblResPhone;
+        private TextBox txtResPhone;
+        private Label lblResEmail;
+        private TextBox txtResEmail;
+        private Label lblResIdType;
+        private ComboBox cmbResIdType;
+        private Label lblResAddress;
+        private TextBox txtResAddress;
+        private Label lblResCar;
+        private ComboBox cmbResCar;
+        private Label lblResPickupDate;
+        private DateTimePicker dtpResPickupDate;
+        private Label lblResReturnDate;
+        private DateTimePicker dtpResReturnDate;
+        private Label lblResDays;
+        private NumericUpDown numResDays;
+        private Label lblResPickupLocation;
+        private ComboBox cmbResPickupLocation;
+        private Label lblResPaymentMethod;
+        private ComboBox cmbResPaymentMethod;
+        private Label lblResNotes;
+        private TextBox txtResNotes;
+        private Button btnResSubmit;
+        private Button btnResClear;
+        private Label lblResFeedback;
+        private Panel resSummaryCard;
+        private Label lblResSummaryTitle;
+        private Panel resCostBox;
+        private Label lblResVehicleSummary;
+        private Label lblResScheduleSummary;
+        private Label lblResTotalAmount;
     }
 }

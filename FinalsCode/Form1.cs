@@ -26,13 +26,15 @@ namespace FinalsCode
             fleetPreviewGrid.Columns.Clear();
             int colModel = fleetPreviewGrid.Columns.Add("Model", "Vehicle Model");
             int colCategory = fleetPreviewGrid.Columns.Add("Category", "Type");
+            int colSeaters = fleetPreviewGrid.Columns.Add("Seaters", "Seaters");
             int colRate = fleetPreviewGrid.Columns.Add("DailyRate", "Rate / Day");
             int colStatus = fleetPreviewGrid.Columns.Add("Status", "Status");
 
-            fleetPreviewGrid.Columns[colModel].FillWeight = 45;
-            fleetPreviewGrid.Columns[colCategory].FillWeight = 25;
-            fleetPreviewGrid.Columns[colRate].FillWeight = 30;
-            fleetPreviewGrid.Columns[colStatus].FillWeight = 25;
+            fleetPreviewGrid.Columns[colModel].FillWeight = 38;
+            fleetPreviewGrid.Columns[colCategory].FillWeight = 20;
+            fleetPreviewGrid.Columns[colSeaters].FillWeight = 18;
+            fleetPreviewGrid.Columns[colRate].FillWeight = 24;
+            fleetPreviewGrid.Columns[colStatus].FillWeight = 20;
         }
 
         private void LoadFleetPreview()
@@ -45,6 +47,7 @@ namespace FinalsCode
                 int rowIndex = fleetPreviewGrid.Rows.Add(
                     car.Brand + " " + car.Model,
                     car.Category,
+                    car.Seaters + " Seaters",
                     "₱" + car.DailyRate.ToString("F2"),
                     car.Status
                 );

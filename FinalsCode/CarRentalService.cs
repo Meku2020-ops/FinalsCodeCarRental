@@ -11,10 +11,11 @@ namespace FinalsCode
         public string Model { get; set; } = "";
         public string Category { get; set; } = "Sedan";
         public string PlateNumber { get; set; } = "";
+        public int Seaters { get; set; } = 5;
         public decimal DailyRate { get; set; }
         public string Status { get; set; } = "Available";
 
-        public string DisplayName => Brand + " " + Model + " (" + Category + ") - ₱" + DailyRate.ToString("F2") + "/day";
+        public string DisplayName => Brand + " " + Model + " (" + Category + ", " + Seaters + "-Seater) - ₱" + DailyRate.ToString("F2") + "/day";
     }
 
     public class Rental
@@ -22,12 +23,18 @@ namespace FinalsCode
         public int RentalId { get; set; }
         public string CustomerName { get; set; } = "";
         public string CustomerPhone { get; set; } = "";
+        public string CustomerEmail { get; set; } = "";
+        public string IdType { get; set; } = "";
+        public string CustomerAddress { get; set; } = "";
         public int CarId { get; set; }
         public string CarName { get; set; } = "";
         public DateTime RentDate { get; set; } = DateTime.Now;
         public DateTime ReturnDate { get; set; } = DateTime.Now.AddDays(3);
         public int TotalDays { get; set; } = 3;
         public decimal TotalCost { get; set; }
+        public string PickupLocation { get; set; } = "";
+        public string PaymentMethod { get; set; } = "";
+        public string SpecialRequest { get; set; } = "";
         public string Status { get; set; } = "Active";
     }
 
@@ -42,7 +49,7 @@ namespace FinalsCode
     public static class CarRentalService
     {
         public static string ConnectionString { get; set; } =
-            "Server=RIAMU\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;Connection Timeout=5;";
+            "Server=DESKTOP-FQR1QOV\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;Connection Timeout=5;";
 
         public static bool EnsureDatabaseTables(out string message)
         {
@@ -52,7 +59,7 @@ namespace FinalsCode
                 {
                     con.Open();
 
-                    string sql = @"
+                    string createCarsSql = @"
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Cars')
 BEGIN
     CREATE TABLE Cars (
@@ -61,38 +68,78 @@ BEGIN
         Model NVARCHAR(50) NOT NULL,
         Category NVARCHAR(50) NOT NULL,
         PlateNumber NVARCHAR(20) UNIQUE NOT NULL,
+        Seaters INT NOT NULL DEFAULT 5,
         DailyRate DECIMAL(18,2) NOT NULL,
         Status NVARCHAR(20) NOT NULL DEFAULT 'Available'
     );
 
-    INSERT INTO Cars (Brand, Model, Category, PlateNumber, DailyRate, Status) VALUES
-    ('Toyota', 'Camry SE', 'Sedan', 'ABC-1234', 45.00, 'Available'),
-    ('Honda', 'CR-V Hybrid', 'SUV', 'CRV-5678', 65.00, 'Available'),
-    ('Tesla', 'Model 3 Long Range', 'Electric', 'TSL-9988', 85.00, 'Available'),
-    ('Ford', 'Mustang GT', 'Sports', 'MST-4040', 95.00, 'Available'),
-    ('BMW', '330i M Sport', 'Luxury', 'BMW-3301', 110.00, 'Available'),
-    ('Hyundai', 'Tucson Ultimate', 'SUV', 'TUC-7721', 55.00, 'Available'),
-    ('Nissan', 'Altima SV', 'Sedan', 'NSN-3344', 42.00, 'Available'),
-    ('Mercedes-Benz', 'C300 Sedan', 'Luxury', 'MBZ-8899', 125.00, 'Available');
-END;
+    EXEC(N'
+        INSERT INTO Cars (Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status) VALUES
+        (''Toyota'', ''Camry SE'', ''Sedan'', ''ABC-1234'', 5, 45.00, ''Available''),
+        (''Honda'', ''CR-V Hybrid'', ''SUV'', ''CRV-5678'', 5, 65.00, ''Available''),
+        (''Tesla'', ''Model 3 Long Range'', ''Electric'', ''TSL-9988'', 5, 85.00, ''Available''),
+        (''Ford'', ''Mustang GT'', ''Sports'', ''MST-4040'', 4, 95.00, ''Available''),
+        (''BMW'', ''330i M Sport'', ''Luxury'', ''BMW-3301'', 5, 110.00, ''Available''),
+        (''Hyundai'', ''Tucson Ultimate'', ''SUV'', ''TUC-7721'', 5, 55.00, ''Available''),
+        (''Nissan'', ''Altima SV'', ''Sedan'', ''NSN-3344'', 5, 42.00, ''Available''),
+        (''Mercedes-Benz'', ''C300 Sedan'', ''Luxury'', ''MBZ-8899'', 5, 125.00, ''Available'');
+    ');
+END;";
 
+                    string migrateCarsSql = @"
+IF COL_LENGTH('Cars', 'Seaters') IS NULL
+BEGIN
+    ALTER TABLE Cars ADD Seaters INT NOT NULL DEFAULT 5;
+    EXEC(N'UPDATE Cars SET Seaters = 4 WHERE PlateNumber = ''MST-4040'';');
+END;";
+
+                    string createRentalsSql = @"
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Rentals')
 BEGIN
     CREATE TABLE Rentals (
         RentalId INT IDENTITY(1001,1) PRIMARY KEY,
         CustomerName NVARCHAR(100) NOT NULL,
         CustomerPhone NVARCHAR(50) NOT NULL,
+        CustomerEmail NVARCHAR(100) NULL,
+        IdType NVARCHAR(50) NULL,
+        CustomerAddress NVARCHAR(200) NULL,
         CarId INT NOT NULL,
         RentDate DATETIME NOT NULL DEFAULT GETDATE(),
         ReturnDate DATETIME NOT NULL,
         TotalDays INT NOT NULL,
         TotalCost DECIMAL(18,2) NOT NULL,
+        PickupLocation NVARCHAR(100) NULL,
+        PaymentMethod NVARCHAR(50) NULL,
+        SpecialRequest NVARCHAR(300) NULL,
         Status NVARCHAR(20) NOT NULL DEFAULT 'Active',
         CONSTRAINT FK_Rentals_Cars FOREIGN KEY (CarId) REFERENCES Cars(CarId)
     );
 END;";
 
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    string migrateRentalsSql = @"
+IF COL_LENGTH('Rentals', 'CustomerEmail') IS NULL ALTER TABLE Rentals ADD CustomerEmail NVARCHAR(100) NULL;
+IF COL_LENGTH('Rentals', 'IdType') IS NULL ALTER TABLE Rentals ADD IdType NVARCHAR(50) NULL;
+IF COL_LENGTH('Rentals', 'CustomerAddress') IS NULL ALTER TABLE Rentals ADD CustomerAddress NVARCHAR(200) NULL;
+IF COL_LENGTH('Rentals', 'PickupLocation') IS NULL ALTER TABLE Rentals ADD PickupLocation NVARCHAR(100) NULL;
+IF COL_LENGTH('Rentals', 'PaymentMethod') IS NULL ALTER TABLE Rentals ADD PaymentMethod NVARCHAR(50) NULL;
+IF COL_LENGTH('Rentals', 'SpecialRequest') IS NULL ALTER TABLE Rentals ADD SpecialRequest NVARCHAR(300) NULL;";
+
+                    using (SqlCommand cmd = new SqlCommand(createCarsSql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(migrateCarsSql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(createRentalsSql, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(migrateRentalsSql, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
@@ -110,38 +157,15 @@ END;";
 
         public static List<Car> GetCars()
         {
-            var list = new List<Car>();
-            try
-            {
-                using (SqlConnection con = new SqlConnection(ConnectionString))
-                {
-                    con.Open();
-                    string query = "SELECT CarId, Brand, Model, Category, PlateNumber, DailyRate, Status FROM Cars ORDER BY CarId ASC";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Car car = new Car();
-                            car.Id = Convert.ToInt32(reader["CarId"]);
-                            car.Brand = reader["Brand"].ToString()!;
-                            car.Model = reader["Model"].ToString()!;
-                            car.Category = reader["Category"].ToString()!;
-                            car.PlateNumber = reader["PlateNumber"].ToString()!;
-                            car.DailyRate = Convert.ToDecimal(reader["DailyRate"]);
-                            car.Status = reader["Status"].ToString()!;
-                            list.Add(car);
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return list;
+            return ReadCars("SELECT CarId, Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status FROM Cars ORDER BY CarId ASC");
         }
 
         public static List<Car> GetAvailableCars()
+        {
+            return ReadCars("SELECT CarId, Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status FROM Cars WHERE Status = 'Available' ORDER BY Brand ASC");
+        }
+
+        private static List<Car> ReadCars(string query)
         {
             var list = new List<Car>();
             try
@@ -149,7 +173,6 @@ END;";
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
                     con.Open();
-                    string query = "SELECT CarId, Brand, Model, Category, PlateNumber, DailyRate, Status FROM Cars WHERE Status = 'Available' ORDER BY Brand ASC";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -161,6 +184,7 @@ END;";
                             car.Model = reader["Model"].ToString()!;
                             car.Category = reader["Category"].ToString()!;
                             car.PlateNumber = reader["PlateNumber"].ToString()!;
+                            car.Seaters = Convert.ToInt32(reader["Seaters"]);
                             car.DailyRate = Convert.ToDecimal(reader["DailyRate"]);
                             car.Status = reader["Status"].ToString()!;
                             list.Add(car);
@@ -183,9 +207,17 @@ END;";
                 {
                     con.Open();
                     string query = @"
-SELECT r.RentalId, r.CustomerName, r.CustomerPhone, r.CarId,
+SELECT r.RentalId, r.CustomerName, r.CustomerPhone,
+       ISNULL(r.CustomerEmail, '') AS CustomerEmail,
+       ISNULL(r.IdType, '') AS IdType,
+       ISNULL(r.CustomerAddress, '') AS CustomerAddress,
+       r.CarId,
        c.Brand + ' ' + c.Model AS CarName,
-       r.RentDate, r.ReturnDate, r.TotalDays, r.TotalCost, r.Status
+       r.RentDate, r.ReturnDate, r.TotalDays, r.TotalCost,
+       ISNULL(r.PickupLocation, '') AS PickupLocation,
+       ISNULL(r.PaymentMethod, '') AS PaymentMethod,
+       ISNULL(r.SpecialRequest, '') AS SpecialRequest,
+       r.Status
 FROM Rentals r
 INNER JOIN Cars c ON r.CarId = c.CarId
 ORDER BY r.RentalId DESC";
@@ -199,12 +231,18 @@ ORDER BY r.RentalId DESC";
                             rental.RentalId = Convert.ToInt32(reader["RentalId"]);
                             rental.CustomerName = reader["CustomerName"].ToString()!;
                             rental.CustomerPhone = reader["CustomerPhone"].ToString()!;
+                            rental.CustomerEmail = reader["CustomerEmail"].ToString()!;
+                            rental.IdType = reader["IdType"].ToString()!;
+                            rental.CustomerAddress = reader["CustomerAddress"].ToString()!;
                             rental.CarId = Convert.ToInt32(reader["CarId"]);
                             rental.CarName = reader["CarName"].ToString()!;
                             rental.RentDate = Convert.ToDateTime(reader["RentDate"]);
                             rental.ReturnDate = Convert.ToDateTime(reader["ReturnDate"]);
                             rental.TotalDays = Convert.ToInt32(reader["TotalDays"]);
                             rental.TotalCost = Convert.ToDecimal(reader["TotalCost"]);
+                            rental.PickupLocation = reader["PickupLocation"].ToString()!;
+                            rental.PaymentMethod = reader["PaymentMethod"].ToString()!;
+                            rental.SpecialRequest = reader["SpecialRequest"].ToString()!;
                             rental.Status = reader["Status"].ToString()!;
                             list.Add(rental);
                         }
@@ -255,6 +293,11 @@ ORDER BY r.RentalId DESC";
 
         public static bool AddCar(string brand, string model, string category, string plate, decimal rate, out string error)
         {
+            return AddCar(brand, model, category, plate, 5, rate, out error);
+        }
+
+        public static bool AddCar(string brand, string model, string category, string plate, int seaters, decimal rate, out string error)
+        {
             error = "";
             if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(model))
             {
@@ -264,6 +307,11 @@ ORDER BY r.RentalId DESC";
             if (string.IsNullOrWhiteSpace(plate))
             {
                 error = "Plate number is required.";
+                return false;
+            }
+            if (seaters < 1 || seaters > 50)
+            {
+                error = "Seaters must be between 1 and 50.";
                 return false;
             }
             if (rate <= 0)
@@ -277,7 +325,7 @@ ORDER BY r.RentalId DESC";
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
                     con.Open();
-                    string query = "INSERT INTO Cars (Brand, Model, Category, PlateNumber, DailyRate, Status) VALUES (@Brand, @Model, @Category, @Plate, @Rate, 'Available')";
+                    string query = "INSERT INTO Cars (Brand, Model, Category, PlateNumber, Seaters, DailyRate, Status) VALUES (@Brand, @Model, @Category, @Plate, @Seaters, @Rate, 'Available')";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -285,6 +333,7 @@ ORDER BY r.RentalId DESC";
                         cmd.Parameters.AddWithValue("@Model", model.Trim());
                         cmd.Parameters.AddWithValue("@Category", category.Trim());
                         cmd.Parameters.AddWithValue("@Plate", plate.Trim().ToUpper());
+                        cmd.Parameters.AddWithValue("@Seaters", seaters);
                         cmd.Parameters.AddWithValue("@Rate", rate);
                         cmd.ExecuteNonQuery();
                     }
@@ -301,17 +350,50 @@ ORDER BY r.RentalId DESC";
 
         public static bool BookCar(string customerName, string customerPhone, int carId, int days, out Rental? rental, out string error)
         {
+            DateTime pickupDate = DateTime.Today;
+            return BookCar(customerName, customerPhone, carId, pickupDate, pickupDate.AddDays(days), out rental, out error);
+        }
+
+        public static bool BookCar(string customerName, string customerPhone, int carId, DateTime pickupDate, DateTime returnDate, out Rental? rental, out string error)
+        {
+            return BookCar(customerName, customerPhone, "", "", "", carId, pickupDate, returnDate, "Main Office (Showroom)", "Cash", "", out rental, out error);
+        }
+
+        public static bool BookCar(
+            string customerName,
+            string customerPhone,
+            string customerEmail,
+            string idType,
+            string customerAddress,
+            int carId,
+            DateTime pickupDate,
+            DateTime returnDate,
+            string pickupLocation,
+            string paymentMethod,
+            string specialRequest,
+            out Rental? rental,
+            out string error)
+        {
             rental = null;
             error = "";
+
+            DateTime rentDate = pickupDate.Date;
+            DateTime dueDate = returnDate.Date;
+            int days = (dueDate - rentDate).Days;
 
             if (string.IsNullOrWhiteSpace(customerName))
             {
                 error = "Customer name is required.";
                 return false;
             }
+            if (rentDate < DateTime.Today)
+            {
+                error = "Pick-up date cannot be in the past.";
+                return false;
+            }
             if (days < 1)
             {
-                error = "Rental duration must be at least 1 day.";
+                error = "Return date must be at least 1 day after the pick-up date.";
                 return false;
             }
 
@@ -348,12 +430,10 @@ ORDER BY r.RentalId DESC";
                     }
 
                     decimal totalCost = dailyRate * days;
-                    DateTime rentDate = DateTime.Today;
-                    DateTime returnDate = rentDate.AddDays(days);
 
                     string insertSql = @"
-INSERT INTO Rentals (CustomerName, CustomerPhone, CarId, RentDate, ReturnDate, TotalDays, TotalCost, Status)
-VALUES (@Name, @Phone, @CarId, @RentDate, @ReturnDate, @Days, @Cost, 'Active');
+INSERT INTO Rentals (CustomerName, CustomerPhone, CustomerEmail, IdType, CustomerAddress, CarId, RentDate, ReturnDate, TotalDays, TotalCost, PickupLocation, PaymentMethod, SpecialRequest, Status)
+VALUES (@Name, @Phone, @Email, @IdType, @Address, @CarId, @RentDate, @ReturnDate, @Days, @Cost, @PickupLocation, @PaymentMethod, @SpecialRequest, 'Active');
 SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                     int newRentalId;
@@ -361,11 +441,17 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                     {
                         insertCmd.Parameters.AddWithValue("@Name", customerName.Trim());
                         insertCmd.Parameters.AddWithValue("@Phone", customerPhone.Trim());
+                        insertCmd.Parameters.AddWithValue("@Email", customerEmail.Trim());
+                        insertCmd.Parameters.AddWithValue("@IdType", idType.Trim());
+                        insertCmd.Parameters.AddWithValue("@Address", customerAddress.Trim());
                         insertCmd.Parameters.AddWithValue("@CarId", carId);
                         insertCmd.Parameters.AddWithValue("@RentDate", rentDate);
-                        insertCmd.Parameters.AddWithValue("@ReturnDate", returnDate);
+                        insertCmd.Parameters.AddWithValue("@ReturnDate", dueDate);
                         insertCmd.Parameters.AddWithValue("@Days", days);
                         insertCmd.Parameters.AddWithValue("@Cost", totalCost);
+                        insertCmd.Parameters.AddWithValue("@PickupLocation", pickupLocation.Trim());
+                        insertCmd.Parameters.AddWithValue("@PaymentMethod", paymentMethod.Trim());
+                        insertCmd.Parameters.AddWithValue("@SpecialRequest", specialRequest.Trim());
                         newRentalId = Convert.ToInt32(insertCmd.ExecuteScalar());
                     }
 
@@ -379,12 +465,18 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                     rental.RentalId = newRentalId;
                     rental.CustomerName = customerName.Trim();
                     rental.CustomerPhone = customerPhone.Trim();
+                    rental.CustomerEmail = customerEmail.Trim();
+                    rental.IdType = idType.Trim();
+                    rental.CustomerAddress = customerAddress.Trim();
                     rental.CarId = carId;
                     rental.CarName = carName;
                     rental.RentDate = rentDate;
-                    rental.ReturnDate = returnDate;
+                    rental.ReturnDate = dueDate;
                     rental.TotalDays = days;
                     rental.TotalCost = totalCost;
+                    rental.PickupLocation = pickupLocation.Trim();
+                    rental.PaymentMethod = paymentMethod.Trim();
+                    rental.SpecialRequest = specialRequest.Trim();
                     rental.Status = "Active";
 
                     return true;

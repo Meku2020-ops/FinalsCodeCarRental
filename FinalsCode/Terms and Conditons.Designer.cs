@@ -28,56 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Terms_and_Conditons));
             btnConfirm = new Button();
             btnCancel = new Button();
-            label1 = new Label();
+            richTextBox1 = new RichTextBox();
             SuspendLayout();
             // 
             // btnConfirm
             // 
-            btnConfirm.Location = new Point(331, 382);
+            btnConfirm.Location = new Point(301, 470);
             btnConfirm.Name = "btnConfirm";
             btnConfirm.Size = new Size(139, 38);
             btnConfirm.TabIndex = 0;
             btnConfirm.Text = "Confirm";
             btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(154, 382);
+            btnCancel.Location = new Point(145, 470);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(139, 38);
             btnCancel.TabIndex = 1;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
-            // label1
+            // richTextBox1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(154, 129);
-            label1.Name = "label1";
-            label1.Size = new Size(298, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Pay the price of the agreement if your not gonna use it ";
+            richTextBox1.Font = new Font("Palatino Linotype", 9F, FontStyle.Bold);
+            richTextBox1.Location = new Point(12, 12);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(602, 452);
+            richTextBox1.TabIndex = 2;
+            richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            richTextBox1.TextChanged += richTextBox1_TextChanged;
             // 
             // Terms_and_Conditons
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             ClientSize = new Size(626, 549);
-            Controls.Add(label1);
+            Controls.Add(richTextBox1);
             Controls.Add(btnCancel);
             Controls.Add(btnConfirm);
             Name = "Terms_and_Conditons";
             Text = "Terms_and_Conditons";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private Button btnConfirm;
         private Button btnCancel;
-        private Label label1;
+        private RichTextBox richTextBox1;
     }
 }

@@ -117,4 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Car Rental Terms and Conditions
+Please read before renting. By signing the Rental Agreement or taking the vehicle, the Renter agrees to these terms.
+
+1. Renter Requirements
+• Age [21] or older, with a valid driver's license and government-issued ID.
+• Only drivers listed in the Rental Agreement may drive the vehicle.
+• A security deposit of [amount] is required before pick-up.
+
+2. Rental Period and Return
+The Rental Period runs in 24-hour blocks from the exact pick-up time. Return the vehicle on time, at the agreed place, in the same condition as received. A [30-minute] grace period applies.
+
+3. Late Return Penalty
+Returning the vehicle after the agreed date or time without written approval is a breach of contract.
+Late by (after grace period)
+Penalty
+1st hour[PHP ___]
+ Each additional hour[PHP ___] per hour
+1 day or more[___%, e.g. 150%] of the daily rate per full day
+• Hourly charges that reach one day's penalty are billed as one full extra day.
+• Penalties are added to the rental fee and accrue until the vehicle is returned.
+• To extend, contact the Company at least [3 hours] before the return time. Approved extensions are charged at the regular rate, not as a penalty.
+• If the vehicle is not returned and the Renter cannot be contacted for [24 hours], the Company may report it as unlawfully withheld and charge all recovery costs to the Renter.
+• Unpaid penalties may be deducted from the security deposit.
+
+4. Use of the Vehicle
+The Renter must not drive under the influence, race, tow, go off-road, exceed passenger capacity, smoke inside (cleaning fee [PHP ___]), lend or sublease the vehicle, or leave [area] without written approval. Return the vehicle with the same fuel level, or pay the missing fuel plus [PHP ___].
+
+5. Damage, Accidents and Fines
+The Renter is responsible for damage during the Rental Period, up to [PHP ___] per incident if insured. Report any accident or theft to the Company immediately. The Renter pays all traffic fines and tolls, plus a [PHP ___] admin fee per violation.
+
+6. Cancellation
+Cancel more than [48 hours] before pick-up for a [full refund]. Within 48 hours, [___%] of the first day is non-refundable. No-shows forfeit the deposit.
+
+. Termination and Liability
+The Company may end the rental and take back the vehicle, without refund, if these terms are broken. The Company is not liable for belongings left in the vehicle, except where caused by its own negligence. These terms are governed by Philippine law; disputes go to the courts of [City/Province].
+</value>
+  </data>
 </root>
