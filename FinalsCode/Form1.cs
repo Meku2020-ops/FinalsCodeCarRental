@@ -23,6 +23,20 @@ namespace FinalsCode
 
         private void ConfigurePreviewGrid()
         {
+            fleetPreviewGrid.EnableHeadersVisualStyles = false;
+            fleetPreviewGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(16, 24, 28);
+            fleetPreviewGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(110, 231, 183);
+            fleetPreviewGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            fleetPreviewGrid.DefaultCellStyle.BackColor = Color.FromArgb(22, 28, 38);
+            fleetPreviewGrid.DefaultCellStyle.ForeColor = Color.White;
+            fleetPreviewGrid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(5, 150, 105);
+            fleetPreviewGrid.DefaultCellStyle.SelectionForeColor = Color.White;
+            fleetPreviewGrid.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            fleetPreviewGrid.RowTemplate.Height = 32;
+            fleetPreviewGrid.GridColor = Color.FromArgb(43, 52, 66);
+            fleetPreviewGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            fleetPreviewGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             fleetPreviewGrid.Columns.Clear();
             int colModel = fleetPreviewGrid.Columns.Add("Model", "Vehicle Model");
             int colCategory = fleetPreviewGrid.Columns.Add("Category", "Type");
@@ -54,29 +68,29 @@ namespace FinalsCode
 
                 if (car.Status == "Available")
                 {
-                    fleetPreviewGrid.Rows[rowIndex].Cells["Status"].Style.ForeColor = Color.LightGreen;
+                    fleetPreviewGrid.Rows[rowIndex].Cells["Status"].Style.ForeColor = Color.FromArgb(52, 211, 153);
                 }
                 else
                 {
-                    fleetPreviewGrid.Rows[rowIndex].Cells["Status"].Style.ForeColor = Color.Orange;
+                    fleetPreviewGrid.Rows[rowIndex].Cells["Status"].Style.ForeColor = Color.FromArgb(251, 146, 60);
                 }
             }
 
             var stats = CarRentalService.GetDashboardStats();
-            pillTotal.Text = "🚘 " + stats.TotalCars + " in SQL DB";
-            pillAvailable.Text = "🟢 " + stats.AvailableCars + " Available";
+            pillTotal.Text = "🚘 " + stats.TotalCars + " Registered Units";
+            pillAvailable.Text = "🟢 " + stats.AvailableCars + " Ready for Lease";
 
             if (cars.Count > 0)
             {
-                lblStatus.ForeColor = Color.LightGreen;
-                lblStatus.Text = "Connected to CarRentalDB. " + cars.Count + " vehicles loaded from database.";
+                lblStatus.ForeColor = Color.FromArgb(52, 211, 153);
+                lblStatus.Text = "Connected to CarRentalDB. " + cars.Count + " showroom vehicles loaded.";
             }
         }
 
         private void btnGetStarted_Click(object sender, EventArgs e)
         {
-            lblStatus.ForeColor = Color.SkyBlue;
-            lblStatus.Text = "Opening Car Rental Dashboard...";
+            lblStatus.ForeColor = Color.FromArgb(110, 231, 183);
+            lblStatus.Text = "Opening Apex Fleet Console...";
 
             this.Hide();
             using (DashboardForm dashboard = new DashboardForm())
@@ -86,8 +100,8 @@ namespace FinalsCode
             this.Show();
 
             LoadFleetPreview();
-            lblStatus.ForeColor = Color.LightGray;
-            lblStatus.Text = "Welcome back! Ready to explore or make a new booking.";
+            lblStatus.ForeColor = Color.FromArgb(160, 174, 192);
+            lblStatus.Text = "Console Session Active. Ready for new operations.";
         }
 
         private void btnTestConnection_Click(object sender, EventArgs e)

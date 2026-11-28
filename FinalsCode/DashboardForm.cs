@@ -66,8 +66,26 @@ namespace FinalsCode
             lblLiveClock.Text = DateTime.Now.ToString("dddd, MMM dd, yyyy  hh:mm:ss tt");
         }
 
+        private void StyleGrid(DataGridView grid)
+        {
+            grid.EnableHeadersVisualStyles = false;
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(24, 30, 38);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(167, 243, 208);
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.ForeColor = Color.FromArgb(18, 22, 28);
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(209, 250, 229);
+            grid.DefaultCellStyle.SelectionForeColor = Color.FromArgb(6, 78, 59);
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            grid.RowTemplate.Height = 32;
+            grid.GridColor = Color.FromArgb(226, 232, 240);
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
         private void SetupGrids()
         {
+            StyleGrid(gridOverviewFleet);
             gridOverviewFleet.Columns.Clear();
             gridOverviewFleet.Columns.Add("Model", "Model");
             gridOverviewFleet.Columns.Add("Category", "Category");
@@ -76,6 +94,7 @@ namespace FinalsCode
             gridOverviewFleet.Columns.Add("Rate", "Daily Rate");
             gridOverviewFleet.Columns.Add("Status", "Status");
 
+            StyleGrid(gridFleet);
             gridFleet.Columns.Clear();
             gridFleet.Columns.Add("Id", "ID");
             gridFleet.Columns.Add("Brand", "Brand");
@@ -86,6 +105,7 @@ namespace FinalsCode
             gridFleet.Columns.Add("Rate", "Daily Rate");
             gridFleet.Columns.Add("Status", "Status");
 
+            StyleGrid(gridRentals);
             gridRentals.Columns.Clear();
             gridRentals.Columns.Add("RentalId", "Rental #");
             gridRentals.Columns.Add("Customer", "Customer Name");
@@ -105,10 +125,35 @@ namespace FinalsCode
         {
             UpdateStats();
             LoadOverviewFleet();
+            RefreshCategoryDropdowns();
             LoadFleetGrid();
             LoadRentalsGrid();
             PopulateCarComboBox();
             RecalculateReservationCost();
+        }
+
+        private void RefreshCategoryDropdowns()
+        {
+            var cars = CarRentalService.GetCars();
+            foreach (var c in cars)
+            {
+                if (!string.IsNullOrWhiteSpace(c.Category))
+                {
+                    if (!cmbFleetFilter.Items.Contains(c.Category))
+                    {
+                        cmbFleetFilter.Items.Add(c.Category);
+                    }
+
+                    if (!cmbAddCategory.Items.Contains(c.Category))
+                    {
+                        int otherIdx = cmbAddCategory.Items.IndexOf("Other");
+                        if (otherIdx >= 0)
+                            cmbAddCategory.Items.Insert(otherIdx, c.Category);
+                        else
+                            cmbAddCategory.Items.Add(c.Category);
+                    }
+                }
+            }
         }
 
         private void UpdateStats()
@@ -468,11 +513,37 @@ namespace FinalsCode
             }
         }
 
+        private void cmbAddCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool isOther = cmbAddCategory.SelectedItem != null && cmbAddCategory.SelectedItem.ToString() == "Other";
+            lblAddCustomCategory.Visible = isOther;
+            txtAddCustomCategory.Visible = isOther;
+            if (isOther)
+            {
+                txtAddCustomCategory.Focus();
+            }
+            else
+            {
+                txtAddCustomCategory.Clear();
+            }
+        }
+
         private void btnAddCar_Click(object sender, EventArgs e)
         {
             string brand = txtAddBrand.Text.Trim();
             string model = txtAddModel.Text.Trim();
             string cat = cmbAddCategory.SelectedItem != null ? cmbAddCategory.SelectedItem.ToString()! : "Sedan";
+            if (cat == "Other")
+            {
+                cat = txtAddCustomCategory.Text.Trim();
+                if (string.IsNullOrWhiteSpace(cat))
+                {
+                    MessageBox.Show("Please enter the new custom category name.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtAddCustomCategory.Focus();
+                    return;
+                }
+            }
+
             string plate = txtAddPlate.Text.Trim();
             int seaters = (int)numAddSeaters.Value;
             decimal rate = numAddRate.Value;
@@ -486,8 +557,27 @@ namespace FinalsCode
                 txtAddBrand.Clear();
                 txtAddModel.Clear();
                 txtAddPlate.Clear();
+                txtAddCustomCategory.Clear();
+                txtAddCustomCategory.Visible = false;
+                lblAddCustomCategory.Visible = false;
                 numAddSeaters.Value = 5;
                 numAddRate.Value = 60;
+
+                if (!cmbAddCategory.Items.Contains(cat))
+                {
+                    int otherIdx = cmbAddCategory.Items.IndexOf("Other");
+                    if (otherIdx >= 0)
+                        cmbAddCategory.Items.Insert(otherIdx, cat);
+                    else
+                        cmbAddCategory.Items.Add(cat);
+                }
+
+                if (!cmbFleetFilter.Items.Contains(cat))
+                {
+                    cmbFleetFilter.Items.Add(cat);
+                }
+
+                cmbAddCategory.SelectedItem = cat;
 
                 LoadAllData();
             }
@@ -542,44 +632,44 @@ namespace FinalsCode
             Button[] navButtons = { btnNavOverview, btnNavBooking, btnNavFleet, btnNavRentals, btnNavDatabase };
             foreach (Button btn in navButtons)
             {
-                btn.BackColor = Color.FromArgb(15, 23, 42);
-                btn.ForeColor = Color.FromArgb(203, 213, 225);
+                btn.BackColor = Color.FromArgb(18, 22, 28);
+                btn.ForeColor = Color.FromArgb(175, 185, 200);
                 btn.Font = new Font("Segoe UI", 9.5F);
             }
 
-            activeButton.BackColor = Color.FromArgb(37, 99, 235);
+            activeButton.BackColor = Color.FromArgb(5, 150, 105);
             activeButton.ForeColor = Color.White;
             activeButton.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
         }
 
         private void btnNavOverview_Click(object sender, EventArgs e)
         {
-            ShowView(panelOverview, "Dashboard Overview", "Real-time fleet statistics and currently available vehicles", btnNavOverview);
+            ShowView(panelOverview, "Command Center & Live Overview", "Real-time fleet readiness, revenue metrics, and unit inventory", btnNavOverview);
             LoadAllData();
         }
 
         private void btnNavBooking_Click(object sender, EventArgs e)
         {
-            ShowView(panelReservation, "Reservation Fill-Up Form", "Complete customer details, rental schedule, and terms to create a reservation", btnNavBooking);
+            ShowView(panelReservation, "Client Reservation Gateway", "Schedule client rentals, verify IDs, and execute lease agreements", btnNavBooking);
             LoadAllData();
             txtResCustName.Focus();
         }
 
         private void btnNavFleet_Click(object sender, EventArgs e)
         {
-            ShowView(panelFleet, "Fleet Inventory", "Browse, search, filter and register vehicles in your rental fleet", btnNavFleet);
+            ShowView(panelFleet, "Fleet Inventory Directory", "Manage vehicle specifications, custom categories, rates, and fleet entries", btnNavFleet);
             LoadFleetGrid();
         }
 
         private void btnNavRentals_Click(object sender, EventArgs e)
         {
-            ShowView(panelRentals, "Active Rentals & History", "Track active client contracts and mark returned vehicles", btnNavRentals);
+            ShowView(panelRentals, "Contract Registry & Active Rentals", "Review active client contracts, return states, and leasing history", btnNavRentals);
             LoadRentalsGrid();
         }
 
         private void btnNavDatabase_Click(object sender, EventArgs e)
         {
-            ShowView(panelDatabase, "SQL Database Connection", "Test and inspect your SQL Server CarRentalDB configuration", btnNavDatabase);
+            ShowView(panelDatabase, "Database Infrastructure", "SQL Server connection telemetry, table diagnostics, and initialization scripts", btnNavDatabase);
         }
 
         private void btnBack_Click(object sender, EventArgs e)

@@ -56,7 +56,7 @@ namespace FinalsCode
             // 
             // mainPanel
             // 
-            mainPanel.BackColor = Color.FromArgb(15, 23, 42);
+            mainPanel.BackColor = Color.FromArgb(18, 22, 28);
             mainPanel.Controls.Add(splitTable);
             mainPanel.Controls.Add(footerPanel);
             mainPanel.Dock = DockStyle.Fill;
@@ -68,10 +68,10 @@ namespace FinalsCode
             // splitTable
             // 
             splitTable.ColumnCount = 2;
-            splitTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 53F));
-            splitTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 47F));
-            splitTable.Controls.Add(leftHeroPanel, 0, 0);
-            splitTable.Controls.Add(rightPreviewPanel, 1, 0);
+            splitTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48F));
+            splitTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52F));
+            splitTable.Controls.Add(rightPreviewPanel, 0, 0);
+            splitTable.Controls.Add(leftHeroPanel, 1, 0);
             splitTable.Dock = DockStyle.Fill;
             splitTable.Location = new Point(0, 0);
             splitTable.Name = "splitTable";
@@ -89,24 +89,24 @@ namespace FinalsCode
             leftHeroPanel.Controls.Add(actionButtonPanel);
             leftHeroPanel.Controls.Add(lblStatus);
             leftHeroPanel.Dock = DockStyle.Fill;
-            leftHeroPanel.Location = new Point(3, 3);
+            leftHeroPanel.Location = new Point(464, 3);
             leftHeroPanel.Name = "leftHeroPanel";
-            leftHeroPanel.Padding = new Padding(48, 40, 24, 20);
-            leftHeroPanel.Size = new Size(502, 534);
+            leftHeroPanel.Padding = new Padding(24, 40, 36, 20);
+            leftHeroPanel.Size = new Size(493, 534);
             leftHeroPanel.TabIndex = 0;
             // 
             // badgeLabel
             // 
             badgeLabel.AutoSize = true;
-            badgeLabel.BackColor = Color.FromArgb(30, 41, 59);
+            badgeLabel.BackColor = Color.FromArgb(6, 78, 59);
             badgeLabel.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            badgeLabel.ForeColor = Color.FromArgb(96, 165, 250);
+            badgeLabel.ForeColor = Color.FromArgb(110, 231, 183);
             badgeLabel.Location = new Point(48, 36);
             badgeLabel.Name = "badgeLabel";
             badgeLabel.Padding = new Padding(8, 4, 8, 4);
-            badgeLabel.Size = new Size(167, 23);
+            badgeLabel.Size = new Size(205, 23);
             badgeLabel.TabIndex = 0;
-            badgeLabel.Text = "🚗 DRIVEHUB CAR RENTAL";
+            badgeLabel.Text = "⚡ APEX MOTORS LEASING & FLEET";
             // 
             // titleLabel
             // 
@@ -116,17 +116,17 @@ namespace FinalsCode
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(440, 95);
             titleLabel.TabIndex = 1;
-            titleLabel.Text = "Drive Your Journey With Confidence.";
+            titleLabel.Text = "Next-Generation Mobility & Fleet Intelligence.";
             // 
             // subtitleLabel
             // 
             subtitleLabel.Font = new Font("Segoe UI", 10.5F);
-            subtitleLabel.ForeColor = Color.FromArgb(148, 163, 184);
+            subtitleLabel.ForeColor = Color.FromArgb(160, 174, 192);
             subtitleLabel.Location = new Point(46, 172);
             subtitleLabel.Name = "subtitleLabel";
             subtitleLabel.Size = new Size(430, 52);
             subtitleLabel.TabIndex = 2;
-            subtitleLabel.Text = "Manage fleet inventory, register customers, and track active rentals in one fast, intuitive dashboard.";
+            subtitleLabel.Text = "Streamlined reservations, automated rate calculations, and real-time fleet analytics unified in one enterprise console.";
             // 
             // featureListPanel
             // 
@@ -146,7 +146,7 @@ namespace FinalsCode
             feature1.Name = "feature1";
             feature1.Size = new Size(420, 24);
             feature1.TabIndex = 0;
-            feature1.Text = "⚡  Instant Car Booking & Real-time Rate Calculator";
+            feature1.Text = "✦  Instant Reservation Engine & Dynamic Daily Pricing";
             // 
             // feature2
             // 
@@ -156,7 +156,7 @@ namespace FinalsCode
             feature2.Name = "feature2";
             feature2.Size = new Size(420, 24);
             feature2.TabIndex = 1;
-            feature2.Text = "🚘  Complete Fleet Inventory & Category Management";
+            feature2.Text = "✦  Multi-Category Inventory & Seater Specification Control";
             // 
             // feature3
             // 
@@ -166,7 +166,7 @@ namespace FinalsCode
             feature3.Name = "feature3";
             feature3.Size = new Size(420, 24);
             feature3.TabIndex = 2;
-            feature3.Text = "🗄️  SQL Server Database Connectivity (CarRentalDB)";
+            feature3.Text = "✦  Direct SQL Server Database Architecture (CarRentalDB)";
             // 
             // actionButtonPanel
             // 
@@ -179,7 +179,7 @@ namespace FinalsCode
             // 
             // btnGetStarted
             // 
-            btnGetStarted.BackColor = Color.FromArgb(37, 99, 235);
+            btnGetStarted.BackColor = Color.FromArgb(5, 150, 105);
             btnGetStarted.Cursor = Cursors.Hand;
             btnGetStarted.FlatAppearance.BorderSize = 0;
             btnGetStarted.FlatStyle = FlatStyle.Flat;
@@ -190,15 +190,15 @@ namespace FinalsCode
             btnGetStarted.Name = "btnGetStarted";
             btnGetStarted.Size = new Size(190, 48);
             btnGetStarted.TabIndex = 0;
-            btnGetStarted.Text = "Get Started  ➜";
+            btnGetStarted.Text = "Launch Console  ➜";
             btnGetStarted.UseVisualStyleBackColor = false;
             btnGetStarted.Click += btnGetStarted_Click;
             // 
             // btnTestConnection
             // 
-            btnTestConnection.BackColor = Color.FromArgb(30, 41, 59);
+            btnTestConnection.BackColor = Color.FromArgb(28, 35, 46);
             btnTestConnection.Cursor = Cursors.Hand;
-            btnTestConnection.FlatAppearance.BorderColor = Color.FromArgb(51, 65, 85);
+            btnTestConnection.FlatAppearance.BorderColor = Color.FromArgb(52, 64, 82);
             btnTestConnection.FlatStyle = FlatStyle.Flat;
             btnTestConnection.Font = new Font("Segoe UI", 9.5F);
             btnTestConnection.ForeColor = Color.FromArgb(226, 232, 240);
@@ -207,33 +207,33 @@ namespace FinalsCode
             btnTestConnection.Name = "btnTestConnection";
             btnTestConnection.Size = new Size(180, 48);
             btnTestConnection.TabIndex = 1;
-            btnTestConnection.Text = "🔌 Test SQL Connection";
+            btnTestConnection.Text = "⚡ Check Database";
             btnTestConnection.UseVisualStyleBackColor = false;
             btnTestConnection.Click += btnTestConnection_Click;
             // 
             // lblStatus
             // 
             lblStatus.Font = new Font("Segoe UI", 9F);
-            lblStatus.ForeColor = Color.FromArgb(148, 163, 184);
+            lblStatus.ForeColor = Color.FromArgb(160, 174, 192);
             lblStatus.Location = new Point(48, 420);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(428, 40);
             lblStatus.TabIndex = 5;
-            lblStatus.Text = "Click 'Get Started' to open the Car Rental Dashboard.";
+            lblStatus.Text = "Click 'Launch Console' to enter the fleet management dashboard.";
             // 
             // rightPreviewPanel
             // 
             rightPreviewPanel.Controls.Add(cardContainer);
             rightPreviewPanel.Dock = DockStyle.Fill;
-            rightPreviewPanel.Location = new Point(511, 3);
+            rightPreviewPanel.Location = new Point(3, 3);
             rightPreviewPanel.Name = "rightPreviewPanel";
-            rightPreviewPanel.Padding = new Padding(16, 36, 40, 20);
-            rightPreviewPanel.Size = new Size(446, 534);
+            rightPreviewPanel.Padding = new Padding(36, 36, 16, 20);
+            rightPreviewPanel.Size = new Size(455, 534);
             rightPreviewPanel.TabIndex = 1;
             // 
             // cardContainer
             // 
-            cardContainer.BackColor = Color.FromArgb(30, 41, 59);
+            cardContainer.BackColor = Color.FromArgb(26, 32, 42);
             cardContainer.Controls.Add(cardTitle);
             cardContainer.Controls.Add(cardSubtitle);
             cardContainer.Controls.Add(fleetPreviewGrid);
@@ -254,7 +254,7 @@ namespace FinalsCode
             cardTitle.Name = "cardTitle";
             cardTitle.Size = new Size(177, 25);
             cardTitle.TabIndex = 0;
-            cardTitle.Text = "🚘 Fleet Highlights";
+            cardTitle.Text = "🚘 Showroom Fleet";
             // 
             // cardSubtitle
             // 
@@ -263,9 +263,9 @@ namespace FinalsCode
             cardSubtitle.ForeColor = Color.FromArgb(148, 163, 184);
             cardSubtitle.Location = new Point(20, 44);
             cardSubtitle.Name = "cardSubtitle";
-            cardSubtitle.Size = new Size(197, 15);
+            cardSubtitle.Size = new Size(230, 15);
             cardSubtitle.TabIndex = 1;
-            cardSubtitle.Text = "Available vehicles ready for booking";
+            cardSubtitle.Text = "Real-time readiness and live fleet telemetry";
             // 
             // fleetPreviewGrid
             // 
@@ -273,7 +273,7 @@ namespace FinalsCode
             fleetPreviewGrid.AllowUserToDeleteRows = false;
             fleetPreviewGrid.AllowUserToResizeRows = false;
             fleetPreviewGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            fleetPreviewGrid.BackgroundColor = Color.FromArgb(15, 23, 42);
+            fleetPreviewGrid.BackgroundColor = Color.FromArgb(18, 22, 28);
             fleetPreviewGrid.BorderStyle = BorderStyle.None;
             fleetPreviewGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             fleetPreviewGrid.Location = new Point(18, 72);
@@ -300,7 +300,7 @@ namespace FinalsCode
             // pillTotal
             // 
             pillTotal.AutoSize = true;
-            pillTotal.BackColor = Color.FromArgb(15, 23, 42);
+            pillTotal.BackColor = Color.FromArgb(20, 26, 34);
             pillTotal.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
             pillTotal.ForeColor = Color.FromArgb(203, 213, 225);
             pillTotal.Location = new Point(3, 3);
@@ -329,20 +329,20 @@ namespace FinalsCode
             // pillSupport
             // 
             pillSupport.AutoSize = true;
-            pillSupport.BackColor = Color.FromArgb(30, 58, 138);
+            pillSupport.BackColor = Color.FromArgb(45, 30, 10);
             pillSupport.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
-            pillSupport.ForeColor = Color.FromArgb(191, 219, 254);
+            pillSupport.ForeColor = Color.FromArgb(251, 191, 36);
             pillSupport.Location = new Point(178, 3);
             pillSupport.Margin = new Padding(3);
             pillSupport.Name = "pillSupport";
             pillSupport.Padding = new Padding(6, 4, 6, 4);
             pillSupport.Size = new Size(99, 23);
             pillSupport.TabIndex = 2;
-            pillSupport.Text = "⚡ Instant Rent";
+            pillSupport.Text = "⚡ Instant Lease";
             // 
             // footerPanel
             // 
-            footerPanel.BackColor = Color.FromArgb(10, 15, 30);
+            footerPanel.BackColor = Color.FromArgb(12, 15, 20);
             footerPanel.Controls.Add(footerLabel);
             footerPanel.Dock = DockStyle.Bottom;
             footerPanel.Location = new Point(0, 540);
@@ -354,13 +354,13 @@ namespace FinalsCode
             // 
             footerLabel.Dock = DockStyle.Fill;
             footerLabel.Font = new Font("Segoe UI", 8.5F);
-            footerLabel.ForeColor = Color.FromArgb(100, 116, 139);
+            footerLabel.ForeColor = Color.FromArgb(110, 125, 145);
             footerLabel.Location = new Point(0, 0);
             footerLabel.Name = "footerLabel";
             footerLabel.Padding = new Padding(24, 0, 0, 0);
             footerLabel.Size = new Size(960, 40);
             footerLabel.TabIndex = 0;
-            footerLabel.Text = "Finals Project - Event-Driven Programming  |  DriveHub Car Rental System";
+            footerLabel.Text = "Apex Motors Enterprise Mobility Platform  |  Event-Driven Architecture  |  CarRentalDB Active";
             footerLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // Form1
@@ -373,7 +373,7 @@ namespace FinalsCode
             MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "DriveHub - Car Rental Management System";
+            Text = "APEX MOTORS — Enterprise Fleet & Rental Management";
             mainPanel.ResumeLayout(false);
             splitTable.ResumeLayout(false);
             leftHeroPanel.ResumeLayout(false);
