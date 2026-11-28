@@ -814,5 +814,10 @@ GO";
         }
 
         private void lblStatRevenueVal_Click(object sender, EventArgs e) { }
+
+        private void lblLiveClock_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

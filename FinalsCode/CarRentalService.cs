@@ -49,7 +49,7 @@ namespace FinalsCode
     public static class CarRentalService
     {
         public static string ConnectionString { get; set; } =
-            "Server=RIAMU\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;Connection Timeout=5;";
+            "Server=DESKTOP-FQR1QOV\\SQLEXPRESS;Database=CarRentalDB;Trusted_Connection=True;TrustServerCertificate=True;Connection Timeout=5;";
 
         public static bool EnsureDatabaseTables(out string message)
         {

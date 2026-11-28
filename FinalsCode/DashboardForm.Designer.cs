@@ -52,6 +52,12 @@ namespace FinalsCode
             lblStatRevenueTitle = new Label();
             panelReservation = new Panel();
             resSplitLayout = new TableLayoutPanel();
+            resSummaryCard = new Panel();
+            resCostBox = new Panel();
+            lblResTotalAmount = new Label();
+            lblResScheduleSummary = new Label();
+            lblResVehicleSummary = new Label();
+            lblResSummaryTitle = new Label();
             resFormCard = new Panel();
             lblResFeedback = new Label();
             btnResClear = new Button();
@@ -82,14 +88,12 @@ namespace FinalsCode
             lblResCustName = new Label();
             lblResFormSub = new Label();
             lblResFormTitle = new Label();
-            resSummaryCard = new Panel();
-            resCostBox = new Panel();
-            lblResTotalAmount = new Label();
-            lblResScheduleSummary = new Label();
-            lblResVehicleSummary = new Label();
-            lblResSummaryTitle = new Label();
             panelFleet = new Panel();
             gridFleet = new DataGridView();
+            fleetHeaderPanel = new Panel();
+            cmbFleetFilter = new ComboBox();
+            txtFleetSearch = new TextBox();
+            lblFleetTitle = new Label();
             addCarBox = new Panel();
             btnAddCar = new Button();
             lblAddRate = new Label();
@@ -103,23 +107,19 @@ namespace FinalsCode
             txtAddModel = new TextBox();
             txtAddBrand = new TextBox();
             lblAddCarTitle = new Label();
-            fleetHeaderPanel = new Panel();
-            cmbFleetFilter = new ComboBox();
-            txtFleetSearch = new TextBox();
-            lblFleetTitle = new Label();
             panelRentals = new Panel();
             gridRentals = new DataGridView();
             rentalsActionPanel = new Panel();
+            btnReturnCar = new Button();
             lblRentalsNotice = new Label();
             rentalsHeaderPanel = new Panel();
-            btnReturnCar = new Button();
             lblRentalsTitle = new Label();
             panelDatabase = new Panel();
             dbCard = new Panel();
-            dbSettingsPanel = new Panel();
             dbLogPanel = new Panel();
-            lblLogTitle = new Label();
             txtDbLog = new TextBox();
+            lblLogTitle = new Label();
+            dbSettingsPanel = new Panel();
             btnGenerateSql = new Button();
             btnTestDbInDash = new Button();
             txtConnString = new TextBox();
@@ -139,24 +139,24 @@ namespace FinalsCode
             cardRevenue.SuspendLayout();
             panelReservation.SuspendLayout();
             resSplitLayout.SuspendLayout();
-            resFormCard.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numResDays).BeginInit();
             resSummaryCard.SuspendLayout();
             resCostBox.SuspendLayout();
+            resFormCard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numResDays).BeginInit();
             panelFleet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridFleet).BeginInit();
+            fleetHeaderPanel.SuspendLayout();
             addCarBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numAddSeaters).BeginInit();
-            fleetHeaderPanel.SuspendLayout();
             panelRentals.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridRentals).BeginInit();
             rentalsActionPanel.SuspendLayout();
             rentalsHeaderPanel.SuspendLayout();
             panelDatabase.SuspendLayout();
             dbCard.SuspendLayout();
-            dbSettingsPanel.SuspendLayout();
             dbLogPanel.SuspendLayout();
+            dbSettingsPanel.SuspendLayout();
             SuspendLayout();
             // 
             // sidebarPanel
@@ -301,9 +301,9 @@ namespace FinalsCode
             lblBrandSub.ForeColor = Color.FromArgb(110, 231, 183);
             lblBrandSub.Location = new Point(18, 42);
             lblBrandSub.Name = "lblBrandSub";
-            lblBrandSub.Size = new Size(137, 12);
+            lblBrandSub.Size = new Size(141, 12);
             lblBrandSub.TabIndex = 1;
-            lblBrandSub.Text = "ENTERPRISE FLEET SUITE";
+            lblBrandSub.Text = "ADVANCE BOOKING SYSTEM!";
             // 
             // lblLogo
             // 
@@ -312,9 +312,9 @@ namespace FinalsCode
             lblLogo.ForeColor = Color.White;
             lblLogo.Location = new Point(14, 14);
             lblLogo.Name = "lblLogo";
-            lblLogo.Size = new Size(150, 25);
+            lblLogo.Size = new Size(152, 25);
             lblLogo.TabIndex = 0;
-            lblLogo.Text = "⚡ APEX MOTORS";
+            lblLogo.Text = "⚡ CAR RENTAL";
             // 
             // topBarPanel
             // 
@@ -340,9 +340,9 @@ namespace FinalsCode
             lblStatusBadge.Location = new Point(745, 42);
             lblStatusBadge.Name = "lblStatusBadge";
             lblStatusBadge.Padding = new Padding(6, 3, 6, 3);
-            lblStatusBadge.Size = new Size(130, 21);
+            lblStatusBadge.Size = new Size(138, 21);
             lblStatusBadge.TabIndex = 3;
-            lblStatusBadge.Text = "🟢 Operational & Online";
+            lblStatusBadge.Text = "\U0001f7e2 Operational & Online";
             // 
             // lblLiveClock
             // 
@@ -355,6 +355,7 @@ namespace FinalsCode
             lblLiveClock.TabIndex = 2;
             lblLiveClock.Text = "Live System";
             lblLiveClock.TextAlign = ContentAlignment.MiddleRight;
+            lblLiveClock.Click += lblLiveClock_Click;
             // 
             // lblPageSubtitle
             // 
@@ -410,11 +411,11 @@ namespace FinalsCode
             overviewFleetCard.Controls.Add(gridOverviewFleet);
             overviewFleetCard.Controls.Add(lblOverviewFleetTitle);
             overviewFleetCard.Dock = DockStyle.Fill;
-            overviewFleetCard.Location = new Point(244, 0);
+            overviewFleetCard.Location = new Point(230, 0);
             overviewFleetCard.Margin = new Padding(14, 0, 0, 0);
             overviewFleetCard.Name = "overviewFleetCard";
             overviewFleetCard.Padding = new Padding(16);
-            overviewFleetCard.Size = new Size(613, 634);
+            overviewFleetCard.Size = new Size(627, 634);
             overviewFleetCard.TabIndex = 1;
             // 
             // gridOverviewFleet
@@ -431,7 +432,7 @@ namespace FinalsCode
             gridOverviewFleet.ReadOnly = true;
             gridOverviewFleet.RowHeadersVisible = false;
             gridOverviewFleet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gridOverviewFleet.Size = new Size(581, 562);
+            gridOverviewFleet.Size = new Size(595, 562);
             gridOverviewFleet.TabIndex = 1;
             // 
             // lblOverviewFleetTitle
@@ -441,7 +442,7 @@ namespace FinalsCode
             lblOverviewFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
             lblOverviewFleetTitle.Location = new Point(16, 16);
             lblOverviewFleetTitle.Name = "lblOverviewFleetTitle";
-            lblOverviewFleetTitle.Size = new Size(581, 40);
+            lblOverviewFleetTitle.Size = new Size(595, 40);
             lblOverviewFleetTitle.TabIndex = 0;
             lblOverviewFleetTitle.Text = "🚘 Ready Available Fleet";
             // 
@@ -630,6 +631,77 @@ namespace FinalsCode
             resSplitLayout.Size = new Size(857, 634);
             resSplitLayout.TabIndex = 0;
             // 
+            // resSummaryCard
+            // 
+            resSummaryCard.BackColor = Color.White;
+            resSummaryCard.Controls.Add(resCostBox);
+            resSummaryCard.Controls.Add(lblResSummaryTitle);
+            resSummaryCard.Dock = DockStyle.Fill;
+            resSummaryCard.Location = new Point(0, 0);
+            resSummaryCard.Margin = new Padding(0, 0, 14, 0);
+            resSummaryCard.Name = "resSummaryCard";
+            resSummaryCard.Padding = new Padding(18);
+            resSummaryCard.Size = new Size(294, 634);
+            resSummaryCard.TabIndex = 1;
+            // 
+            // resCostBox
+            // 
+            resCostBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            resCostBox.BackColor = Color.FromArgb(248, 250, 252);
+            resCostBox.BorderStyle = BorderStyle.FixedSingle;
+            resCostBox.Controls.Add(lblResTotalAmount);
+            resCostBox.Controls.Add(lblResScheduleSummary);
+            resCostBox.Controls.Add(lblResVehicleSummary);
+            resCostBox.Location = new Point(18, 48);
+            resCostBox.Name = "resCostBox";
+            resCostBox.Padding = new Padding(12);
+            resCostBox.Size = new Size(280, 128);
+            resCostBox.TabIndex = 1;
+            // 
+            // lblResTotalAmount
+            // 
+            lblResTotalAmount.AutoSize = true;
+            lblResTotalAmount.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblResTotalAmount.ForeColor = Color.FromArgb(22, 163, 74);
+            lblResTotalAmount.Location = new Point(8, 76);
+            lblResTotalAmount.Name = "lblResTotalAmount";
+            lblResTotalAmount.Size = new Size(78, 32);
+            lblResTotalAmount.TabIndex = 2;
+            lblResTotalAmount.Text = "₱0.00";
+            // 
+            // lblResScheduleSummary
+            // 
+            lblResScheduleSummary.AutoSize = true;
+            lblResScheduleSummary.Font = new Font("Segoe UI", 8.5F);
+            lblResScheduleSummary.ForeColor = Color.FromArgb(100, 116, 139);
+            lblResScheduleSummary.Location = new Point(10, 40);
+            lblResScheduleSummary.Name = "lblResScheduleSummary";
+            lblResScheduleSummary.Size = new Size(160, 15);
+            lblResScheduleSummary.TabIndex = 1;
+            lblResScheduleSummary.Text = "Select dates to calculate total";
+            // 
+            // lblResVehicleSummary
+            // 
+            lblResVehicleSummary.AutoSize = true;
+            lblResVehicleSummary.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            lblResVehicleSummary.ForeColor = Color.FromArgb(30, 41, 59);
+            lblResVehicleSummary.Location = new Point(10, 12);
+            lblResVehicleSummary.Name = "lblResVehicleSummary";
+            lblResVehicleSummary.Size = new Size(128, 15);
+            lblResVehicleSummary.TabIndex = 0;
+            lblResVehicleSummary.Text = "No vehicle selected yet";
+            // 
+            // lblResSummaryTitle
+            // 
+            lblResSummaryTitle.AutoSize = true;
+            lblResSummaryTitle.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblResSummaryTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblResSummaryTitle.Location = new Point(16, 14);
+            lblResSummaryTitle.Name = "lblResSummaryTitle";
+            lblResSummaryTitle.Size = new Size(206, 21);
+            lblResSummaryTitle.TabIndex = 0;
+            lblResSummaryTitle.Text = "📋 Reservation Summary";
+            // 
             // resFormCard
             // 
             resFormCard.AutoScroll = true;
@@ -664,11 +736,11 @@ namespace FinalsCode
             resFormCard.Controls.Add(lblResFormSub);
             resFormCard.Controls.Add(lblResFormTitle);
             resFormCard.Dock = DockStyle.Fill;
-            resFormCard.Location = new Point(318, 0);
+            resFormCard.Location = new Point(308, 0);
             resFormCard.Margin = new Padding(0);
             resFormCard.Name = "resFormCard";
             resFormCard.Padding = new Padding(18);
-            resFormCard.Size = new Size(539, 634);
+            resFormCard.Size = new Size(549, 634);
             resFormCard.TabIndex = 0;
             // 
             // lblResFeedback
@@ -989,77 +1061,6 @@ namespace FinalsCode
             lblResFormTitle.TabIndex = 0;
             lblResFormTitle.Text = "📝 Customer Reservation Fill-Up Form";
             // 
-            // resSummaryCard
-            // 
-            resSummaryCard.BackColor = Color.White;
-            resSummaryCard.Controls.Add(resCostBox);
-            resSummaryCard.Controls.Add(lblResSummaryTitle);
-            resSummaryCard.Dock = DockStyle.Fill;
-            resSummaryCard.Location = new Point(0, 0);
-            resSummaryCard.Margin = new Padding(0, 0, 14, 0);
-            resSummaryCard.Name = "resSummaryCard";
-            resSummaryCard.Padding = new Padding(18);
-            resSummaryCard.Size = new Size(304, 634);
-            resSummaryCard.TabIndex = 1;
-            // 
-            // resCostBox
-            // 
-            resCostBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            resCostBox.BackColor = Color.FromArgb(248, 250, 252);
-            resCostBox.BorderStyle = BorderStyle.FixedSingle;
-            resCostBox.Controls.Add(lblResTotalAmount);
-            resCostBox.Controls.Add(lblResScheduleSummary);
-            resCostBox.Controls.Add(lblResVehicleSummary);
-            resCostBox.Location = new Point(18, 48);
-            resCostBox.Name = "resCostBox";
-            resCostBox.Padding = new Padding(12);
-            resCostBox.Size = new Size(290, 128);
-            resCostBox.TabIndex = 1;
-            // 
-            // lblResTotalAmount
-            // 
-            lblResTotalAmount.AutoSize = true;
-            lblResTotalAmount.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblResTotalAmount.ForeColor = Color.FromArgb(22, 163, 74);
-            lblResTotalAmount.Location = new Point(8, 76);
-            lblResTotalAmount.Name = "lblResTotalAmount";
-            lblResTotalAmount.Size = new Size(78, 32);
-            lblResTotalAmount.TabIndex = 2;
-            lblResTotalAmount.Text = "₱0.00";
-            // 
-            // lblResScheduleSummary
-            // 
-            lblResScheduleSummary.AutoSize = true;
-            lblResScheduleSummary.Font = new Font("Segoe UI", 8.5F);
-            lblResScheduleSummary.ForeColor = Color.FromArgb(100, 116, 139);
-            lblResScheduleSummary.Location = new Point(10, 40);
-            lblResScheduleSummary.Name = "lblResScheduleSummary";
-            lblResScheduleSummary.Size = new Size(160, 15);
-            lblResScheduleSummary.TabIndex = 1;
-            lblResScheduleSummary.Text = "Select dates to calculate total";
-            // 
-            // lblResVehicleSummary
-            // 
-            lblResVehicleSummary.AutoSize = true;
-            lblResVehicleSummary.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            lblResVehicleSummary.ForeColor = Color.FromArgb(30, 41, 59);
-            lblResVehicleSummary.Location = new Point(10, 12);
-            lblResVehicleSummary.Name = "lblResVehicleSummary";
-            lblResVehicleSummary.Size = new Size(128, 15);
-            lblResVehicleSummary.TabIndex = 0;
-            lblResVehicleSummary.Text = "No vehicle selected yet";
-            // 
-            // lblResSummaryTitle
-            // 
-            lblResSummaryTitle.AutoSize = true;
-            lblResSummaryTitle.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
-            lblResSummaryTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblResSummaryTitle.Location = new Point(16, 14);
-            lblResSummaryTitle.Name = "lblResSummaryTitle";
-            lblResSummaryTitle.Size = new Size(206, 21);
-            lblResSummaryTitle.TabIndex = 0;
-            lblResSummaryTitle.Text = "📋 Reservation Summary";
-            // 
             // panelFleet
             // 
             panelFleet.Controls.Add(gridFleet);
@@ -1088,6 +1089,54 @@ namespace FinalsCode
             gridFleet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             gridFleet.Size = new Size(547, 574);
             gridFleet.TabIndex = 1;
+            // 
+            // fleetHeaderPanel
+            // 
+            fleetHeaderPanel.BackColor = Color.White;
+            fleetHeaderPanel.Controls.Add(cmbFleetFilter);
+            fleetHeaderPanel.Controls.Add(txtFleetSearch);
+            fleetHeaderPanel.Controls.Add(lblFleetTitle);
+            fleetHeaderPanel.Dock = DockStyle.Top;
+            fleetHeaderPanel.Location = new Point(0, 0);
+            fleetHeaderPanel.Name = "fleetHeaderPanel";
+            fleetHeaderPanel.Padding = new Padding(14);
+            fleetHeaderPanel.Size = new Size(547, 60);
+            fleetHeaderPanel.TabIndex = 0;
+            // 
+            // cmbFleetFilter
+            // 
+            cmbFleetFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cmbFleetFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFleetFilter.Font = new Font("Segoe UI", 9.5F);
+            cmbFleetFilter.FormattingEnabled = true;
+            cmbFleetFilter.Items.AddRange(new object[] { "All Categories", "Sedan", "SUV", "Luxury", "Sports", "Electric" });
+            cmbFleetFilter.Location = new Point(377, 16);
+            cmbFleetFilter.Name = "cmbFleetFilter";
+            cmbFleetFilter.Size = new Size(150, 25);
+            cmbFleetFilter.TabIndex = 2;
+            cmbFleetFilter.SelectedIndexChanged += cmbFleetFilter_SelectedIndexChanged;
+            // 
+            // txtFleetSearch
+            // 
+            txtFleetSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtFleetSearch.Font = new Font("Segoe UI", 9.5F);
+            txtFleetSearch.Location = new Point(177, 16);
+            txtFleetSearch.Name = "txtFleetSearch";
+            txtFleetSearch.PlaceholderText = "🔍 Search brand or model...";
+            txtFleetSearch.Size = new Size(190, 24);
+            txtFleetSearch.TabIndex = 1;
+            txtFleetSearch.TextChanged += txtFleetSearch_TextChanged;
+            // 
+            // lblFleetTitle
+            // 
+            lblFleetTitle.AutoSize = true;
+            lblFleetTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblFleetTitle.Location = new Point(14, 18);
+            lblFleetTitle.Name = "lblFleetTitle";
+            lblFleetTitle.Size = new Size(153, 21);
+            lblFleetTitle.TabIndex = 0;
+            lblFleetTitle.Text = "🚘 Fleet Inventory";
             // 
             // addCarBox
             // 
@@ -1200,7 +1249,7 @@ namespace FinalsCode
             lblAddCustomCategory.ForeColor = Color.FromArgb(51, 65, 85);
             lblAddCustomCategory.Location = new Point(16, 144);
             lblAddCustomCategory.Name = "lblAddCustomCategory";
-            lblAddCustomCategory.Size = new Size(110, 15);
+            lblAddCustomCategory.Size = new Size(106, 15);
             lblAddCustomCategory.TabIndex = 10;
             lblAddCustomCategory.Text = "Custom Category *";
             lblAddCustomCategory.Visible = false;
@@ -1240,57 +1289,9 @@ namespace FinalsCode
             lblAddCarTitle.ForeColor = Color.FromArgb(15, 23, 42);
             lblAddCarTitle.Location = new Point(14, 14);
             lblAddCarTitle.Name = "lblAddCarTitle";
-            lblAddCarTitle.Size = new Size(177, 20);
+            lblAddCarTitle.Size = new Size(182, 20);
             lblAddCarTitle.TabIndex = 0;
             lblAddCarTitle.Text = "➕ Register New Vehicle";
-            // 
-            // fleetHeaderPanel
-            // 
-            fleetHeaderPanel.BackColor = Color.White;
-            fleetHeaderPanel.Controls.Add(cmbFleetFilter);
-            fleetHeaderPanel.Controls.Add(txtFleetSearch);
-            fleetHeaderPanel.Controls.Add(lblFleetTitle);
-            fleetHeaderPanel.Dock = DockStyle.Top;
-            fleetHeaderPanel.Location = new Point(0, 0);
-            fleetHeaderPanel.Name = "fleetHeaderPanel";
-            fleetHeaderPanel.Padding = new Padding(14);
-            fleetHeaderPanel.Size = new Size(857, 60);
-            fleetHeaderPanel.TabIndex = 0;
-            // 
-            // cmbFleetFilter
-            // 
-            cmbFleetFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            cmbFleetFilter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbFleetFilter.Font = new Font("Segoe UI", 9.5F);
-            cmbFleetFilter.FormattingEnabled = true;
-            cmbFleetFilter.Items.AddRange(new object[] { "All Categories", "Sedan", "SUV", "Luxury", "Sports", "Electric" });
-            cmbFleetFilter.Location = new Point(687, 16);
-            cmbFleetFilter.Name = "cmbFleetFilter";
-            cmbFleetFilter.Size = new Size(150, 25);
-            cmbFleetFilter.TabIndex = 2;
-            cmbFleetFilter.SelectedIndexChanged += cmbFleetFilter_SelectedIndexChanged;
-            // 
-            // txtFleetSearch
-            // 
-            txtFleetSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtFleetSearch.Font = new Font("Segoe UI", 9.5F);
-            txtFleetSearch.Location = new Point(487, 16);
-            txtFleetSearch.Name = "txtFleetSearch";
-            txtFleetSearch.PlaceholderText = "🔍 Search brand or model...";
-            txtFleetSearch.Size = new Size(190, 24);
-            txtFleetSearch.TabIndex = 1;
-            txtFleetSearch.TextChanged += txtFleetSearch_TextChanged;
-            // 
-            // lblFleetTitle
-            // 
-            lblFleetTitle.AutoSize = true;
-            lblFleetTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblFleetTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblFleetTitle.Location = new Point(14, 18);
-            lblFleetTitle.Name = "lblFleetTitle";
-            lblFleetTitle.Size = new Size(153, 21);
-            lblFleetTitle.TabIndex = 0;
-            lblFleetTitle.Text = "🚘 Fleet Inventory";
             // 
             // panelRentals
             // 
@@ -1333,17 +1334,6 @@ namespace FinalsCode
             rentalsActionPanel.Size = new Size(857, 64);
             rentalsActionPanel.TabIndex = 2;
             // 
-            // lblRentalsNotice
-            // 
-            lblRentalsNotice.AutoSize = true;
-            lblRentalsNotice.Font = new Font("Segoe UI", 9F);
-            lblRentalsNotice.ForeColor = Color.FromArgb(100, 116, 139);
-            lblRentalsNotice.Location = new Point(14, 24);
-            lblRentalsNotice.Name = "lblRentalsNotice";
-            lblRentalsNotice.Size = new Size(490, 15);
-            lblRentalsNotice.TabIndex = 0;
-            lblRentalsNotice.Text = "💡 Select any active rental contract row above to process client return and update vehicle availability.";
-            // 
             // btnReturnCar
             // 
             btnReturnCar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -1360,6 +1350,17 @@ namespace FinalsCode
             btnReturnCar.Text = "🔑 Process Return / Check-In";
             btnReturnCar.UseVisualStyleBackColor = false;
             btnReturnCar.Click += btnReturnCar_Click;
+            // 
+            // lblRentalsNotice
+            // 
+            lblRentalsNotice.AutoSize = true;
+            lblRentalsNotice.Font = new Font("Segoe UI", 9F);
+            lblRentalsNotice.ForeColor = Color.FromArgb(100, 116, 139);
+            lblRentalsNotice.Location = new Point(14, 24);
+            lblRentalsNotice.Name = "lblRentalsNotice";
+            lblRentalsNotice.Size = new Size(536, 15);
+            lblRentalsNotice.TabIndex = 0;
+            lblRentalsNotice.Text = "💡 Select any active rental contract row above to process client return and update vehicle availability.";
             // 
             // rentalsHeaderPanel
             // 
@@ -1379,7 +1380,7 @@ namespace FinalsCode
             lblRentalsTitle.ForeColor = Color.FromArgb(15, 23, 42);
             lblRentalsTitle.Location = new Point(14, 16);
             lblRentalsTitle.Name = "lblRentalsTitle";
-            lblRentalsTitle.Size = new Size(220, 21);
+            lblRentalsTitle.Size = new Size(261, 21);
             lblRentalsTitle.TabIndex = 0;
             lblRentalsTitle.Text = "📋 Active & Recent Rentals Ledger";
             // 
@@ -1404,6 +1405,45 @@ namespace FinalsCode
             dbCard.Size = new Size(857, 634);
             dbCard.TabIndex = 0;
             // 
+            // dbLogPanel
+            // 
+            dbLogPanel.BackColor = Color.FromArgb(18, 22, 28);
+            dbLogPanel.Controls.Add(txtDbLog);
+            dbLogPanel.Controls.Add(lblLogTitle);
+            dbLogPanel.Dock = DockStyle.Fill;
+            dbLogPanel.Location = new Point(360, 0);
+            dbLogPanel.Margin = new Padding(14, 0, 0, 0);
+            dbLogPanel.Name = "dbLogPanel";
+            dbLogPanel.Padding = new Padding(16);
+            dbLogPanel.Size = new Size(497, 634);
+            dbLogPanel.TabIndex = 1;
+            // 
+            // txtDbLog
+            // 
+            txtDbLog.BackColor = Color.FromArgb(14, 18, 24);
+            txtDbLog.BorderStyle = BorderStyle.None;
+            txtDbLog.Dock = DockStyle.Fill;
+            txtDbLog.Font = new Font("Consolas", 9.5F);
+            txtDbLog.ForeColor = Color.FromArgb(226, 232, 240);
+            txtDbLog.Location = new Point(16, 48);
+            txtDbLog.Multiline = true;
+            txtDbLog.Name = "txtDbLog";
+            txtDbLog.ReadOnly = true;
+            txtDbLog.ScrollBars = ScrollBars.Vertical;
+            txtDbLog.Size = new Size(465, 570);
+            txtDbLog.TabIndex = 5;
+            // 
+            // lblLogTitle
+            // 
+            lblLogTitle.Dock = DockStyle.Top;
+            lblLogTitle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
+            lblLogTitle.ForeColor = Color.FromArgb(110, 231, 183);
+            lblLogTitle.Location = new Point(16, 16);
+            lblLogTitle.Name = "lblLogTitle";
+            lblLogTitle.Size = new Size(465, 32);
+            lblLogTitle.TabIndex = 0;
+            lblLogTitle.Text = "🖥️ Live SQL Diagnostic Console & Output";
+            // 
             // dbSettingsPanel
             // 
             dbSettingsPanel.BackColor = Color.White;
@@ -1418,51 +1458,6 @@ namespace FinalsCode
             dbSettingsPanel.Padding = new Padding(20);
             dbSettingsPanel.Size = new Size(360, 634);
             dbSettingsPanel.TabIndex = 0;
-            // 
-            // lblDbTitle
-            // 
-            lblDbTitle.AutoSize = true;
-            lblDbTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            lblDbTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblDbTitle.Location = new Point(16, 18);
-            lblDbTitle.Name = "lblDbTitle";
-            lblDbTitle.Size = new Size(294, 25);
-            lblDbTitle.TabIndex = 0;
-            lblDbTitle.Text = "⚙️ SQL Server Database Settings";
-            // 
-            // lblDbSub
-            // 
-            lblDbSub.Font = new Font("Segoe UI", 9F);
-            lblDbSub.ForeColor = Color.FromArgb(100, 116, 139);
-            lblDbSub.Location = new Point(18, 48);
-            lblDbSub.Name = "lblDbSub";
-            lblDbSub.Size = new Size(320, 36);
-            lblDbSub.TabIndex = 1;
-            lblDbSub.Text = "Configure connection to your SQL Server instance (e.g. RIAMU\\SQLEXPRESS - CarRentalDB)";
-            // 
-            // txtConnString
-            // 
-            txtConnString.Font = new Font("Consolas", 9.5F);
-            txtConnString.Location = new Point(18, 92);
-            txtConnString.Name = "txtConnString";
-            txtConnString.Size = new Size(320, 22);
-            txtConnString.TabIndex = 2;
-            // 
-            // btnTestDbInDash
-            // 
-            btnTestDbInDash.BackColor = Color.FromArgb(5, 150, 105);
-            btnTestDbInDash.Cursor = Cursors.Hand;
-            btnTestDbInDash.FlatAppearance.BorderSize = 0;
-            btnTestDbInDash.FlatStyle = FlatStyle.Flat;
-            btnTestDbInDash.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
-            btnTestDbInDash.ForeColor = Color.White;
-            btnTestDbInDash.Location = new Point(18, 128);
-            btnTestDbInDash.Name = "btnTestDbInDash";
-            btnTestDbInDash.Size = new Size(320, 38);
-            btnTestDbInDash.TabIndex = 3;
-            btnTestDbInDash.Text = "🔌 Test SQL Connection";
-            btnTestDbInDash.UseVisualStyleBackColor = false;
-            btnTestDbInDash.Click += btnTestDbInDash_Click;
             // 
             // btnGenerateSql
             // 
@@ -1480,44 +1475,50 @@ namespace FinalsCode
             btnGenerateSql.UseVisualStyleBackColor = false;
             btnGenerateSql.Click += btnGenerateSql_Click;
             // 
-            // dbLogPanel
+            // btnTestDbInDash
             // 
-            dbLogPanel.BackColor = Color.FromArgb(18, 22, 28);
-            dbLogPanel.Controls.Add(txtDbLog);
-            dbLogPanel.Controls.Add(lblLogTitle);
-            dbLogPanel.Dock = DockStyle.Fill;
-            dbLogPanel.Location = new Point(374, 0);
-            dbLogPanel.Margin = new Padding(14, 0, 0, 0);
-            dbLogPanel.Name = "dbLogPanel";
-            dbLogPanel.Padding = new Padding(16);
-            dbLogPanel.Size = new Size(483, 634);
-            dbLogPanel.TabIndex = 1;
+            btnTestDbInDash.BackColor = Color.FromArgb(5, 150, 105);
+            btnTestDbInDash.Cursor = Cursors.Hand;
+            btnTestDbInDash.FlatAppearance.BorderSize = 0;
+            btnTestDbInDash.FlatStyle = FlatStyle.Flat;
+            btnTestDbInDash.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnTestDbInDash.ForeColor = Color.White;
+            btnTestDbInDash.Location = new Point(18, 128);
+            btnTestDbInDash.Name = "btnTestDbInDash";
+            btnTestDbInDash.Size = new Size(320, 38);
+            btnTestDbInDash.TabIndex = 3;
+            btnTestDbInDash.Text = "🔌 Test SQL Connection";
+            btnTestDbInDash.UseVisualStyleBackColor = false;
+            btnTestDbInDash.Click += btnTestDbInDash_Click;
             // 
-            // lblLogTitle
+            // txtConnString
             // 
-            lblLogTitle.Dock = DockStyle.Top;
-            lblLogTitle.Font = new Font("Segoe UI Semibold", 10.5F, FontStyle.Bold);
-            lblLogTitle.ForeColor = Color.FromArgb(110, 231, 183);
-            lblLogTitle.Location = new Point(16, 16);
-            lblLogTitle.Name = "lblLogTitle";
-            lblLogTitle.Size = new Size(451, 32);
-            lblLogTitle.TabIndex = 0;
-            lblLogTitle.Text = "🖥️ Live SQL Diagnostic Console & Output";
+            txtConnString.Font = new Font("Consolas", 9.5F);
+            txtConnString.Location = new Point(18, 92);
+            txtConnString.Name = "txtConnString";
+            txtConnString.Size = new Size(320, 22);
+            txtConnString.TabIndex = 2;
             // 
-            // txtDbLog
+            // lblDbSub
             // 
-            txtDbLog.BackColor = Color.FromArgb(14, 18, 24);
-            txtDbLog.BorderStyle = BorderStyle.None;
-            txtDbLog.Dock = DockStyle.Fill;
-            txtDbLog.Font = new Font("Consolas", 9.5F);
-            txtDbLog.ForeColor = Color.FromArgb(226, 232, 240);
-            txtDbLog.Location = new Point(16, 48);
-            txtDbLog.Multiline = true;
-            txtDbLog.Name = "txtDbLog";
-            txtDbLog.ReadOnly = true;
-            txtDbLog.ScrollBars = ScrollBars.Vertical;
-            txtDbLog.Size = new Size(451, 570);
-            txtDbLog.TabIndex = 5;
+            lblDbSub.Font = new Font("Segoe UI", 9F);
+            lblDbSub.ForeColor = Color.FromArgb(100, 116, 139);
+            lblDbSub.Location = new Point(18, 48);
+            lblDbSub.Name = "lblDbSub";
+            lblDbSub.Size = new Size(320, 36);
+            lblDbSub.TabIndex = 1;
+            lblDbSub.Text = "Configure connection to your SQL Server instance (e.g. RIAMU\\SQLEXPRESS - CarRentalDB)";
+            // 
+            // lblDbTitle
+            // 
+            lblDbTitle.AutoSize = true;
+            lblDbTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            lblDbTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            lblDbTitle.Location = new Point(16, 18);
+            lblDbTitle.Name = "lblDbTitle";
+            lblDbTitle.Size = new Size(294, 25);
+            lblDbTitle.TabIndex = 0;
+            lblDbTitle.Text = "⚙️ SQL Server Database Settings";
             // 
             // DashboardForm
             // 
@@ -1539,7 +1540,6 @@ namespace FinalsCode
             mainContainerPanel.ResumeLayout(false);
             panelOverview.ResumeLayout(false);
             overviewFleetCard.ResumeLayout(false);
-            overviewFleetCard.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridOverviewFleet).EndInit();
             overviewStatsLayout.ResumeLayout(false);
             cardTotalCars.ResumeLayout(false);
@@ -1552,21 +1552,21 @@ namespace FinalsCode
             cardRevenue.PerformLayout();
             panelReservation.ResumeLayout(false);
             resSplitLayout.ResumeLayout(false);
-            resFormCard.ResumeLayout(false);
-            resFormCard.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numResDays).EndInit();
             resSummaryCard.ResumeLayout(false);
             resSummaryCard.PerformLayout();
             resCostBox.ResumeLayout(false);
             resCostBox.PerformLayout();
+            resFormCard.ResumeLayout(false);
+            resFormCard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numResDays).EndInit();
             panelFleet.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gridFleet).EndInit();
+            fleetHeaderPanel.ResumeLayout(false);
+            fleetHeaderPanel.PerformLayout();
             addCarBox.ResumeLayout(false);
             addCarBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numAddRate).EndInit();
             ((System.ComponentModel.ISupportInitialize)numAddSeaters).EndInit();
-            fleetHeaderPanel.ResumeLayout(false);
-            fleetHeaderPanel.PerformLayout();
             panelRentals.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gridRentals).EndInit();
             rentalsActionPanel.ResumeLayout(false);
@@ -1575,9 +1575,10 @@ namespace FinalsCode
             rentalsHeaderPanel.PerformLayout();
             panelDatabase.ResumeLayout(false);
             dbCard.ResumeLayout(false);
+            dbLogPanel.ResumeLayout(false);
+            dbLogPanel.PerformLayout();
             dbSettingsPanel.ResumeLayout(false);
             dbSettingsPanel.PerformLayout();
-            dbLogPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
