@@ -558,6 +558,13 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                         return false;
                     }
 
+                    if (status != "Active")
+                    {
+                        message = "Only Active rentals can be checked in. Current status: " + status +
+                                  "\n\nTo give a returned car to the next Reserved client, use 'Assign to Next Reserved'.";
+                        return false;
+                    }
+
                     // Mark this rental as returned
                     using (SqlCommand updateRentCmd = new SqlCommand("UPDATE Rentals SET Status = 'Returned' WHERE RentalId = @RentalId", con))
                     {
@@ -700,6 +707,127 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);";
                     }
 
                     message = "Reservation #" + rentalId + " is now ACTIVE! Vehicle has been marked as Rented and is ready for pickup.";
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return false;
+            }
+        }
+
+        // After a check-in, assign the now-available car to the next Reserved booking for that vehicle
+        public static bool AssignReturnedCarToNextReservation(int returnedRentalId, out string message)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    con.Open();
+
+                    int carId = 0;
+                    string status = "";
+                    string carName = "";
+
+                    using (SqlCommand getCmd = new SqlCommand(@"
+SELECT r.CarId, r.Status, c.Brand + ' ' + c.Model AS CarName
+FROM Rentals r
+INNER JOIN Cars c ON r.CarId = c.CarId
+WHERE r.RentalId = @RentalId", con))
+                    {
+                        getCmd.Parameters.AddWithValue("@RentalId", returnedRentalId);
+                        using (SqlDataReader reader = getCmd.ExecuteReader())
+                        {
+                            if (!reader.Read())
+                            {
+                                message = "Rental #" + returnedRentalId + " not found.";
+                                return false;
+                            }
+                            carId = Convert.ToInt32(reader["CarId"]);
+                            status = reader["Status"].ToString()!;
+                            carName = reader["CarName"].ToString()!;
+                        }
+                    }
+
+                    if (status != "Returned")
+                    {
+                        if (status == "Active")
+                            message = "This rental is still Active. Process the return / check-in first so the car becomes Available.";
+                        else if (status == "Reserved")
+                            message = "This row is already a Reserved booking. Use this button after selecting a Returned rental, or activate this reservation directly.";
+                        else
+                            message = "Select a Returned rental so the Available car can be given to the next Reserved client. Current status: " + status;
+                        return false;
+                    }
+
+                    bool carBusy = false;
+                    using (SqlCommand checkCmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM Rentals WHERE CarId = @CarId AND Status = 'Active'", con))
+                    {
+                        checkCmd.Parameters.AddWithValue("@CarId", carId);
+                        carBusy = Convert.ToInt32(checkCmd.ExecuteScalar()) > 0;
+                    }
+
+                    if (carBusy)
+                    {
+                        message = "'" + carName + "' still has an Active rental. Process that return first.";
+                        return false;
+                    }
+
+                    int nextReservedId = 0;
+                    string nextCustomer = "";
+                    DateTime nextPickup = DateTime.Today;
+
+                    using (SqlCommand nextCmd = new SqlCommand(@"
+SELECT TOP 1 RentalId, CustomerName, RentDate
+FROM Rentals
+WHERE CarId = @CarId AND Status = 'Reserved' AND RentDate >= @Today
+ORDER BY RentDate ASC, RentalId ASC", con))
+                    {
+                        nextCmd.Parameters.AddWithValue("@CarId", carId);
+                        nextCmd.Parameters.AddWithValue("@Today", DateTime.Today);
+                        using (SqlDataReader reader = nextCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                nextReservedId = Convert.ToInt32(reader["RentalId"]);
+                                nextCustomer = reader["CustomerName"].ToString()!;
+                                nextPickup = Convert.ToDateTime(reader["RentDate"]);
+                            }
+                        }
+                    }
+
+                    if (nextReservedId == 0)
+                    {
+                        using (SqlCommand availCmd = new SqlCommand(
+                            "UPDATE Cars SET Status = 'Available' WHERE CarId = @CarId", con))
+                        {
+                            availCmd.Parameters.AddWithValue("@CarId", carId);
+                            availCmd.ExecuteNonQuery();
+                        }
+                        message = "'" + carName + "' is Available. There is no upcoming Reserved client waiting for this vehicle.";
+                        return false;
+                    }
+
+                    using (SqlCommand activateCmd = new SqlCommand(
+                        "UPDATE Rentals SET Status = 'Active' WHERE RentalId = @Id", con))
+                    {
+                        activateCmd.Parameters.AddWithValue("@Id", nextReservedId);
+                        activateCmd.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand updateCarCmd = new SqlCommand(
+                        "UPDATE Cars SET Status = 'Rented' WHERE CarId = @CarId", con))
+                    {
+                        updateCarCmd.Parameters.AddWithValue("@CarId", carId);
+                        updateCarCmd.ExecuteNonQuery();
+                    }
+
+                    message = "'" + carName + "' from returned rental #" + returnedRentalId +
+                              " is now assigned to Reserved client " + nextCustomer +
+                              " (reservation #" + nextReservedId + ", pickup " + nextPickup.ToString("yyyy-MM-dd") +
+                              "). Booking is now Active and the vehicle is Rented.";
                     return true;
                 }
             }

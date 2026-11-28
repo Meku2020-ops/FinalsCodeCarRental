@@ -110,6 +110,7 @@ namespace FinalsCode
             panelRentals = new Panel();
             gridRentals = new DataGridView();
             rentalsActionPanel = new Panel();
+            btnActivatePickup = new Button();
             btnReturnCar = new Button();
             lblRentalsNotice = new Label();
             rentalsHeaderPanel = new Panel();
@@ -1325,6 +1326,7 @@ namespace FinalsCode
             // rentalsActionPanel
             // 
             rentalsActionPanel.BackColor = Color.White;
+            rentalsActionPanel.Controls.Add(btnActivatePickup);
             rentalsActionPanel.Controls.Add(btnReturnCar);
             rentalsActionPanel.Controls.Add(lblRentalsNotice);
             rentalsActionPanel.Dock = DockStyle.Bottom;
@@ -1333,6 +1335,23 @@ namespace FinalsCode
             rentalsActionPanel.Padding = new Padding(14);
             rentalsActionPanel.Size = new Size(857, 64);
             rentalsActionPanel.TabIndex = 2;
+            // 
+            // btnActivatePickup
+            // 
+            btnActivatePickup.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnActivatePickup.BackColor = Color.FromArgb(37, 99, 235);
+            btnActivatePickup.Cursor = Cursors.Hand;
+            btnActivatePickup.FlatAppearance.BorderSize = 0;
+            btnActivatePickup.FlatStyle = FlatStyle.Flat;
+            btnActivatePickup.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnActivatePickup.ForeColor = Color.White;
+            btnActivatePickup.Location = new Point(394, 12);
+            btnActivatePickup.Name = "btnActivatePickup";
+            btnActivatePickup.Size = new Size(236, 40);
+            btnActivatePickup.TabIndex = 2;
+            btnActivatePickup.Text = "🚘 Assign to Next Reserved";
+            btnActivatePickup.UseVisualStyleBackColor = false;
+            btnActivatePickup.Click += btnActivatePickup_Click;
             // 
             // btnReturnCar
             // 
@@ -1356,11 +1375,12 @@ namespace FinalsCode
             lblRentalsNotice.AutoSize = true;
             lblRentalsNotice.Font = new Font("Segoe UI", 9F);
             lblRentalsNotice.ForeColor = Color.FromArgb(100, 116, 139);
-            lblRentalsNotice.Location = new Point(14, 24);
+            lblRentalsNotice.Location = new Point(14, 16);
+            lblRentalsNotice.MaximumSize = new Size(370, 0);
             lblRentalsNotice.Name = "lblRentalsNotice";
-            lblRentalsNotice.Size = new Size(536, 15);
+            lblRentalsNotice.Size = new Size(370, 30);
             lblRentalsNotice.TabIndex = 0;
-            lblRentalsNotice.Text = "💡 Select any active rental contract row above to process client return and update vehicle availability.";
+            lblRentalsNotice.Text = "💡 Return an Active rental, then assign the Available car to the next Reserved client.";
             // 
             // rentalsHeaderPanel
             // 
@@ -1640,6 +1660,7 @@ namespace FinalsCode
         private Panel panelRentals;
         private Panel rentalsHeaderPanel;
         private Label lblRentalsTitle;
+        private Button btnActivatePickup;
         private Button btnReturnCar;
         private Panel rentalsActionPanel;
         private Label lblRentalsNotice;

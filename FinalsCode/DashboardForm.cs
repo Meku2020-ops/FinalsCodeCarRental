@@ -617,13 +617,25 @@ namespace FinalsCode
         {
             if (gridRentals.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a rental record to mark as returned.", "Selection Required",
+                MessageBox.Show("Please select an Active rental row to process the return.", "Selection Required",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
             string rawId = gridRentals.SelectedRows[0].Cells["RentalId"].Value?.ToString() ?? "";
             string cleanId = rawId.Replace("#", "").Trim();
+            string currentStatus = gridRentals.SelectedRows[0].Cells["Status"].Value?.ToString() ?? "";
+
+            if (currentStatus != "Active")
+            {
+                MessageBox.Show(
+                    "Process Return is for Active rentals only.\n\n" +
+                    "Selected row status: " + currentStatus + "\n\n" +
+                    "• After check-in, use the blue '🚘 Assign to Next Reserved' button on the Returned row.\n" +
+                    "• To activate a Reserved booking directly, select that Reserved row and use Assign to Next Reserved.",
+                    "Wrong Status", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             int rentalId;
             if (int.TryParse(cleanId, out rentalId))
@@ -641,12 +653,14 @@ namespace FinalsCode
             }
         }
 
-        // Staff manually activates a Reserved booking — confirms the car is ready for pickup
+        // After a return (or on a Reserved row), give the Available car to the next Reserved client
         private void btnActivatePickup_Click(object sender, EventArgs e)
         {
             if (gridRentals.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a Reserved booking row to activate.", "Selection Required",
+                MessageBox.Show(
+                    "Please select a Returned rental (the car that was just checked in) or a Reserved booking.",
+                    "Selection Required",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -654,41 +668,72 @@ namespace FinalsCode
             string rawId = gridRentals.SelectedRows[0].Cells["RentalId"].Value?.ToString() ?? "";
             string cleanId = rawId.Replace("#", "").Trim();
             string currentStatus = gridRentals.SelectedRows[0].Cells["Status"].Value?.ToString() ?? "";
+            string carName = gridRentals.SelectedRows[0].Cells["Car"].Value?.ToString() ?? "this vehicle";
 
-            // Give a helpful tip if they accidentally selected a non-Reserved row
-            if (currentStatus != "Reserved")
+            if (currentStatus == "Active")
             {
                 MessageBox.Show(
-                    "This button is for Reserved (advance) bookings only.\n\n" +
-                    "Selected row status: " + currentStatus + "\n\n" +
-                    "• To return an Active rental, use the orange '🔑 Process Return' button.\n" +
-                    "• To activate an advance reservation, select a row with status 'Reserved'.",
-                    "Wrong Status", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "This rental is still Active.\n\n" +
+                    "Use the orange '🔑 Process Return / Check-In' button first. After the car is Returned/Available, assign it to the next Reserved client.",
+                    "Return Required First", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int rentalId;
-            if (int.TryParse(cleanId, out rentalId))
+            if (!int.TryParse(cleanId, out rentalId))
+                return;
+
+            if (currentStatus == "Returned")
             {
                 DialogResult confirm = MessageBox.Show(
-                    "Confirm that the car is ready for pickup and activate Reservation #" + rentalId + "?\n\n" +
-                    "This will mark the booking as ACTIVE and the vehicle as RENTED.",
-                    "Confirm Pickup Activation",
+                    "Assign " + carName + " (returned rental #" + rentalId + ") to the next Reserved client waiting for this vehicle?\n\n" +
+                    "The reservation will become Active and the car will be marked Rented.",
+                    "Assign Available Car",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (confirm != DialogResult.Yes) return;
 
                 string msg;
-                if (CarRentalService.ActivateReservation(rentalId, out msg))
+                if (CarRentalService.AssignReturnedCarToNextReservation(rentalId, out msg))
                 {
-                    MessageBox.Show(msg, "Pickup Activated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(msg, "Assigned to Next Reserved Client", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadAllData();
                 }
                 else
                 {
-                    MessageBox.Show(msg, "Cannot Activate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(msg, "Cannot Assign", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+                return;
+            }
+
+            if (currentStatus != "Reserved")
+            {
+                MessageBox.Show(
+                    "Select a Returned rental to assign that Available car, or a Reserved booking to activate pickup.\n\n" +
+                    "Selected row status: " + currentStatus,
+                    "Wrong Status", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult confirmReserved = MessageBox.Show(
+                "Confirm that the car is ready for pickup and activate Reservation #" + rentalId + "?\n\n" +
+                "This will mark the booking as ACTIVE and the vehicle as RENTED.",
+                "Confirm Pickup Activation",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirmReserved != DialogResult.Yes) return;
+
+            string activateMsg;
+            if (CarRentalService.ActivateReservation(rentalId, out activateMsg))
+            {
+                MessageBox.Show(activateMsg, "Pickup Activated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadAllData();
+            }
+            else
+            {
+                MessageBox.Show(activateMsg, "Cannot Activate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
